@@ -111,6 +111,7 @@ async function updateLearnContent(ch) {
   renderHint();
   hideCustomInput();
   renderCompare(ch);
+  renderAnimationArea(ch);
 }
 
 const TYPE_LABELS = { shape: 'Shape', sound: 'Sound', story: 'Story', name: 'Name', custom: 'Yours' };
@@ -290,4 +291,148 @@ function renderCompare(ch) {
   tip.className = 'compare-tip';
   tip.textContent = pair.tip;
   container.appendChild(tip);
+}
+
+const GLYPH_ANIMATIONS = {
+  xesh: {
+    lines: [
+      { x1: 20, y1: 80, x2: 50, y2: 15 },
+      { x1: 50, y1: 15, x2: 80, y2: 80 },
+      { x1: 20, y1: 80, x2: 80, y2: 80 },
+    ],
+    phases: [
+      { duration: 500, delay: 300, changes: { 2: { opacity: 0 } } },
+      { duration: 800, delay: 200, changes: {
+        0: { x1: 20, y1: 15, x2: 80, y2: 80 },
+        1: { x1: 80, y1: 15, x2: 20, y2: 80 },
+      }},
+    ],
+    resultLabel: 'X',
+  },
+};
+
+let animationRunning = false;
+
+function renderAnimationArea(ch) {
+  const container = document.getElementById('learn-animation');
+  const stage = document.getElementById('learn-animation-stage');
+  const anim = GLYPH_ANIMATIONS[ch.id];
+
+  if (!anim) {
+    container.classList.add('hidden');
+    return;
+  }
+
+  container.classList.remove('hidden');
+  stage.innerHTML = '';
+  animationRunning = false;
+
+  const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  svg.setAttribute('viewBox', '0 0 100 100');
+
+  for (const def of anim.lines) {
+    const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+    line.setAttribute('x1', def.x1);
+    line.setAttribute('y1', def.y1);
+    line.setAttribute('x2', def.x2);
+    line.setAttribute('y2', def.y2);
+    line.setAttribute('stroke', '#FFE81F');
+    line.setAttribute('stroke-width', '6');
+    line.setAttribute('stroke-linecap', 'round');
+    line.style.opacity = 1;
+    svg.appendChild(line);
+  }
+
+  const label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+  label.setAttribute('x', '50');
+  label.setAttribute('y', '55');
+  label.setAttribute('text-anchor', 'middle');
+  label.setAttribute('dominant-baseline', 'middle');
+  label.setAttribute('fill', '#FFE81F');
+  label.setAttribute('font-size', '28');
+  label.setAttribute('font-weight', '700');
+  label.setAttribute('opacity', '0');
+  label.textContent = anim.resultLabel;
+  svg.appendChild(label);
+
+  stage.appendChild(svg);
+}
+
+function playAnimation() {
+  if (animationRunning) return;
+  const ch = learnChars[learnIndex];
+  const anim = GLYPH_ANIMATIONS[ch.id];
+  if (!anim) return;
+
+  animationRunning = true;
+  const svg = document.querySelector('#learn-animation-stage svg');
+  const lines = svg.querySelectorAll('line');
+  const label = svg.querySelector('text');
+
+  anim.lines.forEach((def, i) => {
+    lines[i].setAttribute('x1', def.x1);
+    lines[i].setAttribute('y1', def.y1);
+    lines[i].setAttribute('x2', def.x2);
+    lines[i].setAttribute('y2', def.y2);
+    lines[i].style.opacity = 1;
+  });
+  label.setAttribute('opacity', '0');
+
+  const timeline = [];
+  let time = 0;
+  const state = anim.lines.map(def => ({
+    x1: def.x1, y1: def.y1, x2: def.x2, y2: def.y2, opacity: 1,
+  }));
+
+  for (const phase of anim.phases) {
+    time += phase.delay || 0;
+    for (const [idx, target] of Object.entries(phase.changes)) {
+      for (const [prop, endVal] of Object.entries(target)) {
+        timeline.push({
+          startTime: time,
+          endTime: time + phase.duration,
+          lineIdx: parseInt(idx),
+          prop,
+          from: state[idx][prop],
+          to: endVal,
+        });
+        state[idx][prop] = endVal;
+      }
+    }
+    time += phase.duration;
+  }
+
+  const labelTime = time + 200;
+  const totalDuration = labelTime + 300;
+  const animStart = performance.now();
+
+  function tick() {
+    const elapsed = performance.now() - animStart;
+
+    for (const entry of timeline) {
+      if (elapsed < entry.startTime) continue;
+      const t = Math.min((elapsed - entry.startTime) / (entry.endTime - entry.startTime), 1);
+      const ease = t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+      const val = entry.from + (entry.to - entry.from) * ease;
+
+      if (entry.prop === 'opacity') {
+        lines[entry.lineIdx].style.opacity = val;
+      } else {
+        lines[entry.lineIdx].setAttribute(entry.prop, val);
+      }
+    }
+
+    if (elapsed >= labelTime) {
+      const lt = Math.min((elapsed - labelTime) / 300, 1);
+      label.setAttribute('opacity', lt);
+    }
+
+    if (elapsed < totalDuration) {
+      requestAnimationFrame(tick);
+    } else {
+      animationRunning = false;
+    }
+  }
+
+  requestAnimationFrame(tick);
 }

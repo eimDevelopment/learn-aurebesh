@@ -223,11 +223,13 @@ function showWordChoiceMode(correctWord) {
   const wordLen = getWordLenFromLevel();
   const allWords = getWordList(wordLen);
   const others = allWords.filter(w => w !== correctWord);
-  const sameStart = others.filter(w => w[0] === correctWord[0]);
-  shuffleArray(sameStart);
+  const sameTwo = others.filter(w => w.length >= 2 && w[0] === correctWord[0] && w[1] === correctWord[1]);
+  shuffleArray(sameTwo);
+  const sameOne = others.filter(w => w[0] === correctWord[0] && (w.length < 2 || w[1] !== correctWord[1]));
+  shuffleArray(sameOne);
   const diffStart = others.filter(w => w[0] !== correctWord[0]);
   shuffleArray(diffStart);
-  const distractors = [...sameStart, ...diffStart].slice(0, 3);
+  const distractors = [...sameTwo, ...sameOne, ...diffStart].slice(0, 3);
   const options = [correctWord, ...distractors];
   shuffleArray(options);
 

@@ -247,6 +247,66 @@ html, body {
   flex-shrink: 0;
 }
 
+/* Learn animation area */
+.learn-animation {
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 20px 16px;
+  margin-top: 12px;
+  text-align: center;
+}
+
+.learn-animation.hidden {
+  display: none;
+}
+
+.learn-animation-label {
+  font-size: 12px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 12px;
+}
+
+.learn-animation-stage {
+  width: 160px;
+  height: 160px;
+  margin: 0 auto 16px;
+}
+
+.learn-animation-stage svg {
+  width: 100%;
+  height: 100%;
+}
+
+.learn-animation-result {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--accent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.learn-animation-result.visible {
+  opacity: 1;
+}
+
+.btn-animate {
+  background: var(--surface-light);
+  border: none;
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 600;
+  padding: 10px 24px;
+  border-radius: var(--radius);
+  cursor: pointer;
+}
+
+.btn-animate:active {
+  background: var(--accent);
+  color: var(--bg);
+}
+
 /* Learn compare strip */
 .learn-compare {
   background: var(--surface);
