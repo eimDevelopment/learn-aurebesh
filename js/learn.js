@@ -42,11 +42,19 @@ function showLearn() {
   document.getElementById('learn-position').textContent = '';
   document.querySelector('.learn-nav').classList.add('hidden');
   document.getElementById('learn-compare').classList.add('hidden');
+  document.getElementById('learn-transforms').classList.add('hidden');
 }
 
 function startLearnLevel(level) {
   learnLevel = level;
   learnIndex = 0;
+
+  if (level === 'transforms') {
+    document.getElementById('learn-level-select').classList.add('hidden');
+    document.getElementById('learn-transforms').classList.remove('hidden');
+    initTransforms();
+    return;
+  }
 
   if (level === 'similar') {
     const ids = [...new Set(CONFUSABLE_PAIRS.flatMap(p => p.ids))];
@@ -111,7 +119,6 @@ async function updateLearnContent(ch) {
   renderHint();
   hideCustomInput();
   renderCompare(ch);
-  renderAnimationArea(ch);
 }
 
 const TYPE_LABELS = { shape: 'Shape', sound: 'Sound', story: 'Story', name: 'Name', custom: 'Yours' };
@@ -293,39 +300,45 @@ function renderCompare(ch) {
   container.appendChild(tip);
 }
 
-const GLYPH_ANIMATIONS = {
+const GLYPH_TRANSFORMS = {
   xesh: {
     lines: [
-      { x1: 20, y1: 80, x2: 50, y2: 15 },
-      { x1: 50, y1: 15, x2: 80, y2: 80 },
-      { x1: 20, y1: 80, x2: 80, y2: 80 },
+      { x1: 18, y1: 82, x2: 50, y2: 12 },
+      { x1: 50, y1: 12, x2: 82, y2: 82 },
+      { x1: 18, y1: 82, x2: 82, y2: 82 },
     ],
     phases: [
-      { duration: 500, delay: 300, changes: { 2: { opacity: 0 } } },
-      { duration: 800, delay: 200, changes: {
-        0: { x1: 20, y1: 15, x2: 80, y2: 80 },
-        1: { x1: 80, y1: 15, x2: 20, y2: 80 },
+      { duration: 400, delay: 300, changes: { 2: { opacity: 0 } } },
+      { duration: 700, delay: 300, changes: {
+        0: { x2: 82, y2: 18 },
+        1: { x1: 18, y1: 18 },
       }},
     ],
     resultLabel: 'X',
   },
 };
 
-let animationRunning = false;
+let transformRunning = false;
+let transformChars = [];
+let transformIndex = 0;
 
-function renderAnimationArea(ch) {
-  const container = document.getElementById('learn-animation');
-  const stage = document.getElementById('learn-animation-stage');
-  const anim = GLYPH_ANIMATIONS[ch.id];
+function initTransforms() {
+  transformChars = Object.keys(GLYPH_TRANSFORMS);
+  transformIndex = 0;
+  renderTransform();
+}
 
-  if (!anim) {
-    container.classList.add('hidden');
-    return;
-  }
+function renderTransform() {
+  const charId = transformChars[transformIndex];
+  const ch = getCharById(charId);
+  const anim = GLYPH_TRANSFORMS[charId];
 
-  container.classList.remove('hidden');
+  document.getElementById('transform-glyph').textContent = ch.render;
+  document.getElementById('transform-letter').textContent = ch.letter.toUpperCase();
+
+  const stage = document.getElementById('transform-stage');
   stage.innerHTML = '';
-  animationRunning = false;
+  transformRunning = false;
 
   const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
   svg.setAttribute('viewBox', '0 0 100 100');
@@ -358,14 +371,13 @@ function renderAnimationArea(ch) {
   stage.appendChild(svg);
 }
 
-function playAnimation() {
-  if (animationRunning) return;
-  const ch = learnChars[learnIndex];
-  const anim = GLYPH_ANIMATIONS[ch.id];
-  if (!anim) return;
+function playTransform() {
+  if (transformRunning) return;
+  const charId = transformChars[transformIndex];
+  const anim = GLYPH_TRANSFORMS[charId];
 
-  animationRunning = true;
-  const svg = document.querySelector('#learn-animation-stage svg');
+  transformRunning = true;
+  const svg = document.querySelector('#transform-stage svg');
   const lines = svg.querySelectorAll('line');
   const label = svg.querySelector('text');
 
@@ -430,7 +442,7 @@ function playAnimation() {
     if (elapsed < totalDuration) {
       requestAnimationFrame(tick);
     } else {
-      animationRunning = false;
+      transformRunning = false;
     }
   }
 

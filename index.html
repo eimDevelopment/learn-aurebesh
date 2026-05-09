@@ -18,6 +18,7 @@
       <div id="learn-level-select" class="drill-level-select">
         <button class="btn-level" onclick="startLearnLevel('all')">All Letters</button>
         <button class="btn-level" onclick="startLearnLevel('similar')">Similar Letters</button>
+        <button class="btn-level" onclick="startLearnLevel('transforms')">Transforms</button>
       </div>
       <div id="learn-card" class="learn-card hidden">
         <div id="learn-glyph" class="learn-glyph aurebesh"></div>
@@ -35,17 +36,20 @@
         </div>
       </div>
       <div id="learn-compare" class="learn-compare hidden"></div>
-      <div id="learn-animation" class="learn-animation hidden">
-        <div class="learn-animation-label">See it transform</div>
-        <div id="learn-animation-stage" class="learn-animation-stage"></div>
-        <button class="btn-animate" onclick="playAnimation()">Play</button>
-      </div>
       <div class="learn-meta">
         <span id="learn-position"></span>
       </div>
       <div class="learn-nav hidden">
         <button id="learn-prev" onclick="learnPrev()">Prev</button>
         <button id="learn-next" onclick="learnNext()">Next</button>
+      </div>
+      <div id="learn-transforms" class="learn-transforms hidden">
+        <div class="transform-card">
+          <div id="transform-glyph" class="transform-glyph aurebesh"></div>
+          <div id="transform-letter" class="transform-letter"></div>
+        </div>
+        <div id="transform-stage" class="transform-stage"></div>
+        <button class="btn-animate" onclick="playTransform()">Play</button>
       </div>
     </div>
 
