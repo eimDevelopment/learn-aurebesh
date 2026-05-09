@@ -24,18 +24,6 @@ function initLearn() {
     }
   }, { passive: true });
 
-  const hintArea = document.getElementById('learn-hint-area');
-  hintArea.addEventListener('click', (e) => {
-    if (e.target.closest('.learn-pin-btn')) return;
-    if (currentHints.length <= 1) return;
-    const rect = hintArea.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    if (x < rect.width / 2) {
-      cycleHint(-1);
-    } else {
-      cycleHint(1);
-    }
-  });
 }
 
 function showLearn() {
@@ -90,36 +78,51 @@ async function updateLearnContent(ch) {
   if (currentHintIndex >= currentHints.length) currentHintIndex = 0;
 
   renderHint();
-  resetCustomArea();
+  hideCustomInput();
 }
+
+const TYPE_LABELS = { shape: 'Shape', sound: 'Sound', story: 'Story', name: 'Name', custom: 'Yours' };
 
 function renderHint() {
   document.getElementById('learn-hint').textContent = currentHints[currentHintIndex].text;
 
-  const dotsContainer = document.getElementById('learn-hint-dots');
-  dotsContainer.innerHTML = '';
+  const tabsContainer = document.getElementById('learn-hint-tabs');
+  tabsContainer.innerHTML = '';
+
   for (let i = 0; i < currentHints.length; i++) {
-    const dot = document.createElement('span');
-    dot.className = 'dot' + (i === currentHintIndex ? ' active' : '');
-    dot.addEventListener('click', (e) => {
+    const tab = document.createElement('button');
+    const type = currentHints[i].type;
+    tab.className = 'learn-hint-tab' + (i === currentHintIndex ? ' active' : '') + (type === 'custom' ? ' custom' : '');
+    tab.textContent = TYPE_LABELS[type] || type;
+    tab.addEventListener('click', (e) => {
       e.stopPropagation();
+      if (type === 'custom' && currentHintIndex === i) {
+        showCustomHintInput();
+        return;
+      }
       currentHintIndex = i;
       renderHint();
+      hideCustomInput();
     });
-    dotsContainer.appendChild(dot);
+    tabsContainer.appendChild(tab);
+  }
+
+  const hasCustom = currentProgress && currentProgress.customHint;
+  if (!hasCustom) {
+    const addTab = document.createElement('button');
+    addTab.className = 'learn-hint-tab custom';
+    addTab.textContent = '+ Yours';
+    addTab.addEventListener('click', (e) => {
+      e.stopPropagation();
+      showCustomHintInput();
+    });
+    tabsContainer.appendChild(addTab);
   }
 
   const pinBtn = document.getElementById('learn-pin-btn');
   const isPinned = isCurrentHintPinned();
   pinBtn.innerHTML = isPinned ? '&#9733;' : '&#9734;';
   pinBtn.classList.toggle('pinned', isPinned);
-
-  const link = document.getElementById('learn-add-hint-link');
-  if (currentProgress && currentProgress.customHint) {
-    link.textContent = 'Edit your hint';
-  } else {
-    link.textContent = '+ Add your hint';
-  }
 }
 
 function isCurrentHintPinned() {
@@ -129,11 +132,6 @@ function isCurrentHintPinned() {
     return pin.source === 'custom';
   }
   return pin.source === 'curated' && pin.index === currentHintIndex;
-}
-
-function cycleHint(delta) {
-  currentHintIndex = (currentHintIndex + delta + currentHints.length) % currentHints.length;
-  renderHint();
 }
 
 async function togglePinHint() {
@@ -154,14 +152,12 @@ async function togglePinHint() {
   renderHint();
 }
 
-function resetCustomArea() {
-  document.getElementById('learn-add-hint-link').style.display = '';
+function hideCustomInput() {
   document.getElementById('learn-custom-input-row').classList.add('hidden');
   document.getElementById('learn-custom-input').value = '';
 }
 
 function showCustomHintInput() {
-  document.getElementById('learn-add-hint-link').style.display = 'none';
   const row = document.getElementById('learn-custom-input-row');
   row.classList.remove('hidden');
   const input = document.getElementById('learn-custom-input');
@@ -200,7 +196,7 @@ async function saveCustomHint() {
   }
 
   renderHint();
-  resetCustomArea();
+  hideCustomInput();
 }
 
 function learnPrev() {

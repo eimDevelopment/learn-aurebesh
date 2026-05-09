@@ -168,42 +168,40 @@ html, body {
   color: var(--accent);
 }
 
-.learn-hint-dots {
+.learn-hint-tabs {
   display: flex;
   justify-content: center;
-  gap: 6px;
-  margin-top: 8px;
+  gap: 8px;
+  margin-top: 10px;
+  flex-wrap: wrap;
 }
 
-.learn-hint-dots .dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
+.learn-hint-tab {
   background: var(--surface-light);
-  cursor: pointer;
-}
-
-.learn-hint-dots .dot.active {
-  background: var(--accent);
-}
-
-.learn-custom-area {
-  margin-top: 12px;
-  text-align: center;
-}
-
-.learn-add-hint-link {
-  font-size: 12px;
+  border: 1px solid transparent;
   color: var(--text-dim);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 16px;
   cursor: pointer;
-  text-decoration: none;
 }
 
-.learn-add-hint-link:active {
-  color: var(--accent);
+.learn-hint-tab.active {
+  background: var(--accent);
+  color: var(--bg);
+}
+
+.learn-hint-tab.custom {
+  border: 1px dashed var(--text-dim);
+}
+
+.learn-hint-tab.custom.active {
+  border-color: var(--accent);
 }
 
 .learn-custom-input-row {
+  margin-top: 10px;
   display: flex;
   gap: 8px;
   margin-top: 8px;
