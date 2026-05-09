@@ -1,7 +1,24 @@
 let currentGroupIndex = 0;
 let currentCharIndex = 0;
+let touchStartX = 0;
+let touchStartY = 0;
 
-function initLearn() {}
+function initLearn() {
+  const screen = document.getElementById('screen-learn');
+  screen.addEventListener('touchstart', (e) => {
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
+  }, { passive: true });
+
+  screen.addEventListener('touchend', (e) => {
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    const dy = e.changedTouches[0].clientY - touchStartY;
+    if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) {
+      if (dx < 0) learnNext();
+      else learnPrev();
+    }
+  }, { passive: true });
+}
 
 function showLearn() {
   renderLearnCard();
