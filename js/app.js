@@ -47,10 +47,9 @@ function initReference() {
   const grid = document.getElementById('ref-grid');
   grid.innerHTML = '';
 
-  for (const group of LEARN_GROUPS) {
-    for (const id of group) {
-      const ch = getCharById(id);
-      if (!ch) continue;
+  const sorted = [...ALL_CHARS].sort((a, b) => a.letter.localeCompare(b.letter));
+
+  for (const ch of sorted) {
 
       const card = document.createElement('div');
       card.className = 'ref-card';
@@ -71,7 +70,6 @@ function initReference() {
       card.appendChild(letter);
       card.appendChild(name);
       grid.appendChild(card);
-    }
   }
 }
 

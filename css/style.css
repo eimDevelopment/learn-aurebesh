@@ -132,16 +132,11 @@ html, body {
   color: var(--text-dim);
 }
 
-.learn-lock-notice {
-  text-align: center;
+.learn-hint {
+  font-size: 14px;
+  color: var(--text-dim);
   margin-top: 12px;
-  font-size: 13px;
-  color: var(--accent);
-  opacity: 0.7;
-}
-
-.learn-lock-notice.hidden {
-  display: none;
+  font-style: italic;
 }
 
 .learn-nav {
