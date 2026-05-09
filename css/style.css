@@ -243,6 +243,56 @@ html, body {
   flex-shrink: 0;
 }
 
+/* Learn compare strip */
+.learn-compare {
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-top: 12px;
+  text-align: center;
+}
+
+.learn-compare.hidden {
+  display: none;
+}
+
+.compare-label {
+  font-size: 12px;
+  color: var(--text-dim);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.compare-glyphs {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin-bottom: 10px;
+}
+
+.compare-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.compare-glyph {
+  font-size: 36px;
+  color: var(--accent);
+}
+
+.compare-letter {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.compare-tip {
+  font-size: 13px;
+  color: var(--text-dim);
+  line-height: 1.4;
+}
+
 .learn-nav {
   display: flex;
   justify-content: center;
@@ -269,6 +319,10 @@ html, body {
 .learn-nav button:active:not(:disabled) {
   background: var(--accent);
   color: var(--bg);
+}
+
+.learn-nav.hidden {
+  display: none;
 }
 
 /* Learn card slide animations */

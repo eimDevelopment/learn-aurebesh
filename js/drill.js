@@ -10,7 +10,7 @@ let drillCurrentHintText = '';
 const CHOICE_THRESHOLD = 3;
 
 function isWordDrill() {
-  return drillLevel !== 'letters';
+  return drillLevel !== 'letters' && drillLevel !== 'similar';
 }
 
 function getWordFromId(id) {
@@ -58,17 +58,18 @@ async function buildDrillQueue() {
   const learning = [];
   const fresh = [];
 
-  if (drillLevel === 'letters') {
-    for (const group of LEARN_GROUPS) {
-      for (const id of group) {
-        const p = progressMap[id];
-        if (!p || p.status === 'new') {
-          fresh.push(id);
-        } else if (isDueForReview(p)) {
-          due.push(id);
-        } else if (p.status === 'learning') {
-          learning.push(id);
-        }
+  if (drillLevel === 'letters' || drillLevel === 'similar') {
+    const charIds = drillLevel === 'similar'
+      ? [...new Set(CONFUSABLE_PAIRS.flatMap(p => p.ids))]
+      : LEARN_GROUPS.flat();
+    for (const id of charIds) {
+      const p = progressMap[id];
+      if (!p || p.status === 'new') {
+        fresh.push(id);
+      } else if (isDueForReview(p)) {
+        due.push(id);
+      } else if (p.status === 'learning') {
+        learning.push(id);
       }
     }
   } else {
@@ -94,7 +95,9 @@ async function buildDrillQueue() {
   drillQueue = [...due, ...learning, ...fresh];
 
   if (drillQueue.length === 0) {
-    if (drillLevel === 'letters') {
+    if (drillLevel === 'similar') {
+      drillQueue = [...new Set(CONFUSABLE_PAIRS.flatMap(p => p.ids))];
+    } else if (drillLevel === 'letters') {
       drillQueue = ALL_CHARS.map(c => c.id);
     } else {
       const wordLen = getWordLenFromLevel();
@@ -160,10 +163,26 @@ async function drillNextCard() {
   }
 }
 
+function getConfusableGroup(charId) {
+  const pair = CONFUSABLE_PAIRS.find(p => p.ids.includes(charId));
+  if (!pair) return [];
+  return pair.ids.filter(id => id !== charId).map(id => getCharById(id));
+}
+
 function showChoiceMode(correct) {
   const options = [correct];
-  const others = ALL_CHARS.filter(c => c.id !== correct.id);
-  shuffleArray(others);
+  let others;
+
+  if (drillLevel === 'similar') {
+    const group = getConfusableGroup(correct.id);
+    const rest = ALL_CHARS.filter(c => c.id !== correct.id && !group.some(g => g.id === c.id));
+    shuffleArray(rest);
+    others = [...group, ...rest];
+  } else {
+    others = ALL_CHARS.filter(c => c.id !== correct.id);
+    shuffleArray(others);
+  }
+
   options.push(others[0], others[1], others[2]);
   shuffleArray(options);
 

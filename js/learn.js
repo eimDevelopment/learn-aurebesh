@@ -3,13 +3,12 @@ let touchStartX = 0;
 let touchStartY = 0;
 let swiping = false;
 let learnChars = [];
+let learnLevel = 'all';
 let currentHintIndex = 0;
 let currentHints = [];
 let currentProgress = null;
 
 function initLearn() {
-  learnChars = [...ALL_CHARS].sort((a, b) => a.letter.localeCompare(b.letter));
-
   const screen = document.getElementById('screen-learn');
   screen.addEventListener('touchstart', (e) => {
     touchStartX = e.touches[0].clientX;
@@ -35,10 +34,30 @@ function initLearn() {
     }
     swiping = false;
   }, { passive: true });
-
 }
 
 function showLearn() {
+  document.getElementById('learn-level-select').classList.remove('hidden');
+  document.getElementById('learn-card').classList.add('hidden');
+  document.getElementById('learn-position').textContent = '';
+  document.querySelector('.learn-nav').classList.add('hidden');
+  document.getElementById('learn-compare').classList.add('hidden');
+}
+
+function startLearnLevel(level) {
+  learnLevel = level;
+  learnIndex = 0;
+
+  if (level === 'similar') {
+    const ids = [...new Set(CONFUSABLE_PAIRS.flatMap(p => p.ids))];
+    learnChars = ids.map(id => getCharById(id));
+  } else {
+    learnChars = [...ALL_CHARS].sort((a, b) => a.letter.localeCompare(b.letter));
+  }
+
+  document.getElementById('learn-level-select').classList.add('hidden');
+  document.getElementById('learn-card').classList.remove('hidden');
+  document.querySelector('.learn-nav').classList.remove('hidden');
   renderLearnCard();
 }
 
@@ -91,6 +110,7 @@ async function updateLearnContent(ch) {
 
   renderHint();
   hideCustomInput();
+  renderCompare(ch);
 }
 
 const TYPE_LABELS = { shape: 'Shape', sound: 'Sound', story: 'Story', name: 'Name', custom: 'Yours' };
@@ -223,4 +243,51 @@ function learnNext() {
     learnIndex++;
     renderLearnCard('next');
   }
+}
+
+function renderCompare(ch) {
+  const container = document.getElementById('learn-compare');
+  container.innerHTML = '';
+
+  const pair = CONFUSABLE_PAIRS.find(p => p.ids.includes(ch.id));
+  if (!pair || learnLevel !== 'similar') {
+    container.classList.add('hidden');
+    return;
+  }
+
+  container.classList.remove('hidden');
+
+  const label = document.createElement('div');
+  label.className = 'compare-label';
+  label.textContent = 'Similar to:';
+  container.appendChild(label);
+
+  const glyphs = document.createElement('div');
+  glyphs.className = 'compare-glyphs';
+
+  for (const id of pair.ids) {
+    if (id === ch.id) continue;
+    const other = getCharById(id);
+    const item = document.createElement('div');
+    item.className = 'compare-item';
+
+    const g = document.createElement('span');
+    g.className = 'compare-glyph aurebesh';
+    g.textContent = other.render;
+
+    const lbl = document.createElement('span');
+    lbl.className = 'compare-letter';
+    lbl.textContent = other.letter.toUpperCase();
+
+    item.appendChild(g);
+    item.appendChild(lbl);
+    glyphs.appendChild(item);
+  }
+
+  container.appendChild(glyphs);
+
+  const tip = document.createElement('div');
+  tip.className = 'compare-tip';
+  tip.textContent = pair.tip;
+  container.appendChild(tip);
 }
