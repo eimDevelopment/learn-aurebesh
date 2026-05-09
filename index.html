@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Aurebesh Learner</title>
+  <link rel="stylesheet" href="css/fonts.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <h1>AUREBESH</h1>
+    </header>
+
+    <!-- Learn screen -->
+    <div id="screen-learn" class="screen hidden">
+      <div class="learn-card">
+        <div id="learn-glyph" class="learn-glyph aurebesh"></div>
+        <div id="learn-letter" class="learn-letter"></div>
+        <div id="learn-name" class="learn-name"></div>
+      </div>
+      <div class="learn-meta">
+        <span id="learn-group-label"></span> &middot; <span id="learn-position"></span>
+      </div>
+      <div id="learn-lock-notice" class="learn-lock-notice hidden"></div>
+      <div class="learn-nav">
+        <button id="learn-prev" onclick="learnPrev()">Prev</button>
+        <button id="learn-next" onclick="learnNext()">Next</button>
+      </div>
+    </div>
+
+    <!-- Drill screen -->
+    <div id="screen-drill" class="screen hidden">
+      <div id="drill-card" class="drill-card">
+        <div id="drill-glyph" class="drill-glyph aurebesh"></div>
+        <div id="drill-answer" class="drill-answer hidden"></div>
+      </div>
+      <div id="drill-actions" class="drill-actions">
+        <button id="drill-reveal-btn" class="btn btn-reveal" onclick="drillReveal()">Reveal</button>
+        <div id="drill-grade-btns" class="grade-btns hidden">
+          <button class="btn-again" onclick="drillGrade(0)">Again</button>
+          <button class="btn-good" onclick="drillGrade(1)">Good</button>
+          <button class="btn-easy" onclick="drillGrade(2)">Easy</button>
+        </div>
+      </div>
+      <div id="drill-count" class="drill-count"></div>
+      <div id="drill-complete" class="drill-complete hidden">
+        <div class="drill-complete-title">Session Complete</div>
+        <div id="drill-complete-stats" class="drill-complete-stats"></div>
+        <button class="btn btn-reveal" onclick="drillRestart()">Drill Again</button>
+      </div>
+    </div>
+
+    <!-- Reference screen -->
+    <div id="screen-reference" class="screen hidden">
+      <div id="ref-grid" class="ref-grid"></div>
+    </div>
+
+    <nav class="nav">
+      <button class="nav-btn" data-screen="learn">
+        <span class="nav-icon">&#9733;</span>
+        Learn
+      </button>
+      <button class="nav-btn" data-screen="drill">
+        <span class="nav-icon">&#9881;</span>
+        Drill
+      </button>
+      <button class="nav-btn" data-screen="reference">
+        <span class="nav-icon">&#9776;</span>
+        Reference
+      </button>
+    </nav>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/db.js"></script>
+  <script src="js/srs.js"></script>
+  <script src="js/learn.js"></script>
+  <script src="js/drill.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

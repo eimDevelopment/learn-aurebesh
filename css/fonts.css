@@ -1,0 +1,55 @@
+@font-face {
+  font-family: 'Aurebesh';
+  src: url('../fonts/Aurebesh.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Aurebesh';
+  src: url('../fonts/Aurebesh Bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Aurebesh';
+  src: url('../fonts/Aurebesh Italic.otf') format('opentype');
+  font-weight: 400;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Aurebesh';
+  src: url('../fonts/Aurebesh Bold Italic.otf') format('opentype');
+  font-weight: 700;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Aurebesh Condensed';
+  src: url('../fonts/Aurebesh Condensed.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Aurebesh Condensed';
+  src: url('../fonts/Aurebesh Condensed Bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Aurebesh Condensed';
+  src: url('../fonts/Aurebesh Condensed Italic.otf') format('opentype');
+  font-weight: 400;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Aurebesh Condensed';
+  src: url('../fonts/Aurebesh Condensed Bold Italic.otf') format('opentype');
+  font-weight: 700;
+  font-style: italic;
+}

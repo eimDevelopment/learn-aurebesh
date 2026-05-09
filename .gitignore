@@ -1,0 +1,10 @@
+archive/
+.playwright-mcp/
+__pycache__/
+*.pyc
+.claude/
+fonts/aurebesh_af/
+fonts/aurebesh_hand/
+fonts/aurebesh_rodian/
+fonts/aurebesh_typewriter/
+fonts/*.zip
