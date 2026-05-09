@@ -115,6 +115,10 @@ html, body {
   margin-top: 24px;
 }
 
+.learn-card.hidden {
+  display: none;
+}
+
 .learn-glyph {
   font-size: 120px;
   line-height: 1.2;
