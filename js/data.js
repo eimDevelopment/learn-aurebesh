@@ -126,10 +126,6 @@ const DIGRAPH_CHARS = [
     { type: 'shape', text: 'Looks like a haNGer -- the hook shape' },
     { type: 'story', text: 'A boomeraNG -- the curved shape that comes back' },
   ]},
-  { id: 'orenth',  letter: 'oo', render: 'ö', name: 'Orenth', hints: [
-    { type: 'shape', text: 'A small windOOw -- peek through the frame' },
-    { type: 'story', text: 'Two Os squeezed into a tiny box' },
-  ]},
   { id: 'shen',    letter: 'sh', render: 'ø', name: 'Shen', hints: [
     { type: 'shape', text: 'Two halves of a SHell -- a clam opening up' },
     { type: 'story', text: 'Hands pressing together -- SHush' },
@@ -142,7 +138,7 @@ const DIGRAPH_CHARS = [
 
 const ALL_CHARS = [...BASIC_CHARS, ...DIGRAPH_CHARS];
 
-const DIGRAPHS = ['ch', 'sh', 'th', 'ae', 'eo', 'kh', 'ng', 'oo'];
+const DIGRAPHS = ['ch', 'sh', 'th', 'ae', 'eo', 'kh', 'ng'];
 
 function containsDigraph(word) {
   const w = word.toLowerCase();
@@ -226,7 +222,7 @@ const LEARN_GROUPS = [
   ['yirt', 'besh', 'vev'],
   ['krill', 'jenth', 'xesh'],
   ['qek', 'zerek'],
-  ['cherek', 'enth', 'onith', 'krenth', 'nen', 'orenth', 'shen', 'thesh'],
+  ['cherek', 'enth', 'onith', 'krenth', 'nen', 'shen', 'thesh'],
 ];
 
 const DIGRAPH_MAP = {};

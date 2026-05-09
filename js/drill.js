@@ -199,8 +199,12 @@ function showWordChoiceMode(correctWord) {
   const wordLen = getWordLenFromLevel();
   const allWords = getWordList(wordLen);
   const others = allWords.filter(w => w !== correctWord);
-  shuffleArray(others);
-  const options = [correctWord, others[0], others[1], others[2]];
+  const sameStart = others.filter(w => w[0] === correctWord[0]);
+  shuffleArray(sameStart);
+  const diffStart = others.filter(w => w[0] !== correctWord[0]);
+  shuffleArray(diffStart);
+  const distractors = [...sameStart, ...diffStart].slice(0, 3);
+  const options = [correctWord, ...distractors];
   shuffleArray(options);
 
   const container = document.getElementById('drill-choice-btns');
