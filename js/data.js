@@ -241,7 +241,7 @@ function toAurebeshText(str) {
 }
 
 const CONFUSABLE_PAIRS = [
-  { ids: ['dorn', 'resh'], tip: 'D has a flat top and drops straight down. R has a slanted top like a ramp.' },
+  { ids: ['dorn', 'resh'], tip: 'D has the dash on top. R is the right angle.' },
   { ids: ['krill', 'cherek', 'qek'], tip: 'K is a wide curve with a tail. CH is a simple backwards C. Q is a thin crescent.' },
   { ids: ['osk', 'xesh'], tip: 'O is a plain triangle. X has a line through the middle.' },
   { ids: ['nern', 'senth'], tip: 'N has rounded zigzags (needle stitches). S has sharp pointed zigzags (saw teeth).' },
