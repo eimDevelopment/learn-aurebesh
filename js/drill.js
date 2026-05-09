@@ -102,6 +102,11 @@ async function buildDrillQueue() {
     }
     shuffleArray(drillQueue);
   }
+
+  const SESSION_LIMIT = 10;
+  if (drillQueue.length > SESSION_LIMIT) {
+    drillQueue = drillQueue.slice(0, SESSION_LIMIT);
+  }
 }
 
 function shuffleArray(arr) {
