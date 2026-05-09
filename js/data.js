@@ -107,8 +107,8 @@ const BASIC_CHARS = [
 
 const DIGRAPH_CHARS = [
   { id: 'cherek',  letter: 'ch', render: 'ç', name: 'Cherek', hints: [
-    { type: 'shape', text: 'Looks like K (Krill) with an extra mark -- that mark makes it CH' },
-    { type: 'story', text: 'K grew a Chin -- CH for the extra bit hanging off' },
+    { type: 'shape', text: 'A backwards C -- the curve opens to the right' },
+    { type: 'story', text: 'Looks like K (Krill) but simpler -- no tail at the bottom' },
   ]},
   { id: 'enth',    letter: 'ae', render: 'æ', name: 'Enth', hints: [
     { type: 'shape', text: 'The Æ symbol -- A and E fused into one circle' },
