@@ -1,6 +1,7 @@
 let learnIndex = 0;
 let touchStartX = 0;
 let touchStartY = 0;
+let swiping = false;
 let learnChars = [];
 let currentHintIndex = 0;
 let currentHints = [];
@@ -13,15 +14,26 @@ function initLearn() {
   screen.addEventListener('touchstart', (e) => {
     touchStartX = e.touches[0].clientX;
     touchStartY = e.touches[0].clientY;
+    swiping = false;
   }, { passive: true });
 
+  screen.addEventListener('touchmove', (e) => {
+    const dx = Math.abs(e.touches[0].clientX - touchStartX);
+    const dy = Math.abs(e.touches[0].clientY - touchStartY);
+    if (dx > 10 && dx > dy) {
+      swiping = true;
+      e.preventDefault();
+    }
+  }, { passive: false });
+
   screen.addEventListener('touchend', (e) => {
+    if (!swiping) return;
     const dx = e.changedTouches[0].clientX - touchStartX;
-    const dy = e.changedTouches[0].clientY - touchStartY;
-    if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) {
+    if (Math.abs(dx) > 50) {
       if (dx < 0) learnNext();
       else learnPrev();
     }
+    swiping = false;
   }, { passive: true });
 
 }
