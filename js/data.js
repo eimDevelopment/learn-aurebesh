@@ -40,24 +40,24 @@ const BASIC_CHARS = [
     { type: 'story', text: 'A bent Javelin thrown at an angle' },
   ]},
   { id: 'krill',  letter: 'k', render: 'k', name: 'Krill', hints: [
-    { type: 'shape', text: 'A backwards letter C -- K is C\'s cousin' },
-    { type: 'story', text: 'A curved shape like a Key ring' },
+    { type: 'shape', text: 'A backwards C with a tail at the bottom' },
+    { type: 'story', text: 'A Kite with a string hanging down -- K for Kite' },
   ]},
   { id: 'leth',   letter: 'l', render: 'l', name: 'Leth', hints: [
     { type: 'shape', text: 'A Leaning line -- L for Lean' },
     { type: 'story', text: 'A single diagonal Line -- L for Line' },
   ]},
   { id: 'mern',   letter: 'm', render: 'm', name: 'Mern', hints: [
-    { type: 'shape', text: 'A Mountain slope going up' },
-    { type: 'story', text: 'A Mouth opening wide' },
+    { type: 'shape', text: 'An open bracket -- like a squared C opening right' },
+    { type: 'story', text: 'A Mailbox opening -- M for the slot on the right' },
   ]},
   { id: 'nern',   letter: 'n', render: 'n', name: 'Nern', hints: [
     { type: 'shape', text: 'A Needle stitching in and out' },
     { type: 'story', text: 'Notches carved into wood' },
   ]},
   { id: 'osk',    letter: 'o', render: 'o', name: 'Osk', hints: [
-    { type: 'shape', text: 'An Orange slice -- a triangle wedge' },
-    { type: 'story', text: 'A pizza slice from a round pie -- O for the whole circle' },
+    { type: 'shape', text: 'A trapezoid -- flat top, wider at the base' },
+    { type: 'story', text: 'A bucket from the side -- O for the Open top' },
   ]},
   { id: 'peth',   letter: 'p', render: 'p', name: 'Peth', hints: [
     { type: 'shape', text: 'A Pot or bucket from the side' },
@@ -92,8 +92,8 @@ const BASIC_CHARS = [
     { type: 'story', text: 'Four Walls around an empty room' },
   ]},
   { id: 'xesh',   letter: 'x', render: 'x', name: 'Xesh', hints: [
-    { type: 'story', text: 'X marks the spot -- the treasure under the X' },
-    { type: 'shape', text: 'Like O (Osk) but with an eXtra line through it' },
+    { type: 'shape', text: 'A triangle -- two sides meeting at a pointed peak' },
+    { type: 'story', text: 'A tent frame -- X marks the peak at the top' },
   ]},
   { id: 'yirt',   letter: 'y', render: 'y', name: 'Yirt', hints: [
     { type: 'shape', text: 'A slingshot -- the Y-shaped fork' },
@@ -107,8 +107,8 @@ const BASIC_CHARS = [
 
 const DIGRAPH_CHARS = [
   { id: 'cherek',  letter: 'ch', render: 'ç', name: 'Cherek', hints: [
-    { type: 'shape', text: 'A backwards C -- the curve opens to the right' },
-    { type: 'story', text: 'Looks like K (Krill) but simpler -- no tail at the bottom' },
+    { type: 'shape', text: 'A squared bracket with sharp right-angle corners' },
+    { type: 'story', text: 'Like K (Krill) but angular and no tail at the bottom' },
   ]},
   { id: 'enth',    letter: 'ae', render: 'æ', name: 'Enth', hints: [
     { type: 'shape', text: 'The Æ symbol -- A and E fused into one circle' },
@@ -242,10 +242,10 @@ function toAurebeshText(str) {
 
 const CONFUSABLE_PAIRS = [
   { ids: ['dorn', 'resh'], tip: 'D has the dash on top. R is the right angle.' },
-  { ids: ['krill', 'cherek', 'qek'], tip: 'Q is a quarter of the letter Q. K is a wide curve with a tail. CH is a simple backwards C.' },
-  { ids: ['osk', 'xesh'], tip: 'O is a plain triangle. X has a line through the middle.' },
+  { ids: ['krill', 'cherek', 'qek'], tip: 'Q is the simplest -- just a C. K adds a tail at the bottom. CH has sharp right-angle corners.' },
+  { ids: ['osk', 'xesh'], tip: 'O is a trapezoid (flat top). X is a triangle (pointed top).' },
   { ids: ['nern', 'senth'], tip: 'N has rounded zigzags (needle stitches). S has sharp pointed zigzags (saw teeth).' },
-  { ids: ['mern', 'zerek'], tip: 'M is a wide open angle. Z is a tight step shape.' },
+  { ids: ['mern', 'zerek'], tip: 'M is an open bracket (no middle bar). Z adds a shelf in the middle.' },
 ];
 
 function getCharById(id) {
