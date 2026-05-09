@@ -64,7 +64,7 @@ const BASIC_CHARS = [
     { type: 'story', text: 'A Planter box holding soil -- P for Planter' },
   ]},
   { id: 'qek',    letter: 'q', render: 'q', name: 'Qek', hints: [
-    { type: 'shape', text: 'The curve of a Question mark' },
+    { type: 'shape', text: 'A Quarter of the letter Q -- just the curve' },
     { type: 'story', text: 'A crescent -- Q for Quarter moon' },
   ]},
   { id: 'resh',   letter: 'r', render: 'r', name: 'Resh', hints: [
@@ -242,7 +242,7 @@ function toAurebeshText(str) {
 
 const CONFUSABLE_PAIRS = [
   { ids: ['dorn', 'resh'], tip: 'D has the dash on top. R is the right angle.' },
-  { ids: ['krill', 'cherek', 'qek'], tip: 'K is a wide curve with a tail. CH is a simple backwards C. Q is a thin crescent.' },
+  { ids: ['krill', 'cherek', 'qek'], tip: 'Q is a quarter of the letter Q. K is a wide curve with a tail. CH is a simple backwards C.' },
   { ids: ['osk', 'xesh'], tip: 'O is a plain triangle. X has a line through the middle.' },
   { ids: ['nern', 'senth'], tip: 'N has rounded zigzags (needle stitches). S has sharp pointed zigzags (saw teeth).' },
   { ids: ['mern', 'zerek'], tip: 'M is a wide open angle. Z is a tight step shape.' },
