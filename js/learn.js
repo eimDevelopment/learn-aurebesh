@@ -1,9 +1,11 @@
-let currentGroupIndex = 0;
-let currentCharIndex = 0;
+let learnIndex = 0;
 let touchStartX = 0;
 let touchStartY = 0;
+let learnChars = [];
 
 function initLearn() {
+  learnChars = [...ALL_CHARS].sort((a, b) => a.letter.localeCompare(b.letter));
+
   const screen = document.getElementById('screen-learn');
   screen.addEventListener('touchstart', (e) => {
     touchStartX = e.touches[0].clientX;
@@ -24,45 +26,48 @@ function showLearn() {
   renderLearnCard();
 }
 
-function renderLearnCard() {
-  const group = LEARN_GROUPS[currentGroupIndex];
-  const id = group[currentCharIndex];
-  const ch = getCharById(id);
+function renderLearnCard(direction) {
+  const ch = learnChars[learnIndex];
+  const card = document.getElementById('learn-card');
 
+  if (direction) {
+    card.classList.add(direction === 'next' ? 'slide-out-left' : 'slide-out-right');
+
+    setTimeout(() => {
+      updateLearnContent(ch);
+      card.classList.remove('slide-out-left', 'slide-out-right');
+      card.classList.add(direction === 'next' ? 'slide-in-right' : 'slide-in-left');
+
+      setTimeout(() => {
+        card.classList.remove('slide-in-right', 'slide-in-left');
+      }, 200);
+    }, 150);
+  } else {
+    updateLearnContent(ch);
+  }
+}
+
+function updateLearnContent(ch) {
   document.getElementById('learn-glyph').textContent = ch.render;
   document.getElementById('learn-letter').textContent = ch.letter.toUpperCase();
   document.getElementById('learn-hint').textContent = ch.hint;
-
-  document.getElementById('learn-group-label').textContent =
-    `Group ${currentGroupIndex + 1} of ${LEARN_GROUPS.length}`;
   document.getElementById('learn-position').textContent =
-    `${currentCharIndex + 1} / ${group.length}`;
+    `${learnIndex + 1} / ${learnChars.length}`;
 
-  document.getElementById('learn-prev').disabled =
-    (currentGroupIndex === 0 && currentCharIndex === 0);
-
-  const atLast = currentGroupIndex === LEARN_GROUPS.length - 1;
-  const atLastChar = currentCharIndex === group.length - 1;
-  document.getElementById('learn-next').disabled = (atLast && atLastChar);
+  document.getElementById('learn-prev').disabled = (learnIndex === 0);
+  document.getElementById('learn-next').disabled = (learnIndex === learnChars.length - 1);
 }
 
 function learnPrev() {
-  if (currentCharIndex > 0) {
-    currentCharIndex--;
-  } else if (currentGroupIndex > 0) {
-    currentGroupIndex--;
-    currentCharIndex = LEARN_GROUPS[currentGroupIndex].length - 1;
+  if (learnIndex > 0) {
+    learnIndex--;
+    renderLearnCard('prev');
   }
-  renderLearnCard();
 }
 
 function learnNext() {
-  const group = LEARN_GROUPS[currentGroupIndex];
-  if (currentCharIndex < group.length - 1) {
-    currentCharIndex++;
-  } else if (currentGroupIndex < LEARN_GROUPS.length - 1) {
-    currentGroupIndex++;
-    currentCharIndex = 0;
+  if (learnIndex < learnChars.length - 1) {
+    learnIndex++;
+    renderLearnCard('next');
   }
-  renderLearnCard();
 }
