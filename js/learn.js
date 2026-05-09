@@ -14,7 +14,6 @@ function renderLearnCard() {
 
   document.getElementById('learn-glyph').textContent = ch.render;
   document.getElementById('learn-letter').textContent = ch.letter.toUpperCase();
-  document.getElementById('learn-name').textContent = ch.name;
   document.getElementById('learn-hint').textContent = ch.hint;
 
   document.getElementById('learn-group-label').textContent =
