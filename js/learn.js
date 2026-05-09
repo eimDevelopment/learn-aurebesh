@@ -314,7 +314,6 @@ const GLYPH_TRANSFORMS = {
         1: { x1: 18, y1: 18 },
       }},
     ],
-    resultLabel: 'X',
   },
 };
 
@@ -356,18 +355,6 @@ function renderTransform() {
     svg.appendChild(line);
   }
 
-  const label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-  label.setAttribute('x', '50');
-  label.setAttribute('y', '55');
-  label.setAttribute('text-anchor', 'middle');
-  label.setAttribute('dominant-baseline', 'middle');
-  label.setAttribute('fill', '#FFE81F');
-  label.setAttribute('font-size', '28');
-  label.setAttribute('font-weight', '700');
-  label.setAttribute('opacity', '0');
-  label.textContent = anim.resultLabel;
-  svg.appendChild(label);
-
   stage.appendChild(svg);
 }
 
@@ -379,7 +366,6 @@ function playTransform() {
   transformRunning = true;
   const svg = document.querySelector('#transform-stage svg');
   const lines = svg.querySelectorAll('line');
-  const label = svg.querySelector('text');
 
   anim.lines.forEach((def, i) => {
     lines[i].setAttribute('x1', def.x1);
@@ -388,7 +374,6 @@ function playTransform() {
     lines[i].setAttribute('y2', def.y2);
     lines[i].style.opacity = 1;
   });
-  label.setAttribute('opacity', '0');
 
   const timeline = [];
   let time = 0;
@@ -414,8 +399,7 @@ function playTransform() {
     time += phase.duration;
   }
 
-  const labelTime = time + 200;
-  const totalDuration = labelTime + 300;
+  const totalDuration = time;
   const animStart = performance.now();
 
   function tick() {
@@ -432,11 +416,6 @@ function playTransform() {
       } else {
         lines[entry.lineIdx].setAttribute(entry.prop, val);
       }
-    }
-
-    if (elapsed >= labelTime) {
-      const lt = Math.min((elapsed - labelTime) / 300, 1);
-      label.setAttribute('opacity', lt);
     }
 
     if (elapsed < totalDuration) {
