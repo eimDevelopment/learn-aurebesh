@@ -34,15 +34,12 @@
     <div id="screen-drill" class="screen hidden">
       <div id="drill-card" class="drill-card">
         <div id="drill-glyph" class="drill-glyph aurebesh"></div>
-        <div id="drill-answer" class="drill-answer hidden"></div>
       </div>
-      <div id="drill-actions" class="drill-actions">
-        <button id="drill-reveal-btn" class="btn btn-reveal" onclick="drillReveal()">Reveal</button>
-        <div id="drill-grade-btns" class="grade-btns hidden">
-          <button class="btn-again" onclick="drillGrade(0)">Again</button>
-          <button class="btn-good" onclick="drillGrade(1)">Good</button>
-          <button class="btn-easy" onclick="drillGrade(2)">Easy</button>
-        </div>
+      <div id="drill-feedback" class="drill-feedback hidden"></div>
+      <div id="drill-choice-btns" class="drill-choice-btns hidden"></div>
+      <div id="drill-type-area" class="drill-type-area hidden">
+        <input id="drill-type-input" type="text" class="drill-type-input" placeholder="Type the letter..." autocomplete="off" autocapitalize="off">
+        <button class="btn btn-reveal" onclick="drillSubmitTyped()">Check</button>
       </div>
       <div id="drill-count" class="drill-count"></div>
       <div id="drill-complete" class="drill-complete hidden">
@@ -73,11 +70,11 @@
     </nav>
   </div>
 
-  <script src="js/data.js"></script>
-  <script src="js/db.js"></script>
-  <script src="js/srs.js"></script>
-  <script src="js/learn.js"></script>
-  <script src="js/drill.js"></script>
-  <script src="js/app.js"></script>
+  <script src="js/data.js?v=2"></script>
+  <script src="js/db.js?v=2"></script>
+  <script src="js/srs.js?v=2"></script>
+  <script src="js/learn.js?v=2"></script>
+  <script src="js/drill.js?v=2"></script>
+  <script src="js/app.js?v=2"></script>
 </body>
 </html>

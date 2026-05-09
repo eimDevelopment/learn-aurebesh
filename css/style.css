@@ -182,25 +182,6 @@ html, body {
   color: var(--accent);
 }
 
-.drill-answer {
-  font-size: 28px;
-  font-weight: 700;
-  margin-top: 20px;
-  min-height: 40px;
-}
-
-.drill-answer.hidden {
-  visibility: hidden;
-}
-
-.drill-actions {
-  margin-top: 24px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-}
-
 .btn {
   border: none;
   border-radius: var(--radius);
@@ -220,47 +201,102 @@ html, body {
   opacity: 0.8;
 }
 
-.grade-btns {
-  display: flex;
-  gap: 12px;
-  justify-content: center;
+.drill-feedback {
+  text-align: center;
+  margin-top: 16px;
+  font-size: 22px;
+  font-weight: 700;
+  min-height: 32px;
 }
 
-.grade-btns.hidden {
+.drill-feedback.hidden {
   display: none;
 }
 
-.btn-again {
-  background: var(--incorrect);
-  color: #fff;
-  padding: 14px 24px;
-  border: none;
+.feedback-correct {
+  color: var(--correct);
+}
+
+.feedback-incorrect {
+  color: var(--incorrect);
+}
+
+.drill-choice-btns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 20px;
+  padding: 0 16px;
+}
+
+.drill-choice-btns.hidden {
+  display: none;
+}
+
+.btn-choice {
+  background: var(--surface-light);
+  border: 2px solid transparent;
+  color: var(--text);
+  font-size: 20px;
+  font-weight: 700;
+  padding: 16px;
   border-radius: var(--radius);
-  font-size: 16px;
-  font-weight: 600;
   cursor: pointer;
 }
 
-.btn-good {
+.btn-choice:active {
+  background: var(--surface);
+}
+
+.btn-choice.correct {
   background: var(--correct);
   color: #fff;
-  padding: 14px 24px;
-  border: none;
-  border-radius: var(--radius);
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
+  border-color: var(--correct);
 }
 
-.btn-easy {
+.btn-choice.incorrect {
+  background: var(--incorrect);
+  color: #fff;
+  border-color: var(--incorrect);
+}
+
+.drill-type-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.drill-type-area.hidden {
+  display: none;
+}
+
+.drill-type-input {
   background: var(--surface-light);
+  border: 2px solid var(--surface-light);
   color: var(--text);
-  padding: 14px 24px;
-  border: none;
+  font-size: 24px;
+  font-weight: 700;
+  text-align: center;
+  padding: 14px 20px;
   border-radius: var(--radius);
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
+  width: 200px;
+  outline: none;
+}
+
+.drill-type-input:focus {
+  border-color: var(--accent);
+}
+
+.drill-type-input.correct {
+  border-color: var(--correct);
+  color: var(--correct);
+}
+
+.drill-type-input.incorrect {
+  border-color: var(--incorrect);
+  color: var(--incorrect);
 }
 
 .drill-count {
@@ -271,10 +307,6 @@ html, body {
 }
 
 .drill-card.hidden {
-  display: none;
-}
-
-.drill-actions.hidden {
   display: none;
 }
 
