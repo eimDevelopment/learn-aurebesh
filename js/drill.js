@@ -4,6 +4,7 @@ let drillMode = 'choice';
 let drillSessionCorrect = 0;
 let drillSessionTotal = 0;
 let drillSessionStart = 0;
+let drillCurrentHintText = '';
 
 const CHOICE_THRESHOLD = 3;
 
@@ -75,6 +76,7 @@ async function drillNextCard() {
 
   let record = await getProgress(drillCurrent);
   drillMode = (record && record.consecutiveCorrect >= CHOICE_THRESHOLD) ? 'type' : 'choice';
+  drillCurrentHintText = getPinnedHintText(ch, record);
 
   document.getElementById('drill-glyph').textContent = ch.render;
   document.getElementById('drill-card').classList.remove('hidden');
@@ -168,8 +170,20 @@ async function drillSubmitTyped() {
 
 function showFeedback(correct, ch) {
   const fb = document.getElementById('drill-feedback');
-  fb.textContent = correct ? 'Correct!' : `${ch.letter.toUpperCase()} - ${ch.name}`;
-  fb.className = 'drill-feedback ' + (correct ? 'feedback-correct' : 'feedback-incorrect');
+  fb.textContent = '';
+  if (correct) {
+    fb.textContent = 'Correct!';
+    fb.className = 'drill-feedback feedback-correct';
+  } else {
+    fb.className = 'drill-feedback feedback-incorrect';
+    const main = document.createElement('div');
+    main.textContent = `${ch.letter.toUpperCase()} - ${ch.name}`;
+    const hint = document.createElement('div');
+    hint.className = 'drill-feedback-hint';
+    hint.textContent = drillCurrentHintText;
+    fb.appendChild(main);
+    fb.appendChild(hint);
+  }
 }
 
 async function recordDrillAnswer(quality) {

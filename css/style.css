@@ -135,11 +135,109 @@ html, body {
   color: var(--text-dim);
 }
 
+.learn-hint-area {
+  margin-top: 12px;
+}
+
+.learn-hint-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 8px;
+}
+
 .learn-hint {
   font-size: 14px;
   color: var(--text-dim);
-  margin-top: 12px;
   font-style: italic;
+  flex: 1;
+  min-height: 40px;
+}
+
+.learn-pin-btn {
+  background: none;
+  border: none;
+  font-size: 18px;
+  color: var(--text-dim);
+  cursor: pointer;
+  padding: 0 4px;
+  flex-shrink: 0;
+}
+
+.learn-pin-btn.pinned {
+  color: var(--accent);
+}
+
+.learn-hint-dots {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.learn-hint-dots .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--surface-light);
+  cursor: pointer;
+}
+
+.learn-hint-dots .dot.active {
+  background: var(--accent);
+}
+
+.learn-custom-area {
+  margin-top: 12px;
+  text-align: center;
+}
+
+.learn-add-hint-link {
+  font-size: 12px;
+  color: var(--text-dim);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.learn-add-hint-link:active {
+  color: var(--accent);
+}
+
+.learn-custom-input-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.learn-custom-input-row.hidden {
+  display: none;
+}
+
+.learn-custom-input {
+  flex: 1;
+  background: var(--surface-light);
+  border: 1px solid var(--surface-light);
+  color: var(--text);
+  font-size: 14px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  outline: none;
+}
+
+.learn-custom-input:focus {
+  border-color: var(--accent);
+}
+
+.learn-custom-save {
+  background: var(--accent);
+  color: var(--bg);
+  border: none;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  flex-shrink: 0;
 }
 
 .learn-nav {
@@ -253,6 +351,14 @@ html, body {
 
 .feedback-incorrect {
   color: var(--incorrect);
+}
+
+.drill-feedback-hint {
+  font-size: 14px;
+  font-style: italic;
+  color: var(--text-dim);
+  margin-top: 4px;
+  font-weight: 400;
 }
 
 .drill-choice-btns {

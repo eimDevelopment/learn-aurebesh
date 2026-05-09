@@ -1,41 +1,143 @@
 const BASIC_CHARS = [
-  { id: 'aurek',  letter: 'a', render: 'a', name: 'Aurek',  hint: 'An Arrowhead pointing right' },
-  { id: 'besh',   letter: 'b', render: 'b', name: 'Besh',   hint: 'A Burger -- bun, patty, bun' },
-  { id: 'cresh',  letter: 'c', render: 'c', name: 'Cresh',  hint: 'Chopsticks standing up' },
-  { id: 'dorn',   letter: 'd', render: 'd', name: 'Dorn',   hint: 'A Diving board from the side' },
-  { id: 'esk',    letter: 'e', render: 'e', name: 'Esk',    hint: 'Rabbit Ears on an old TV' },
-  { id: 'forn',   letter: 'f', render: 'f', name: 'Forn',   hint: 'Four points on a plus sign' },
-  { id: 'grek',   letter: 'g', render: 'g', name: 'Grek',   hint: 'A Gate, open at the top' },
-  { id: 'herf',   letter: 'h', render: 'h', name: 'Herf',   hint: 'Three Horizontal lines stacked' },
-  { id: 'isk',    letter: 'i', render: 'i', name: 'Isk',    hint: 'Just I -- one single line' },
-  { id: 'jenth',  letter: 'j', render: 'j', name: 'Jenth',  hint: 'A fishhook -- a J-hook flipped over' },
-  { id: 'krill',  letter: 'k', render: 'k', name: 'Krill',  hint: 'A backwards C -- K and C make the same sound' },
-  { id: 'leth',   letter: 'l', render: 'l', name: 'Leth',   hint: 'An L Leaning to the side' },
-  { id: 'mern',   letter: 'm', render: 'm', name: 'Mern',   hint: 'A Mountain slope going up' },
-  { id: 'nern',   letter: 'n', render: 'n', name: 'Nern',   hint: 'A Needle stitching in and out' },
-  { id: 'osk',    letter: 'o', render: 'o', name: 'Osk',    hint: 'An Orange slice -- a triangle wedge' },
-  { id: 'peth',   letter: 'p', render: 'p', name: 'Peth',   hint: 'A goalPost from the front' },
-  { id: 'qek',    letter: 'q', render: 'q', name: 'Qek',    hint: 'The curve of a Question mark' },
-  { id: 'resh',   letter: 'r', render: 'r', name: 'Resh',   hint: 'A Right angle -- look at the corner' },
-  { id: 'senth',  letter: 's', render: 's', name: 'Senth',  hint: 'A Snake slithering in zigzags' },
-  { id: 'trill',  letter: 't', render: 't', name: 'Trill',  hint: 'An upside-down T' },
-  { id: 'usk',    letter: 'u', render: 'u', name: 'Usk',    hint: 'Shaped exactly like U' },
-  { id: 'vev',    letter: 'v', render: 'v', name: 'Vev',    hint: 'A Vine branching into a V' },
-  { id: 'wesk',   letter: 'w', render: 'w', name: 'Wesk',   hint: 'A Window frame' },
-  { id: 'xesh',   letter: 'x', render: 'x', name: 'Xesh',   hint: 'X marks the spot -- the treasure under the X' },
-  { id: 'yirt',   letter: 'y', render: 'y', name: 'Yirt',   hint: 'A slingshot -- the Y-shaped fork' },
-  { id: 'zerek',  letter: 'z', render: 'z', name: 'Zerek',  hint: 'One step of a Zigzag staircase' },
+  { id: 'aurek',  letter: 'a', render: 'a', name: 'Aurek', hints: [
+    { type: 'shape', text: 'An Arrowhead pointing right' },
+    { type: 'name',  text: 'Aurek starts with A -- the first letter to learn' },
+  ]},
+  { id: 'besh',   letter: 'b', render: 'b', name: 'Besh', hints: [
+    { type: 'shape', text: 'A Burger -- bun, patty, bun' },
+    { type: 'shape', text: 'Three curved layers stacked like a sandwich' },
+  ]},
+  { id: 'cresh',  letter: 'c', render: 'c', name: 'Cresh', hints: [
+    { type: 'shape', text: 'Chopsticks standing up' },
+    { type: 'shape', text: 'Tall parallel lines like Columns' },
+  ]},
+  { id: 'dorn',   letter: 'd', render: 'd', name: 'Dorn', hints: [
+    { type: 'shape', text: 'A Diving board from the side' },
+    { type: 'story', text: 'The board hangs over the Deep end of the pool' },
+  ]},
+  { id: 'esk',    letter: 'e', render: 'e', name: 'Esk', hints: [
+    { type: 'shape', text: 'Rabbit Ears on an old TV' },
+    { type: 'shape', text: 'Two points going up like a crown -- E for Emperor' },
+  ]},
+  { id: 'forn',   letter: 'f', render: 'f', name: 'Forn', hints: [
+    { type: 'shape', text: 'Four points on a plus sign' },
+    { type: 'shape', text: 'A compass rose pointing in Four directions' },
+  ]},
+  { id: 'grek',   letter: 'g', render: 'g', name: 'Grek', hints: [
+    { type: 'shape', text: 'A Gate, open at the top' },
+    { type: 'shape', text: 'A Gutter or trough catching rain' },
+  ]},
+  { id: 'herf',   letter: 'h', render: 'h', name: 'Herf', hints: [
+    { type: 'shape', text: 'Three Horizontal lines stacked' },
+    { type: 'shape', text: 'The three-line menu icon on your phone' },
+  ]},
+  { id: 'isk',    letter: 'i', render: 'i', name: 'Isk', hints: [
+    { type: 'shape', text: 'Just I -- one single line' },
+    { type: 'story', text: 'The simplest character -- I is just one stroke' },
+  ]},
+  { id: 'jenth',  letter: 'j', render: 'j', name: 'Jenth', hints: [
+    { type: 'shape', text: 'A fishhook -- a J-hook flipped over' },
+    { type: 'shape', text: 'A bent Javelin thrown at an angle' },
+  ]},
+  { id: 'krill',  letter: 'k', render: 'k', name: 'Krill', hints: [
+    { type: 'sound', text: 'A backwards C -- K and C make the same sound' },
+    { type: 'shape', text: 'A Cup without a handle -- same hard K sound' },
+  ]},
+  { id: 'leth',   letter: 'l', render: 'l', name: 'Leth', hints: [
+    { type: 'shape', text: 'An L Leaning to the side' },
+    { type: 'shape', text: 'A single diagonal Line -- L for Line' },
+  ]},
+  { id: 'mern',   letter: 'm', render: 'm', name: 'Mern', hints: [
+    { type: 'shape', text: 'A Mountain slope going up' },
+    { type: 'shape', text: 'An angle bracket like a Mouth opening wide' },
+  ]},
+  { id: 'nern',   letter: 'n', render: 'n', name: 'Nern', hints: [
+    { type: 'shape', text: 'A Needle stitching in and out' },
+    { type: 'shape', text: 'Peaks and valleys like Notches cut into wood' },
+  ]},
+  { id: 'osk',    letter: 'o', render: 'o', name: 'Osk', hints: [
+    { type: 'shape', text: 'An Orange slice -- a triangle wedge' },
+    { type: 'story', text: 'A pizza slice from a round pie -- O for the circle it came from' },
+  ]},
+  { id: 'peth',   letter: 'p', render: 'p', name: 'Peth', hints: [
+    { type: 'shape', text: 'A goalPost from the front' },
+    { type: 'shape', text: 'A Pot or bucket seen from the side' },
+  ]},
+  { id: 'qek',    letter: 'q', render: 'q', name: 'Qek', hints: [
+    { type: 'shape', text: 'The curve of a Question mark' },
+    { type: 'shape', text: 'A crescent -- Q for Quarter moon' },
+  ]},
+  { id: 'resh',   letter: 'r', render: 'r', name: 'Resh', hints: [
+    { type: 'shape', text: 'A Right angle -- look at the corner' },
+    { type: 'shape', text: 'A Ramp going up then dropping straight down' },
+  ]},
+  { id: 'senth',  letter: 's', render: 's', name: 'Senth', hints: [
+    { type: 'shape', text: 'A Snake slithering in zigzags' },
+    { type: 'shape', text: 'Sharp points like the teeth of a Saw blade' },
+  ]},
+  { id: 'trill',  letter: 't', render: 't', name: 'Trill', hints: [
+    { type: 'shape', text: 'An upside-down T' },
+    { type: 'shape', text: 'A sword pointing down -- the cross-guard makes the T' },
+  ]},
+  { id: 'usk',    letter: 'u', render: 'u', name: 'Usk', hints: [
+    { type: 'shape', text: 'Shaped exactly like U' },
+    { type: 'story', text: 'The easiest one -- it IS the letter U' },
+  ]},
+  { id: 'vev',    letter: 'v', render: 'v', name: 'Vev', hints: [
+    { type: 'shape', text: 'A Vine branching into a V' },
+    { type: 'shape', text: 'A tree trunk splitting in two -- V for the split' },
+  ]},
+  { id: 'wesk',   letter: 'w', render: 'w', name: 'Wesk', hints: [
+    { type: 'shape', text: 'A Window frame' },
+    { type: 'shape', text: 'A box -- four Walls around an empty room' },
+  ]},
+  { id: 'xesh',   letter: 'x', render: 'x', name: 'Xesh', hints: [
+    { type: 'story', text: 'X marks the spot -- the treasure under the X' },
+    { type: 'shape', text: 'A triangle like O but slightly different -- eXtra sharp' },
+  ]},
+  { id: 'yirt',   letter: 'y', render: 'y', name: 'Yirt', hints: [
+    { type: 'shape', text: 'A slingshot -- the Y-shaped fork' },
+    { type: 'story', text: 'A fork in the road -- which waY do you go?' },
+  ]},
+  { id: 'zerek',  letter: 'z', render: 'z', name: 'Zerek', hints: [
+    { type: 'shape', text: 'One step of a Zigzag staircase' },
+    { type: 'shape', text: 'An L-shape rotated -- Z, the last letter, takes a final turn' },
+  ]},
 ];
 
 const DIGRAPH_CHARS = [
-  { id: 'cherek',  letter: 'ch', render: 'ç', name: 'Cherek',  hint: 'Looks like K (Krill) -- add a breath for CH' },
-  { id: 'enth',    letter: 'ae', render: 'æ', name: 'Enth',    hint: 'A circle split in half -- say it like "aesthetic"' },
-  { id: 'onith',   letter: 'eo', render: 'ë', name: 'Onith',   hint: 'A tent shape -- the EO in "neon"' },
-  { id: 'krenth',  letter: 'kh', render: 'ß', name: 'Krenth',  hint: 'The dotted one -- a throaty K, like clearing your throat' },
-  { id: 'nen',     letter: 'ng', render: 'ñ', name: 'Nen',     hint: 'Ends words like "ring" and "song"' },
-  { id: 'orenth',  letter: 'oo', render: 'ö', name: 'Orenth',  hint: 'A little window -- peek through and say "OOh"' },
-  { id: 'shen',    letter: 'sh', render: 'ø', name: 'Shen',    hint: 'Two halves closing in -- SHh, be quiet' },
-  { id: 'thesh',   letter: 'th', render: 'þ', name: 'Thesh',   hint: 'Starts "the," "think," and "that"' },
+  { id: 'cherek',  letter: 'ch', render: 'ç', name: 'Cherek', hints: [
+    { type: 'sound', text: 'Looks like K (Krill) -- add a breath for CH' },
+    { type: 'sound', text: 'The CH in "chair" and "church"' },
+  ]},
+  { id: 'enth',    letter: 'ae', render: 'æ', name: 'Enth', hints: [
+    { type: 'shape', text: 'A circle split in half -- say it like "aesthetic"' },
+    { type: 'shape', text: 'A target with a line through the bullseye -- AE for "aiming"' },
+  ]},
+  { id: 'onith',   letter: 'eo', render: 'ë', name: 'Onith', hints: [
+    { type: 'shape', text: 'A tent shape -- the EO in "neon"' },
+    { type: 'sound', text: 'Two vowels blended -- E and O together' },
+  ]},
+  { id: 'krenth',  letter: 'kh', render: 'ß', name: 'Krenth', hints: [
+    { type: 'shape', text: 'The dotted one -- a throaty K, like clearing your throat' },
+    { type: 'sound', text: 'Has dots that plain K doesn\'t -- extra dots, extra breath' },
+  ]},
+  { id: 'nen',     letter: 'ng', render: 'ñ', name: 'Nen', hints: [
+    { type: 'sound', text: 'Ends words like "ring" and "song"' },
+    { type: 'sound', text: 'The nasal NG sound -- hum it: "nnnng"' },
+  ]},
+  { id: 'orenth',  letter: 'oo', render: 'ö', name: 'Orenth', hints: [
+    { type: 'shape', text: 'A little window -- peek through and say "OOh"' },
+    { type: 'sound', text: 'A small square -- OO as in "moon" and "spoon"' },
+  ]},
+  { id: 'shen',    letter: 'sh', render: 'ø', name: 'Shen', hints: [
+    { type: 'shape', text: 'Two halves closing in -- SHh, be quiet' },
+    { type: 'sound', text: 'Parentheses facing each other -- SH as in "she" and "ship"' },
+  ]},
+  { id: 'thesh',   letter: 'th', render: 'þ', name: 'Thesh', hints: [
+    { type: 'sound', text: 'Starts "the," "think," and "that"' },
+    { type: 'sound', text: 'A T with extra flair -- the H adds breath to the T' },
+  ]},
 ];
 
 const ALL_CHARS = [...BASIC_CHARS, ...DIGRAPH_CHARS];
@@ -70,4 +172,25 @@ function toAurebeshText(str) {
 
 function getCharById(id) {
   return ALL_CHARS.find(c => c.id === id);
+}
+
+function getHintsForChar(ch, progressRecord) {
+  const hints = [...ch.hints];
+  if (progressRecord && progressRecord.customHint) {
+    hints.push({ type: 'custom', text: progressRecord.customHint });
+  }
+  return hints;
+}
+
+function getPinnedHintText(ch, progressRecord) {
+  const hints = getHintsForChar(ch, progressRecord);
+  if (!progressRecord || !progressRecord.pinnedHint) return hints[0].text;
+  if (progressRecord.pinnedHint.source === 'custom' && progressRecord.customHint) {
+    return progressRecord.customHint;
+  }
+  if (progressRecord.pinnedHint.source === 'curated') {
+    const idx = progressRecord.pinnedHint.index;
+    if (idx < ch.hints.length) return ch.hints[idx].text;
+  }
+  return hints[0].text;
 }
