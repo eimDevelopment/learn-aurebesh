@@ -1,12 +1,25 @@
 let drillQueue = [];
 let drillCurrent = null;
 let drillMode = 'choice';
+let drillLevel = 'letters';
 let drillSessionCorrect = 0;
 let drillSessionTotal = 0;
 let drillSessionStart = 0;
 let drillCurrentHintText = '';
 
 const CHOICE_THRESHOLD = 3;
+
+function isWordDrill() {
+  return drillLevel !== 'letters';
+}
+
+function getWordFromId(id) {
+  return id.split(':')[1];
+}
+
+function getWordLenFromLevel() {
+  return parseInt(drillLevel.replace('words', ''));
+}
 
 function initDrill() {
   document.getElementById('drill-type-input').addEventListener('keydown', (e) => {
@@ -15,9 +28,21 @@ function initDrill() {
 }
 
 async function showDrill() {
+  document.getElementById('drill-level-select').classList.remove('hidden');
+  document.getElementById('drill-card').classList.add('hidden');
+  document.getElementById('drill-feedback').classList.add('hidden');
+  document.getElementById('drill-choice-btns').classList.add('hidden');
+  document.getElementById('drill-type-area').classList.add('hidden');
+  document.getElementById('drill-complete').classList.add('hidden');
+  document.getElementById('drill-count').textContent = '';
+}
+
+async function startDrillLevel(level) {
+  drillLevel = level;
   drillSessionCorrect = 0;
   drillSessionTotal = 0;
   drillSessionStart = Date.now();
+  document.getElementById('drill-level-select').classList.add('hidden');
   await buildDrillQueue();
   drillNextCard();
 }
@@ -33,8 +58,24 @@ async function buildDrillQueue() {
   const learning = [];
   const fresh = [];
 
-  for (const group of LEARN_GROUPS) {
-    for (const id of group) {
+  if (drillLevel === 'letters') {
+    for (const group of LEARN_GROUPS) {
+      for (const id of group) {
+        const p = progressMap[id];
+        if (!p || p.status === 'new') {
+          fresh.push(id);
+        } else if (isDueForReview(p)) {
+          due.push(id);
+        } else if (p.status === 'learning') {
+          learning.push(id);
+        }
+      }
+    }
+  } else {
+    const wordLen = getWordLenFromLevel();
+    const words = getWordList(wordLen);
+    for (const word of words) {
+      const id = 'w' + wordLen + ':' + word;
       const p = progressMap[id];
       if (!p || p.status === 'new') {
         fresh.push(id);
@@ -53,7 +94,12 @@ async function buildDrillQueue() {
   drillQueue = [...due, ...learning, ...fresh];
 
   if (drillQueue.length === 0) {
-    drillQueue = ALL_CHARS.map(c => c.id);
+    if (drillLevel === 'letters') {
+      drillQueue = ALL_CHARS.map(c => c.id);
+    } else {
+      const wordLen = getWordLenFromLevel();
+      drillQueue = getWordList(wordLen).map(w => 'w' + wordLen + ':' + w);
+    }
     shuffleArray(drillQueue);
   }
 }
@@ -72,13 +118,24 @@ async function drillNextCard() {
   }
 
   drillCurrent = drillQueue.shift();
-  const ch = getCharById(drillCurrent);
 
   let record = await getProgress(drillCurrent);
   drillMode = (record && record.consecutiveCorrect >= CHOICE_THRESHOLD) ? 'type' : 'choice';
-  drillCurrentHintText = getPinnedHintText(ch, record);
 
-  document.getElementById('drill-glyph').textContent = ch.render;
+  const glyphEl = document.getElementById('drill-glyph');
+
+  if (isWordDrill()) {
+    const word = getWordFromId(drillCurrent);
+    glyphEl.textContent = toAurebeshText(word);
+    glyphEl.classList.add('word-glyph');
+    drillCurrentHintText = '';
+  } else {
+    const ch = getCharById(drillCurrent);
+    glyphEl.textContent = ch.render;
+    glyphEl.classList.remove('word-glyph');
+    drillCurrentHintText = getPinnedHintText(ch, record);
+  }
+
   document.getElementById('drill-card').classList.remove('hidden');
   document.getElementById('drill-count').textContent = `${drillQueue.length} remaining`;
 
@@ -88,7 +145,11 @@ async function drillNextCard() {
   document.getElementById('drill-complete').classList.add('hidden');
 
   if (drillMode === 'choice') {
-    showChoiceMode(ch);
+    if (isWordDrill()) {
+      showWordChoiceMode(getWordFromId(drillCurrent));
+    } else {
+      showChoiceMode(getCharById(drillCurrent));
+    }
   } else {
     showTypeMode();
   }
@@ -134,32 +195,87 @@ async function drillPickChoice(isCorrect, correct, btn, container) {
   setTimeout(() => drillNextCard(), 1200);
 }
 
+function showWordChoiceMode(correctWord) {
+  const wordLen = getWordLenFromLevel();
+  const allWords = getWordList(wordLen);
+  const others = allWords.filter(w => w !== correctWord);
+  shuffleArray(others);
+  const options = [correctWord, others[0], others[1], others[2]];
+  shuffleArray(options);
+
+  const container = document.getElementById('drill-choice-btns');
+  container.innerHTML = '';
+  container.classList.remove('hidden');
+
+  for (const word of options) {
+    const btn = document.createElement('button');
+    btn.className = 'btn-choice';
+    btn.textContent = word.toUpperCase();
+    btn.addEventListener('click', () => drillPickWordChoice(word === correctWord, correctWord, btn, container));
+    container.appendChild(btn);
+  }
+}
+
+async function drillPickWordChoice(isCorrect, correctWord, btn, container) {
+  const buttons = container.querySelectorAll('.btn-choice');
+  buttons.forEach(b => { b.disabled = true; });
+
+  if (isCorrect) {
+    btn.classList.add('correct');
+    showWordFeedback(true, correctWord);
+    await recordDrillAnswer(1);
+  } else {
+    btn.classList.add('incorrect');
+    buttons.forEach(b => {
+      if (b.textContent === correctWord.toUpperCase()) b.classList.add('correct');
+    });
+    showWordFeedback(false, correctWord);
+    await recordDrillAnswer(0);
+  }
+
+  setTimeout(() => drillNextCard(), 1200);
+}
+
 function showTypeMode() {
   const area = document.getElementById('drill-type-area');
   area.classList.remove('hidden');
   const input = document.getElementById('drill-type-input');
   input.value = '';
+  input.placeholder = isWordDrill() ? 'Type the word...' : 'Type the letter...';
   input.focus();
 }
 
 async function drillSubmitTyped() {
   const input = document.getElementById('drill-type-input');
   const answer = input.value.trim().toLowerCase();
-  const ch = getCharById(drillCurrent);
-
   if (!answer) return;
 
   input.disabled = true;
+  let isCorrect;
 
-  if (answer === ch.letter) {
-    input.classList.add('correct');
-    showFeedback(true, ch);
-    await recordDrillAnswer(1);
+  if (isWordDrill()) {
+    const correctWord = getWordFromId(drillCurrent);
+    isCorrect = (answer === correctWord);
+    if (isCorrect) {
+      input.classList.add('correct');
+      showWordFeedback(true, correctWord);
+    } else {
+      input.classList.add('incorrect');
+      showWordFeedback(false, correctWord);
+    }
   } else {
-    input.classList.add('incorrect');
-    showFeedback(false, ch);
-    await recordDrillAnswer(0);
+    const ch = getCharById(drillCurrent);
+    isCorrect = (answer === ch.letter);
+    if (isCorrect) {
+      input.classList.add('correct');
+      showFeedback(true, ch);
+    } else {
+      input.classList.add('incorrect');
+      showFeedback(false, ch);
+    }
   }
+
+  await recordDrillAnswer(isCorrect ? 1 : 0);
 
   setTimeout(() => {
     input.disabled = false;
@@ -183,6 +299,20 @@ function showFeedback(correct, ch) {
     hint.textContent = drillCurrentHintText;
     fb.appendChild(main);
     fb.appendChild(hint);
+  }
+}
+
+function showWordFeedback(correct, word) {
+  const fb = document.getElementById('drill-feedback');
+  fb.textContent = '';
+  if (correct) {
+    fb.textContent = 'Correct!';
+    fb.className = 'drill-feedback feedback-correct';
+  } else {
+    fb.className = 'drill-feedback feedback-incorrect';
+    const main = document.createElement('div');
+    main.textContent = word.toUpperCase();
+    fb.appendChild(main);
   }
 }
 
@@ -224,6 +354,7 @@ async function drillShowComplete() {
   await saveSession({
     date: new Date().toISOString(),
     mode: 'drill',
+    level: drillLevel,
     duration: elapsed,
     correctCount: drillSessionCorrect,
     totalCount: drillSessionTotal,

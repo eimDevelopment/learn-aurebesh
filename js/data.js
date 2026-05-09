@@ -142,6 +142,80 @@ const DIGRAPH_CHARS = [
 
 const ALL_CHARS = [...BASIC_CHARS, ...DIGRAPH_CHARS];
 
+const DIGRAPHS = ['ch', 'sh', 'th', 'ae', 'eo', 'kh', 'ng', 'oo'];
+
+function containsDigraph(word) {
+  const w = word.toLowerCase();
+  return DIGRAPHS.some(d => w.includes(d));
+}
+
+const WORD_LISTS = {
+  2: [
+    'am', 'an', 'as', 'at', 'be', 'by', 'do', 'go', 'he', 'if',
+    'in', 'is', 'it', 'me', 'my', 'no', 'of', 'on', 'or', 'up',
+  ],
+  3: [
+    'act', 'add', 'age', 'all', 'and', 'arm', 'art', 'bad', 'bed', 'big',
+    'box', 'boy', 'bug', 'bus', 'but', 'can', 'car', 'cat', 'cup', 'cut',
+    'day', 'did', 'dig', 'dog', 'dry', 'ear', 'eat', 'egg', 'end', 'eye',
+    'fan', 'far', 'fat', 'fix', 'fly', 'for', 'fox', 'fun', 'gas', 'get',
+    'god', 'got', 'gun', 'guy', 'gym', 'had', 'ham', 'hat', 'her', 'him',
+    'hit', 'hot', 'how', 'ice', 'its', 'jam', 'jar', 'jaw', 'jet', 'job',
+    'joy', 'key', 'kid', 'law', 'leg', 'let', 'lie', 'lip', 'log', 'lot',
+    'low', 'mad', 'man', 'map', 'men', 'mix', 'mud', 'net', 'new', 'nor',
+    'not', 'now', 'nut', 'odd', 'off', 'oil', 'old', 'one', 'our', 'out',
+    'own', 'pay', 'pet', 'pie', 'pig', 'pin', 'pit', 'pop', 'pot', 'put',
+    'ran', 'raw', 'red', 'rid', 'rob', 'rod', 'row', 'run', 'sad', 'sat',
+    'saw', 'say', 'sea', 'set', 'sir', 'sit', 'six', 'sky', 'son', 'spy',
+    'sum', 'sun', 'ten', 'tie', 'tip', 'top', 'try', 'two', 'use', 'van',
+    'war', 'was', 'way', 'web', 'wet', 'win', 'yes', 'yet', 'you',
+  ],
+  4: [
+    'able', 'army', 'away', 'baby', 'back', 'ball', 'band', 'bank', 'base',
+    'bear', 'beat', 'bell', 'best', 'bill', 'bird', 'blue', 'body', 'bone',
+    'born', 'burn', 'busy', 'call', 'calm', 'camp', 'card', 'care', 'city',
+    'club', 'cold', 'come', 'copy', 'crew', 'dark', 'data', 'dead', 'deal',
+    'deep', 'deny', 'dirt', 'down', 'draw', 'drop', 'drug', 'dust', 'duty',
+    'earn', 'east', 'edge', 'else', 'evil', 'exit', 'face', 'fact', 'fail',
+    'fair', 'fall', 'farm', 'fast', 'fear', 'feed', 'feel', 'fill', 'film',
+    'find', 'fire', 'firm', 'five', 'flat', 'flip', 'flow', 'fold', 'form',
+    'four', 'free', 'from', 'fuel', 'full', 'fund', 'gain', 'game', 'gave',
+    'gift', 'girl', 'give', 'glad', 'goal', 'gold', 'golf', 'grab', 'gray',
+    'grew', 'grow', 'gulf', 'hair', 'half', 'hall', 'hand', 'hate', 'have',
+    'hear', 'heat', 'help', 'here', 'hero', 'hide', 'hill', 'hire', 'hold',
+    'hole', 'holy', 'home', 'hope', 'host', 'hurt', 'idea', 'iron', 'item',
+    'jack', 'join', 'joke', 'jury', 'just', 'keen', 'keep', 'kept', 'kill',
+    'kind', 'knew', 'lady', 'laid', 'lake', 'land', 'last', 'late', 'lawn',
+    'lead', 'left', 'less', 'life', 'lift', 'like', 'line', 'link', 'list',
+    'live', 'load', 'loan', 'lock', 'lord', 'lose', 'loss', 'lost', 'love',
+    'luck', 'made', 'mail', 'main', 'make', 'male', 'many', 'mark', 'mass',
+    'meet', 'mile', 'milk', 'mind', 'mine', 'miss', 'mode', 'more', 'most',
+    'move', 'must', 'name', 'navy', 'near', 'neat', 'neck', 'need', 'news',
+    'next', 'nice', 'nine', 'nose', 'note', 'obey', 'only', 'open', 'over',
+    'paid', 'pair', 'palm', 'park', 'part', 'pass', 'past', 'peak', 'pick',
+    'pile', 'pipe', 'plan', 'play', 'plot', 'plus', 'poll', 'port', 'pour',
+    'pray', 'pull', 'pump', 'pure', 'quit', 'race', 'rain', 'rank', 'rare',
+    'rate', 'read', 'real', 'rear', 'rely', 'rent', 'rest', 'rice', 'ride',
+    'rise', 'risk', 'road', 'rock', 'role', 'roll', 'rope', 'rule', 'safe',
+    'said', 'sale', 'salt', 'same', 'sand', 'save', 'seat', 'seed', 'seek',
+    'seem', 'self', 'sell', 'send', 'side', 'sign', 'site', 'size', 'skin',
+    'slip', 'slow', 'snap', 'snow', 'soft', 'soil', 'sold', 'some', 'sort',
+    'soul', 'spin', 'spot', 'star', 'stay', 'stem', 'step', 'stop', 'suit',
+    'sure', 'swim', 'tail', 'take', 'talk', 'tall', 'tank', 'tape', 'task',
+    'team', 'tear', 'tell', 'term', 'test', 'text', 'time', 'tiny', 'tire',
+    'told', 'tone', 'torn', 'tour', 'town', 'trap', 'tree', 'trip', 'true',
+    'tube', 'turn', 'twin', 'type', 'unit', 'upon', 'used', 'vast', 'very',
+    'vote', 'wait', 'wake', 'walk', 'wall', 'want', 'warm', 'warn', 'wave',
+    'weak', 'wear', 'week', 'well', 'went', 'west', 'wide', 'wife', 'wild',
+    'will', 'wind', 'wine', 'wire', 'wise', 'woke', 'wolf', 'word', 'wore',
+    'work', 'worn', 'wrap', 'yard', 'year', 'zero', 'zone',
+  ],
+};
+
+function getWordList(length) {
+  return WORD_LISTS[length] || [];
+}
+
 const LEARN_GROUPS = [
   ['esk', 'trill', 'aurek'],
   ['osk', 'isk', 'nern'],

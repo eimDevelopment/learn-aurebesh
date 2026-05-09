@@ -41,7 +41,13 @@
 
     <!-- Drill screen -->
     <div id="screen-drill" class="screen hidden">
-      <div id="drill-card" class="drill-card">
+      <div id="drill-level-select" class="drill-level-select">
+        <button class="btn-level" onclick="startDrillLevel('letters')">Letters</button>
+        <button class="btn-level" onclick="startDrillLevel('words2')">2-Letter Words</button>
+        <button class="btn-level" onclick="startDrillLevel('words3')">3-Letter Words</button>
+        <button class="btn-level" onclick="startDrillLevel('words4')">4-Letter Words</button>
+      </div>
+      <div id="drill-card" class="drill-card hidden">
         <div id="drill-glyph" class="drill-glyph aurebesh"></div>
       </div>
       <div id="drill-feedback" class="drill-feedback hidden"></div>
@@ -54,7 +60,10 @@
       <div id="drill-complete" class="drill-complete hidden">
         <div class="drill-complete-title">Session Complete</div>
         <div id="drill-complete-stats" class="drill-complete-stats"></div>
-        <button class="btn btn-reveal" onclick="drillRestart()">Drill Again</button>
+        <div class="drill-complete-actions">
+          <button class="btn btn-reveal" onclick="drillRestart()">Drill Again</button>
+          <button class="btn btn-level-back" onclick="showDrill()">Other Levels</button>
+        </div>
       </div>
     </div>
 
@@ -79,11 +88,11 @@
     </nav>
   </div>
 
-  <script src="js/data.js?v=12"></script>
-  <script src="js/db.js?v=12"></script>
-  <script src="js/srs.js?v=12"></script>
-  <script src="js/learn.js?v=12"></script>
-  <script src="js/drill.js?v=12"></script>
-  <script src="js/app.js?v=12"></script>
+  <script src="js/data.js?v=13"></script>
+  <script src="js/db.js?v=13"></script>
+  <script src="js/srs.js?v=13"></script>
+  <script src="js/learn.js?v=13"></script>
+  <script src="js/drill.js?v=13"></script>
+  <script src="js/app.js?v=13"></script>
 </body>
 </html>

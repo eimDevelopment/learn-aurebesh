@@ -66,10 +66,10 @@ function saveSession(session) {
 }
 
 function makeDefaultProgress(charId) {
-  const ch = getCharById(charId);
+  const letter = charId.includes(':') ? charId.split(':')[1] : (getCharById(charId)?.letter || '');
   return {
     charId: charId,
-    letter: ch ? ch.letter : '',
+    letter: letter,
     status: 'new',
     easeFactor: 2.5,
     interval: 0,
