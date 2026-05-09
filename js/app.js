@@ -50,7 +50,6 @@ function initReference() {
   const sorted = [...ALL_CHARS].sort((a, b) => a.letter.localeCompare(b.letter));
 
   for (const ch of sorted) {
-
       const card = document.createElement('div');
       card.className = 'ref-card';
 
@@ -70,6 +69,43 @@ function initReference() {
       card.appendChild(letter);
       card.appendChild(name);
       grid.appendChild(card);
+  }
+
+  const list = document.getElementById('confusable-list');
+  list.innerHTML = '';
+
+  for (const pair of CONFUSABLE_PAIRS) {
+    const row = document.createElement('div');
+    row.className = 'confusable-row';
+
+    const glyphs = document.createElement('div');
+    glyphs.className = 'confusable-glyphs';
+
+    for (const id of pair.ids) {
+      const ch = getCharById(id);
+      const item = document.createElement('div');
+      item.className = 'confusable-item';
+
+      const g = document.createElement('div');
+      g.className = 'confusable-glyph aurebesh';
+      g.textContent = ch.render;
+
+      const lbl = document.createElement('div');
+      lbl.className = 'confusable-label';
+      lbl.textContent = ch.letter.toUpperCase();
+
+      item.appendChild(g);
+      item.appendChild(lbl);
+      glyphs.appendChild(item);
+    }
+
+    const tip = document.createElement('div');
+    tip.className = 'confusable-tip';
+    tip.textContent = pair.tip;
+
+    row.appendChild(glyphs);
+    row.appendChild(tip);
+    list.appendChild(row);
   }
 }
 

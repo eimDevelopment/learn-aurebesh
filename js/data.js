@@ -240,6 +240,14 @@ function toAurebeshText(str) {
   return result;
 }
 
+const CONFUSABLE_PAIRS = [
+  { ids: ['dorn', 'resh'], tip: 'D has a flat top and drops straight down. R has a slanted top like a ramp.' },
+  { ids: ['krill', 'cherek', 'qek'], tip: 'K is a wide curve with a tail. CH is a simple backwards C. Q is a thin crescent.' },
+  { ids: ['osk', 'xesh'], tip: 'O is a plain triangle. X has a line through the middle.' },
+  { ids: ['nern', 'senth'], tip: 'N has rounded zigzags (needle stitches). S has sharp pointed zigzags (saw teeth).' },
+  { ids: ['mern', 'zerek'], tip: 'M is a wide open angle. Z is a tight step shape.' },
+];
+
 function getCharById(id) {
   return ALL_CHARS.find(c => c.id === id);
 }
