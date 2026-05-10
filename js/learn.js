@@ -156,6 +156,15 @@ function renderHint() {
         showCustomHintInput();
         return;
       }
+      if (type === 'transform' && currentHintIndex === i) {
+        const ch = learnChars[learnIndex];
+        const svg = document.getElementById('learn-glyph').querySelector('svg');
+        if (svg && GLYPH_TRANSFORMS[ch.id]) {
+          inlineTransformRunning = false;
+          playGlyphTransform(GLYPH_TRANSFORMS[ch.id], svg);
+        }
+        return;
+      }
       currentHintIndex = i;
       renderHint();
       hideCustomInput();
@@ -460,8 +469,8 @@ function setupGlyphTransform(ch, glyphEl) {
 
   const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
   svg.setAttribute('viewBox', '0 0 100 100');
-  svg.style.width = '100%';
-  svg.style.height = '100%';
+  svg.style.width = '120px';
+  svg.style.height = '120px';
   glyphEl.appendChild(svg);
 
   for (const def of anim.lines) {
@@ -475,10 +484,6 @@ function setupGlyphTransform(ch, glyphEl) {
     line.setAttribute('stroke-linecap', 'butt');
     svg.appendChild(line);
   }
-
-  setTimeout(() => {
-    playGlyphTransform(anim, svg);
-  }, 500);
 }
 
 function playGlyphTransform(anim, svg) {
