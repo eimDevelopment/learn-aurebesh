@@ -11,6 +11,7 @@ const CHOICE_THRESHOLD = 3;
 let selectedLevel = null;
 let selectedWordLen = null;
 let selectedWordTier = null;
+let selectedDrillMode = 'auto';
 
 function isWordDrill() {
   return drillLevel !== 'letters' && drillLevel !== 'similar';
@@ -51,7 +52,11 @@ function clearDrillSelection() {
   selectedLevel = null;
   selectedWordLen = null;
   selectedWordTier = null;
+  selectedDrillMode = 'auto';
   document.querySelectorAll('#drill-level-select .selected').forEach(el => el.classList.remove('selected'));
+  document.querySelectorAll('#drill-mode-row .btn-pick').forEach((el, i) => {
+    el.classList.toggle('selected', i === 0);
+  });
   document.getElementById('drill-start-row').classList.add('hidden');
 }
 
@@ -79,6 +84,12 @@ function selectWordTier(tier) {
   document.querySelectorAll('#drill-tier-row .btn-pick').forEach(el => el.classList.remove('selected'));
   event.target.classList.add('selected');
   updateStartRow();
+}
+
+function selectDrillMode(mode) {
+  selectedDrillMode = mode;
+  document.querySelectorAll('#drill-mode-row .btn-pick').forEach(el => el.classList.remove('selected'));
+  event.target.classList.add('selected');
 }
 
 function updateStartRow() {
@@ -199,7 +210,11 @@ async function drillNextCard() {
   drillCurrent = drillQueue.shift();
 
   let record = await getProgress(drillCurrent);
-  drillMode = (record && record.consecutiveCorrect >= CHOICE_THRESHOLD) ? 'type' : 'choice';
+  if (selectedDrillMode === 'auto') {
+    drillMode = (record && record.consecutiveCorrect >= CHOICE_THRESHOLD) ? 'type' : 'choice';
+  } else {
+    drillMode = selectedDrillMode;
+  }
 
   const glyphEl = document.getElementById('drill-glyph');
 
