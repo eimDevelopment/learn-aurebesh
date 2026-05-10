@@ -304,7 +304,7 @@ function renderCompare(ch) {
 const GLYPH_TRANSFORMS = {
   xesh: {
     render: 'x',
-    desc: 'Drop the base, spread the legs -- the triangle opens into an X',
+    desc: 'Remove the base and the two sides cross to form an X',
     lines: [
       { x1: 22, y1: 82, x2: 50, y2: 20 },
       { x1: 50, y1: 20, x2: 78, y2: 82 },
