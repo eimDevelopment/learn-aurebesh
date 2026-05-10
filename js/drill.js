@@ -53,10 +53,13 @@ function clearDrillSelection() {
   selectedWordLen = null;
   selectedWordTier = null;
   selectedDrillMode = 'auto';
-  document.querySelectorAll('#drill-level-select .selected').forEach(el => el.classList.remove('selected'));
+  document.querySelectorAll('#drill-level-select .btn-level').forEach(el => el.classList.remove('selected'));
+  document.querySelectorAll('#drill-word-options .btn-pick').forEach(el => el.classList.remove('selected'));
   document.querySelectorAll('#drill-mode-row .btn-pick').forEach((el, i) => {
     el.classList.toggle('selected', i === 2);
   });
+  document.getElementById('drill-word-options').classList.add('hidden');
+  document.getElementById('drill-mode-picker').classList.add('hidden');
   document.getElementById('drill-start-row').classList.add('hidden');
 }
 
@@ -64,15 +67,23 @@ function selectDrillLevel(level) {
   selectedLevel = level;
   selectedWordLen = null;
   selectedWordTier = null;
-  document.querySelectorAll('#drill-level-select .selected').forEach(el => el.classList.remove('selected'));
+  document.querySelectorAll('#drill-level-select .btn-level').forEach(el => el.classList.remove('selected'));
+  document.querySelectorAll('#drill-word-options .btn-pick').forEach(el => el.classList.remove('selected'));
   event.target.classList.add('selected');
-  updateStartRow();
+
+  if (level === 'words') {
+    document.getElementById('drill-word-options').classList.remove('hidden');
+    document.getElementById('drill-mode-picker').classList.remove('hidden');
+    document.getElementById('drill-start-row').classList.add('hidden');
+  } else {
+    document.getElementById('drill-word-options').classList.add('hidden');
+    document.getElementById('drill-mode-picker').classList.remove('hidden');
+    updateStartRow();
+  }
 }
 
 function selectWordLen(len) {
-  selectedLevel = null;
   selectedWordLen = len;
-  document.querySelectorAll('#drill-level-select .btn-level').forEach(el => el.classList.remove('selected'));
   document.querySelectorAll('#drill-len-row .btn-pick').forEach(el => el.classList.remove('selected'));
   event.target.classList.add('selected');
   updateStartRow();
@@ -80,7 +91,6 @@ function selectWordLen(len) {
 
 function selectWordTier(tier) {
   selectedWordTier = tier;
-  document.querySelectorAll('#drill-level-select .btn-level').forEach(el => el.classList.remove('selected'));
   document.querySelectorAll('#drill-tier-row .btn-pick').forEach(el => el.classList.remove('selected'));
   event.target.classList.add('selected');
   updateStartRow();
@@ -102,7 +112,7 @@ function updateStartRow() {
   } else if (selectedLevel === 'similar') {
     info.textContent = 'Confused pairs';
     startRow.classList.remove('hidden');
-  } else if (selectedWordLen && selectedWordTier) {
+  } else if (selectedLevel === 'words' && selectedWordLen && selectedWordTier) {
     info.textContent = SESSION_SIZES[selectedWordTier] + ' cards';
     startRow.classList.remove('hidden');
   } else {
@@ -112,9 +122,9 @@ function updateStartRow() {
 
 async function startSelectedDrill() {
   let level;
-  if (selectedLevel) {
+  if (selectedLevel === 'letters' || selectedLevel === 'similar') {
     level = selectedLevel;
-  } else if (selectedWordLen && selectedWordTier) {
+  } else if (selectedLevel === 'words' && selectedWordLen && selectedWordTier) {
     level = 'words' + selectedWordLen + '-' + selectedWordTier;
   } else {
     return;

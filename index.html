@@ -4,13 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Aurebesh Learner</title>
-  <link rel="stylesheet" href="css/fonts.css?v=38">
-  <link rel="stylesheet" href="css/style.css?v=38">
+  <link rel="stylesheet" href="css/fonts.css?v=39">
+  <link rel="stylesheet" href="css/style.css?v=39">
 </head>
 <body>
   <div class="app">
     <header class="header">
-      <h1>AUREBESH</h1>
+      <h1>LEARN AUREBESH</h1>
     </header>
 
     <!-- Learn screen -->
@@ -56,7 +56,8 @@
       <div id="drill-level-select" class="drill-level-select">
         <button class="btn-level" onclick="selectDrillLevel('letters')">Letters</button>
         <button class="btn-level" onclick="selectDrillLevel('similar')">Similar Letters</button>
-        <div class="drill-picker">
+        <button class="btn-level" onclick="selectDrillLevel('words')">Words</button>
+        <div id="drill-word-options" class="drill-picker hidden">
           <div class="drill-picker-label">Word Length</div>
           <div class="drill-picker-row" id="drill-len-row">
             <button class="btn-pick" onclick="selectWordLen(2)">2</button>
@@ -73,7 +74,7 @@
             <button class="btn-pick" onclick="selectWordTier(3)">Hard</button>
           </div>
         </div>
-        <div class="drill-picker">
+        <div id="drill-mode-picker" class="drill-picker hidden">
           <div class="drill-picker-label">Mode</div>
           <div class="drill-picker-row" id="drill-mode-row">
             <button class="btn-pick" onclick="selectDrillMode('choice')">Multiple Choice</button>
@@ -131,11 +132,11 @@
     </nav>
   </div>
 
-  <script src="js/data.js?v=38"></script>
-  <script src="js/db.js?v=38"></script>
-  <script src="js/srs.js?v=38"></script>
-  <script src="js/learn.js?v=38"></script>
-  <script src="js/drill.js?v=38"></script>
-  <script src="js/app.js?v=38"></script>
+  <script src="js/data.js?v=39"></script>
+  <script src="js/db.js?v=39"></script>
+  <script src="js/srs.js?v=39"></script>
+  <script src="js/learn.js?v=39"></script>
+  <script src="js/drill.js?v=39"></script>
+  <script src="js/app.js?v=39"></script>
 </body>
 </html>
