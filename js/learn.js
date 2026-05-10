@@ -156,15 +156,6 @@ function renderHint() {
         showCustomHintInput();
         return;
       }
-      if (type === 'transform' && currentHintIndex === i) {
-        const ch = learnChars[learnIndex];
-        const svg = document.getElementById('learn-glyph').querySelector('svg');
-        if (svg && GLYPH_TRANSFORMS[ch.id]) {
-          inlineTransformRunning = false;
-          playGlyphTransform(GLYPH_TRANSFORMS[ch.id], svg);
-        }
-        return;
-      }
       currentHintIndex = i;
       renderHint();
       hideCustomInput();
@@ -330,16 +321,16 @@ const GLYPH_TRANSFORMS = {
     render: 'x',
     desc: 'Remove the bottom line and cross the top two lines to form an X',
     lines: [
-      { x1: 22, y1: 82, x2: 50, y2: 20 },
-      { x1: 50, y1: 20, x2: 78, y2: 82 },
-      { x1: 22, y1: 82, x2: 78, y2: 82 },
+      { x1: 20, y1: 82, x2: 50, y2: 18 },
+      { x1: 50, y1: 18, x2: 80, y2: 82 },
+      { x1: 20, y1: 82, x2: 80, y2: 82 },
     ],
-    strokeWidth: 10,
+    strokeWidth: 13,
     phases: [
       { duration: 400, delay: 200, changes: { 2: { opacity: 0 } } },
       { duration: 600, delay: 300, changes: {
-        0: { x1: 26, y1: 74, x2: 74, y2: 26 },
-        1: { x1: 26, y1: 26, x2: 74, y2: 74 },
+        0: { x1: 25, y1: 75, x2: 75, y2: 25 },
+        1: { x1: 25, y1: 25, x2: 75, y2: 75 },
       }},
     ],
   },
@@ -484,6 +475,16 @@ function setupGlyphTransform(ch, glyphEl) {
     line.setAttribute('stroke-linecap', 'butt');
     svg.appendChild(line);
   }
+
+  svg.style.cursor = 'pointer';
+  svg.addEventListener('click', () => {
+    inlineTransformRunning = false;
+    playGlyphTransform(anim, svg);
+  });
+
+  setTimeout(() => {
+    playGlyphTransform(anim, svg);
+  }, 500);
 }
 
 function playGlyphTransform(anim, svg) {

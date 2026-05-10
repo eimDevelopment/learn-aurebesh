@@ -92,8 +92,9 @@ const BASIC_CHARS = [
     { type: 'story', text: 'A Window frame -- W for Window' },
   ]},
   { id: 'xesh',   letter: 'x', render: 'x', name: 'Xesh', hints: [
+    { type: 'shape', text: 'The two sides are the strokes of an X, pushed together at the peak' },
     { type: 'transform', text: 'Remove the bottom line and cross the top two to form an X' },
-    { type: 'story', text: 'X marks the spot -- the peak is where to dig' },
+    { type: 'story', text: 'A tent made from two X sticks leaning together' },
   ]},
   { id: 'yirt',   letter: 'y', render: 'y', name: 'Yirt', hints: [
     { type: 'shape', text: 'An upside-down Y -- the fork points up' },
