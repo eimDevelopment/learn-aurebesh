@@ -55,7 +55,7 @@ function clearDrillSelection() {
   selectedDrillMode = 'auto';
   document.querySelectorAll('#drill-level-select .selected').forEach(el => el.classList.remove('selected'));
   document.querySelectorAll('#drill-mode-row .btn-pick').forEach((el, i) => {
-    el.classList.toggle('selected', i === 0);
+    el.classList.toggle('selected', i === 2);
   });
   document.getElementById('drill-start-row').classList.add('hidden');
 }
