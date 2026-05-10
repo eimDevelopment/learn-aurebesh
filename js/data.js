@@ -265,20 +265,10 @@ const WORD_LISTS = {
   ],
 };
 
-const WORD_TIERS = {
-  2: [7, 14, 20],
-  3: [15, 45, 139],
-  4: [20, 60, 340],
-  5: [25, 75, 424],
-};
+const SESSION_SIZES = { 1: 10, 2: 20, 3: 30 };
 
-function getWordList(length, tier) {
-  const list = WORD_LISTS[length] || [];
-  if (!tier) return list;
-  const tiers = WORD_TIERS[length];
-  if (!tiers) return list;
-  const count = tiers[tier - 1] || list.length;
-  return list.slice(0, count);
+function getWordList(length) {
+  return WORD_LISTS[length] || [];
 }
 
 const LEARN_GROUPS = [

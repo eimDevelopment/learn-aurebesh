@@ -92,8 +92,7 @@ function updateStartRow() {
     info.textContent = 'Confused pairs';
     startRow.classList.remove('hidden');
   } else if (selectedWordLen && selectedWordTier) {
-    const count = getWordList(selectedWordLen, selectedWordTier).length;
-    info.textContent = count + ' words';
+    info.textContent = SESSION_SIZES[selectedWordTier] + ' cards';
     startRow.classList.remove('hidden');
   } else {
     startRow.classList.add('hidden');
@@ -145,8 +144,7 @@ async function buildDrillQueue() {
     }
   } else {
     const wordLen = getWordLenFromLevel();
-    const tier = getWordTierFromLevel();
-    const words = getWordList(wordLen, tier);
+    const words = getWordList(wordLen);
     for (const word of words) {
       const id = 'w' + wordLen + ':' + word;
       const p = progressMap[id];
@@ -173,15 +171,15 @@ async function buildDrillQueue() {
       drillQueue = ALL_CHARS.map(c => c.id);
     } else {
       const wordLen = getWordLenFromLevel();
-      const tier = getWordTierFromLevel();
-      drillQueue = getWordList(wordLen, tier).map(w => 'w' + wordLen + ':' + w);
+      drillQueue = getWordList(wordLen).map(w => 'w' + wordLen + ':' + w);
     }
     shuffleArray(drillQueue);
   }
 
-  const SESSION_LIMIT = 10;
-  if (drillQueue.length > SESSION_LIMIT) {
-    drillQueue = drillQueue.slice(0, SESSION_LIMIT);
+  const tier = isWordDrill() ? getWordTierFromLevel() : 1;
+  const sessionLimit = SESSION_SIZES[tier] || 10;
+  if (drillQueue.length > sessionLimit) {
+    drillQueue = drillQueue.slice(0, sessionLimit);
   }
 }
 
@@ -294,8 +292,7 @@ async function drillPickChoice(isCorrect, correct, btn, container) {
 
 function showWordChoiceMode(correctWord) {
   const wordLen = getWordLenFromLevel();
-  const tier = getWordTierFromLevel();
-  const allWords = getWordList(wordLen, tier);
+  const allWords = getWordList(wordLen);
   const others = allWords.filter(w => w !== correctWord);
   const sameTwo = others.filter(w => w.length >= 2 && w[0] === correctWord[0] && w[1] === correctWord[1]);
   shuffleArray(sameTwo);
