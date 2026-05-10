@@ -333,9 +333,7 @@ function renderTransform() {
   const charId = transformChars[transformIndex];
   const anim = GLYPH_TRANSFORMS[charId];
 
-  const fontGlyph = document.getElementById('transform-font-glyph');
-  fontGlyph.textContent = anim.render;
-  fontGlyph.style.opacity = '1';
+  document.getElementById('transform-font-glyph').style.opacity = '0';
   transformRunning = false;
 
   let svg = document.querySelector('#transform-stage svg');
@@ -355,7 +353,6 @@ function renderTransform() {
     line.setAttribute('stroke', '#FFE81F');
     line.setAttribute('stroke-width', anim.strokeWidth);
     line.setAttribute('stroke-linecap', 'butt');
-    line.style.opacity = 0;
     svg.appendChild(line);
   }
 }
@@ -366,7 +363,6 @@ function playTransform() {
 
   const charId = transformChars[transformIndex];
   const anim = GLYPH_TRANSFORMS[charId];
-  const fontGlyph = document.getElementById('transform-font-glyph');
   const lines = document.querySelectorAll('#transform-stage svg line');
 
   anim.lines.forEach((def, i) => {
@@ -374,17 +370,12 @@ function playTransform() {
     lines[i].setAttribute('y1', def.y1);
     lines[i].setAttribute('x2', def.x2);
     lines[i].setAttribute('y2', def.y2);
+    lines[i].style.opacity = 1;
   });
 
-  fontGlyph.style.opacity = '0';
-
   setTimeout(() => {
-    anim.lines.forEach((_, i) => { lines[i].style.opacity = 1; });
-
-    setTimeout(() => {
-      runTransformAnimation(anim, lines);
-    }, 200);
-  }, 150);
+    runTransformAnimation(anim, lines);
+  }, 400);
 }
 
 function runTransformAnimation(anim, lines) {

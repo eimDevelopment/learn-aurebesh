@@ -273,7 +273,7 @@ html, body {
   font-size: 170px;
   color: var(--accent);
   line-height: 1;
-  transition: opacity 0.15s ease;
+  transition: none;
   z-index: 1;
 }
 
