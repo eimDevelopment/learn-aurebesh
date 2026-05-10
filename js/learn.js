@@ -312,8 +312,8 @@ const GLYPH_TRANSFORMS = {
     phases: [
       { duration: 400, delay: 200, changes: { 2: { opacity: 0 } } },
       { duration: 600, delay: 300, changes: {
-        0: { x1: 36, x2: 64 },
-        1: { x1: 36, x2: 64 },
+        0: { x1: 26, y1: 74, x2: 74, y2: 26 },
+        1: { x1: 26, y1: 26, x2: 74, y2: 74 },
       }},
     ],
   },
@@ -377,14 +377,11 @@ function playTransform() {
   });
 
   fontGlyph.style.opacity = '0';
+  anim.lines.forEach((_, i) => { lines[i].style.opacity = 1; });
 
   setTimeout(() => {
-    anim.lines.forEach((_, i) => { lines[i].style.opacity = 1; });
-
-    setTimeout(() => {
-      runTransformAnimation(anim, lines);
-    }, 200);
-  }, 200);
+    runTransformAnimation(anim, lines);
+  }, 300);
 }
 
 function runTransformAnimation(anim, lines) {
