@@ -126,7 +126,7 @@ const TYPE_LABELS = { shape: 'Shape', sound: 'Sound', story: 'Story', name: 'Nam
 function renderHint() {
   const hintEl = document.getElementById('learn-hint');
   const current = currentHints[currentHintIndex];
-  const transformArea = document.getElementById('learn-inline-transform');
+  const transformArea = document.getElementById('learn-transform-inline');
 
   if (current.type === 'transform') {
     hintEl.textContent = current.text;
@@ -448,7 +448,7 @@ function runTransformAnimation(anim, lines) {
 let inlineTransformRunning = false;
 
 function setupInlineTransform(ch) {
-  const stage = document.getElementById('learn-inline-stage');
+  const stage = document.getElementById('learn-transform-stage');
   const anim = GLYPH_TRANSFORMS[ch.id];
   if (!anim) return;
 
@@ -480,7 +480,7 @@ function playInlineTransform() {
   const anim = GLYPH_TRANSFORMS[ch.id];
   if (!anim) return;
 
-  const lines = document.querySelectorAll('#learn-inline-stage svg line');
+  const lines = document.querySelectorAll('#learn-transform-stage svg line');
 
   anim.lines.forEach((def, i) => {
     lines[i].setAttribute('x1', def.x1);

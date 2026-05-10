@@ -247,31 +247,31 @@ html, body {
   flex-shrink: 0;
 }
 
-/* Learn inline transform (on card) */
-.learn-inline-transform {
+/* Learn inline transform (in hint area) */
+.learn-transform-inline {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 16px;
-  margin-top: 12px;
+  gap: 12px;
+  margin-top: 8px;
 }
 
-.learn-inline-transform.hidden {
+.learn-transform-inline.hidden {
   display: none;
 }
 
-.learn-inline-stage {
-  width: 80px;
-  height: 80px;
+.learn-transform-stage {
+  width: 72px;
+  height: 72px;
   flex-shrink: 0;
 }
 
-.learn-inline-stage svg {
+.learn-transform-stage svg {
   width: 100%;
   height: 100%;
 }
 
-.btn-see-it {
+.btn-play-transform {
   background: var(--surface-light);
   border: none;
   color: var(--text);
@@ -282,7 +282,7 @@ html, body {
   cursor: pointer;
 }
 
-.btn-see-it:active {
+.btn-play-transform:active {
   background: var(--accent);
   color: var(--bg);
 }
