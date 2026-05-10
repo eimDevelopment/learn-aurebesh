@@ -311,9 +311,9 @@ const GLYPH_TRANSFORMS = {
     strokeWidth: 10,
     phases: [
       { duration: 400, delay: 200, changes: { 2: { opacity: 0 } } },
-      { duration: 700, delay: 300, changes: {
-        0: { x2: 78, y2: 18 },
-        1: { x1: 22, y1: 18 },
+      { duration: 600, delay: 300, changes: {
+        0: { x1: 36, x2: 64 },
+        1: { x1: 36, x2: 64 },
       }},
     ],
   },
