@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Aurebesh Learner</title>
-  <link rel="stylesheet" href="css/fonts.css?v=31">
-  <link rel="stylesheet" href="css/style.css?v=31">
+  <link rel="stylesheet" href="css/fonts.css?v=32">
+  <link rel="stylesheet" href="css/style.css?v=32">
 </head>
 <body>
   <div class="app">
@@ -54,39 +54,43 @@
     <!-- Drill screen -->
     <div id="screen-drill" class="screen hidden">
       <div id="drill-level-select" class="drill-level-select">
-        <button class="btn-level" onclick="startDrillLevel('letters')">Letters</button>
-        <button class="btn-level" onclick="startDrillLevel('similar')">Similar Letters</button>
+        <button class="btn-level" onclick="selectDrillLevel('letters')">Letters</button>
+        <button class="btn-level" onclick="selectDrillLevel('similar')">Similar Letters</button>
         <div class="word-level-group">
           <div class="word-level-label">2-Letter Words</div>
           <div class="word-level-tiers">
-            <button class="btn-tier" onclick="startDrillLevel('words2-1')">1</button>
-            <button class="btn-tier" onclick="startDrillLevel('words2-2')">2</button>
-            <button class="btn-tier" onclick="startDrillLevel('words2-3')">3</button>
+            <button class="btn-tier" onclick="selectDrillLevel('words2-1')">Easy</button>
+            <button class="btn-tier" onclick="selectDrillLevel('words2-2')">Med</button>
+            <button class="btn-tier" onclick="selectDrillLevel('words2-3')">All</button>
           </div>
         </div>
         <div class="word-level-group">
           <div class="word-level-label">3-Letter Words</div>
           <div class="word-level-tiers">
-            <button class="btn-tier" onclick="startDrillLevel('words3-1')">1</button>
-            <button class="btn-tier" onclick="startDrillLevel('words3-2')">2</button>
-            <button class="btn-tier" onclick="startDrillLevel('words3-3')">3</button>
+            <button class="btn-tier" onclick="selectDrillLevel('words3-1')">Easy</button>
+            <button class="btn-tier" onclick="selectDrillLevel('words3-2')">Med</button>
+            <button class="btn-tier" onclick="selectDrillLevel('words3-3')">All</button>
           </div>
         </div>
         <div class="word-level-group">
           <div class="word-level-label">4-Letter Words</div>
           <div class="word-level-tiers">
-            <button class="btn-tier" onclick="startDrillLevel('words4-1')">1</button>
-            <button class="btn-tier" onclick="startDrillLevel('words4-2')">2</button>
-            <button class="btn-tier" onclick="startDrillLevel('words4-3')">3</button>
+            <button class="btn-tier" onclick="selectDrillLevel('words4-1')">Easy</button>
+            <button class="btn-tier" onclick="selectDrillLevel('words4-2')">Med</button>
+            <button class="btn-tier" onclick="selectDrillLevel('words4-3')">All</button>
           </div>
         </div>
         <div class="word-level-group">
           <div class="word-level-label">5-Letter Words</div>
           <div class="word-level-tiers">
-            <button class="btn-tier" onclick="startDrillLevel('words5-1')">1</button>
-            <button class="btn-tier" onclick="startDrillLevel('words5-2')">2</button>
-            <button class="btn-tier" onclick="startDrillLevel('words5-3')">3</button>
+            <button class="btn-tier" onclick="selectDrillLevel('words5-1')">Easy</button>
+            <button class="btn-tier" onclick="selectDrillLevel('words5-2')">Med</button>
+            <button class="btn-tier" onclick="selectDrillLevel('words5-3')">All</button>
           </div>
+        </div>
+        <div id="drill-start-row" class="drill-start-row hidden">
+          <div id="drill-start-info" class="drill-start-info"></div>
+          <button class="btn btn-start-drill" onclick="startSelectedDrill()">Start Drill</button>
         </div>
       </div>
       <div id="drill-card" class="drill-card hidden">
@@ -134,11 +138,11 @@
     </nav>
   </div>
 
-  <script src="js/data.js?v=31"></script>
-  <script src="js/db.js?v=31"></script>
-  <script src="js/srs.js?v=31"></script>
-  <script src="js/learn.js?v=31"></script>
-  <script src="js/drill.js?v=31"></script>
-  <script src="js/app.js?v=31"></script>
+  <script src="js/data.js?v=32"></script>
+  <script src="js/db.js?v=32"></script>
+  <script src="js/srs.js?v=32"></script>
+  <script src="js/learn.js?v=32"></script>
+  <script src="js/drill.js?v=32"></script>
+  <script src="js/app.js?v=32"></script>
 </body>
 </html>

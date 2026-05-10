@@ -8,6 +8,7 @@ let drillSessionStart = 0;
 let drillCurrentHintText = '';
 
 const CHOICE_THRESHOLD = 3;
+let selectedLevel = null;
 
 function isWordDrill() {
   return drillLevel !== 'letters' && drillLevel !== 'similar';
@@ -41,10 +42,40 @@ async function showDrill() {
   document.getElementById('drill-type-area').classList.add('hidden');
   document.getElementById('drill-complete').classList.add('hidden');
   document.getElementById('drill-count').textContent = '';
+  clearDrillSelection();
 }
 
-async function startDrillLevel(level) {
-  drillLevel = level;
+function clearDrillSelection() {
+  selectedLevel = null;
+  document.querySelectorAll('#drill-level-select .selected').forEach(el => el.classList.remove('selected'));
+  document.getElementById('drill-start-row').classList.add('hidden');
+}
+
+function selectDrillLevel(level) {
+  selectedLevel = level;
+  document.querySelectorAll('#drill-level-select .btn-level, #drill-level-select .btn-tier').forEach(el => el.classList.remove('selected'));
+  event.target.classList.add('selected');
+
+  const startRow = document.getElementById('drill-start-row');
+  const info = document.getElementById('drill-start-info');
+
+  if (level === 'letters') {
+    info.textContent = 'All 26 letters';
+  } else if (level === 'similar') {
+    info.textContent = 'Commonly confused pairs';
+  } else {
+    const len = parseInt(level.replace('words', '').split('-')[0]);
+    const tier = parseInt(level.replace('words', '').split('-')[1]) || 3;
+    const count = getWordList(len, tier).length;
+    info.textContent = count + ' words';
+  }
+
+  startRow.classList.remove('hidden');
+}
+
+async function startSelectedDrill() {
+  if (!selectedLevel) return;
+  drillLevel = selectedLevel;
   drillSessionCorrect = 0;
   drillSessionTotal = 0;
   drillSessionStart = Date.now();

@@ -466,19 +466,50 @@ html, body {
 
 .btn-tier {
   background: var(--surface-light);
-  border: none;
+  border: 2px solid transparent;
   color: var(--text);
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 700;
-  width: 44px;
-  height: 44px;
+  padding: 8px 14px;
   border-radius: var(--radius);
   cursor: pointer;
 }
 
-.btn-tier:active {
+.btn-tier.selected,
+.btn-level.selected {
   background: var(--accent);
   color: var(--bg);
+  border-color: var(--accent);
+}
+
+.drill-start-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 12px;
+  padding: 14px 18px;
+  background: var(--surface);
+  border-radius: var(--radius);
+}
+
+.drill-start-row.hidden {
+  display: none;
+}
+
+.drill-start-info {
+  font-size: 16px;
+  color: var(--text-dim);
+}
+
+.btn-start-drill {
+  background: var(--accent);
+  color: var(--bg);
+  border: none;
+  border-radius: var(--radius);
+  padding: 12px 28px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
 }
 
 /* Drill screen */
