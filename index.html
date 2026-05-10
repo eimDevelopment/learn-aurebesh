@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Aurebesh Learner</title>
-  <link rel="stylesheet" href="css/fonts.css?v=32">
-  <link rel="stylesheet" href="css/style.css?v=32">
+  <link rel="stylesheet" href="css/fonts.css?v=33">
+  <link rel="stylesheet" href="css/style.css?v=33">
 </head>
 <body>
   <div class="app">
@@ -56,41 +56,24 @@
       <div id="drill-level-select" class="drill-level-select">
         <button class="btn-level" onclick="selectDrillLevel('letters')">Letters</button>
         <button class="btn-level" onclick="selectDrillLevel('similar')">Similar Letters</button>
-        <div class="word-level-group">
-          <div class="word-level-label">2-Letter Words</div>
-          <div class="word-level-tiers">
-            <button class="btn-tier" onclick="selectDrillLevel('words2-1')">Easy</button>
-            <button class="btn-tier" onclick="selectDrillLevel('words2-2')">Med</button>
-            <button class="btn-tier" onclick="selectDrillLevel('words2-3')">All</button>
+        <div class="drill-picker">
+          <div class="drill-picker-label">Word Length</div>
+          <div class="drill-picker-row" id="drill-len-row">
+            <button class="btn-pick" onclick="selectWordLen(2)">2</button>
+            <button class="btn-pick" onclick="selectWordLen(3)">3</button>
+            <button class="btn-pick" onclick="selectWordLen(4)">4</button>
+            <button class="btn-pick" onclick="selectWordLen(5)">5</button>
           </div>
-        </div>
-        <div class="word-level-group">
-          <div class="word-level-label">3-Letter Words</div>
-          <div class="word-level-tiers">
-            <button class="btn-tier" onclick="selectDrillLevel('words3-1')">Easy</button>
-            <button class="btn-tier" onclick="selectDrillLevel('words3-2')">Med</button>
-            <button class="btn-tier" onclick="selectDrillLevel('words3-3')">All</button>
-          </div>
-        </div>
-        <div class="word-level-group">
-          <div class="word-level-label">4-Letter Words</div>
-          <div class="word-level-tiers">
-            <button class="btn-tier" onclick="selectDrillLevel('words4-1')">Easy</button>
-            <button class="btn-tier" onclick="selectDrillLevel('words4-2')">Med</button>
-            <button class="btn-tier" onclick="selectDrillLevel('words4-3')">All</button>
-          </div>
-        </div>
-        <div class="word-level-group">
-          <div class="word-level-label">5-Letter Words</div>
-          <div class="word-level-tiers">
-            <button class="btn-tier" onclick="selectDrillLevel('words5-1')">Easy</button>
-            <button class="btn-tier" onclick="selectDrillLevel('words5-2')">Med</button>
-            <button class="btn-tier" onclick="selectDrillLevel('words5-3')">All</button>
+          <div class="drill-picker-label">Difficulty</div>
+          <div class="drill-picker-row" id="drill-tier-row">
+            <button class="btn-pick" onclick="selectWordTier(1)">Easy</button>
+            <button class="btn-pick" onclick="selectWordTier(2)">Med</button>
+            <button class="btn-pick" onclick="selectWordTier(3)">All</button>
           </div>
         </div>
         <div id="drill-start-row" class="drill-start-row hidden">
           <div id="drill-start-info" class="drill-start-info"></div>
-          <button class="btn btn-start-drill" onclick="startSelectedDrill()">Start Drill</button>
+          <button class="btn btn-start-drill" onclick="startSelectedDrill()">Start</button>
         </div>
       </div>
       <div id="drill-card" class="drill-card hidden">
@@ -138,11 +121,11 @@
     </nav>
   </div>
 
-  <script src="js/data.js?v=32"></script>
-  <script src="js/db.js?v=32"></script>
-  <script src="js/srs.js?v=32"></script>
-  <script src="js/learn.js?v=32"></script>
-  <script src="js/drill.js?v=32"></script>
-  <script src="js/app.js?v=32"></script>
+  <script src="js/data.js?v=33"></script>
+  <script src="js/db.js?v=33"></script>
+  <script src="js/srs.js?v=33"></script>
+  <script src="js/learn.js?v=33"></script>
+  <script src="js/drill.js?v=33"></script>
+  <script src="js/app.js?v=33"></script>
 </body>
 </html>

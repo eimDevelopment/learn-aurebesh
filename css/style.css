@@ -444,6 +444,49 @@ html, body {
   color: var(--bg);
 }
 
+.drill-picker {
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+}
+
+.drill-picker-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+}
+
+.drill-picker-label:nth-of-type(2) {
+  margin-top: 14px;
+}
+
+.drill-picker-row {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-pick {
+  flex: 1;
+  background: var(--surface-light);
+  border: 2px solid transparent;
+  color: var(--text);
+  font-size: 16px;
+  font-weight: 700;
+  padding: 10px 0;
+  border-radius: var(--radius);
+  cursor: pointer;
+  text-align: center;
+}
+
+.btn-pick.selected {
+  background: var(--accent);
+  color: var(--bg);
+  border-color: var(--accent);
+}
+
 .word-level-group {
   background: var(--surface);
   border-radius: var(--radius);
@@ -464,22 +507,9 @@ html, body {
   gap: 8px;
 }
 
-.btn-tier {
-  background: var(--surface-light);
-  border: 2px solid transparent;
-  color: var(--text);
-  font-size: 14px;
-  font-weight: 700;
-  padding: 8px 14px;
-  border-radius: var(--radius);
-  cursor: pointer;
-}
-
-.btn-tier.selected,
 .btn-level.selected {
   background: var(--accent);
   color: var(--bg);
-  border-color: var(--accent);
 }
 
 .drill-start-row {
