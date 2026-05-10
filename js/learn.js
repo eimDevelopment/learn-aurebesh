@@ -119,6 +119,7 @@ async function updateLearnContent(ch) {
   renderHint();
   hideCustomInput();
   renderCompare(ch);
+  renderInlineTransform(ch);
 }
 
 const TYPE_LABELS = { shape: 'Shape', sound: 'Sound', story: 'Story', name: 'Name', custom: 'Yours' };
@@ -303,6 +304,7 @@ function renderCompare(ch) {
 const GLYPH_TRANSFORMS = {
   xesh: {
     render: 'x',
+    desc: 'Drop the base, spread the legs -- the triangle opens into an X',
     lines: [
       { x1: 22, y1: 82, x2: 50, y2: 20 },
       { x1: 50, y1: 20, x2: 78, y2: 82 },
@@ -426,6 +428,118 @@ function runTransformAnimation(anim, lines) {
       requestAnimationFrame(tick);
     } else {
       transformRunning = false;
+    }
+  }
+
+  requestAnimationFrame(tick);
+}
+
+let inlineTransformRunning = false;
+
+function renderInlineTransform(ch) {
+  const container = document.getElementById('learn-inline-transform');
+  const stage = document.getElementById('learn-inline-stage');
+  const anim = GLYPH_TRANSFORMS[ch.id];
+
+  if (!anim) {
+    container.classList.add('hidden');
+    return;
+  }
+
+  container.classList.remove('hidden');
+  document.getElementById('learn-inline-transform-desc').textContent = anim.desc;
+  document.getElementById('btn-see-it').textContent = 'See it';
+  inlineTransformRunning = false;
+
+  stage.innerHTML = '';
+  const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  svg.setAttribute('viewBox', '0 0 100 100');
+  stage.appendChild(svg);
+
+  for (const def of anim.lines) {
+    const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+    line.setAttribute('x1', def.x1);
+    line.setAttribute('y1', def.y1);
+    line.setAttribute('x2', def.x2);
+    line.setAttribute('y2', def.y2);
+    line.setAttribute('stroke', '#FFE81F');
+    line.setAttribute('stroke-width', anim.strokeWidth);
+    line.setAttribute('stroke-linecap', 'butt');
+    svg.appendChild(line);
+  }
+}
+
+function playInlineTransform() {
+  if (inlineTransformRunning) return;
+  inlineTransformRunning = true;
+
+  const ch = learnChars[learnIndex];
+  const anim = GLYPH_TRANSFORMS[ch.id];
+  if (!anim) return;
+
+  const lines = document.querySelectorAll('#learn-inline-stage svg line');
+
+  anim.lines.forEach((def, i) => {
+    lines[i].setAttribute('x1', def.x1);
+    lines[i].setAttribute('y1', def.y1);
+    lines[i].setAttribute('x2', def.x2);
+    lines[i].setAttribute('y2', def.y2);
+    lines[i].style.opacity = 1;
+  });
+
+  setTimeout(() => {
+    runInlineAnimation(anim, lines);
+  }, 400);
+}
+
+function runInlineAnimation(anim, lines) {
+  const timeline = [];
+  let time = 0;
+  const state = anim.lines.map(def => ({
+    x1: def.x1, y1: def.y1, x2: def.x2, y2: def.y2, opacity: 1,
+  }));
+
+  for (const phase of anim.phases) {
+    time += phase.delay || 0;
+    for (const [idx, target] of Object.entries(phase.changes)) {
+      for (const [prop, endVal] of Object.entries(target)) {
+        timeline.push({
+          startTime: time,
+          endTime: time + phase.duration,
+          lineIdx: parseInt(idx),
+          prop,
+          from: state[idx][prop],
+          to: endVal,
+        });
+        state[idx][prop] = endVal;
+      }
+    }
+    time += phase.duration;
+  }
+
+  const totalDuration = time;
+  const animStart = performance.now();
+
+  function tick() {
+    const elapsed = performance.now() - animStart;
+
+    for (const entry of timeline) {
+      if (elapsed < entry.startTime) continue;
+      const t = Math.min((elapsed - entry.startTime) / (entry.endTime - entry.startTime), 1);
+      const ease = t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+      const val = entry.from + (entry.to - entry.from) * ease;
+
+      if (entry.prop === 'opacity') {
+        lines[entry.lineIdx].style.opacity = val;
+      } else {
+        lines[entry.lineIdx].setAttribute(entry.prop, val);
+      }
+    }
+
+    if (elapsed < totalDuration) {
+      requestAnimationFrame(tick);
+    } else {
+      inlineTransformRunning = false;
     }
   }
 
