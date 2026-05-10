@@ -139,17 +139,21 @@ async function startSelectedDrill() {
 }
 
 async function buildDrillQueue() {
-  const allProgress = await getAllProgress();
-  const progressMap = {};
-  for (const p of allProgress) {
-    progressMap[p.charId] = p;
-  }
+  if (isWordDrill()) {
+    const wordLen = getWordLenFromLevel();
+    drillQueue = getWordList(wordLen).map(w => 'w' + wordLen + ':' + w);
+    shuffleArray(drillQueue);
+  } else {
+    const allProgress = await getAllProgress();
+    const progressMap = {};
+    for (const p of allProgress) {
+      progressMap[p.charId] = p;
+    }
 
-  const due = [];
-  const learning = [];
-  const fresh = [];
+    const due = [];
+    const learning = [];
+    const fresh = [];
 
-  if (drillLevel === 'letters' || drillLevel === 'similar') {
     const charIds = drillLevel === 'similar'
       ? [...new Set(CONFUSABLE_PAIRS.flatMap(p => p.ids))]
       : LEARN_GROUPS.flat();
@@ -163,38 +167,21 @@ async function buildDrillQueue() {
         learning.push(id);
       }
     }
-  } else {
-    const wordLen = getWordLenFromLevel();
-    const words = getWordList(wordLen);
-    for (const word of words) {
-      const id = 'w' + wordLen + ':' + word;
-      const p = progressMap[id];
-      if (!p || p.status === 'new') {
-        fresh.push(id);
-      } else if (isDueForReview(p)) {
-        due.push(id);
-      } else if (p.status === 'learning') {
-        learning.push(id);
+
+    shuffleArray(due);
+    shuffleArray(learning);
+    shuffleArray(fresh);
+
+    drillQueue = [...due, ...learning, ...fresh];
+
+    if (drillQueue.length === 0) {
+      if (drillLevel === 'similar') {
+        drillQueue = [...new Set(CONFUSABLE_PAIRS.flatMap(p => p.ids))];
+      } else {
+        drillQueue = ALL_CHARS.map(c => c.id);
       }
+      shuffleArray(drillQueue);
     }
-  }
-
-  shuffleArray(due);
-  shuffleArray(learning);
-  shuffleArray(fresh);
-
-  drillQueue = [...due, ...learning, ...fresh];
-
-  if (drillQueue.length === 0) {
-    if (drillLevel === 'similar') {
-      drillQueue = [...new Set(CONFUSABLE_PAIRS.flatMap(p => p.ids))];
-    } else if (drillLevel === 'letters') {
-      drillQueue = ALL_CHARS.map(c => c.id);
-    } else {
-      const wordLen = getWordLenFromLevel();
-      drillQueue = getWordList(wordLen).map(w => 'w' + wordLen + ':' + w);
-    }
-    shuffleArray(drillQueue);
   }
 
   const tier = isWordDrill() ? getWordTierFromLevel() : 1;
