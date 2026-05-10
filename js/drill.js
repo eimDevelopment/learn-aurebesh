@@ -18,7 +18,13 @@ function getWordFromId(id) {
 }
 
 function getWordLenFromLevel() {
-  return parseInt(drillLevel.replace('words', ''));
+  const parts = drillLevel.replace('words', '').split('-');
+  return parseInt(parts[0]);
+}
+
+function getWordTierFromLevel() {
+  const parts = drillLevel.replace('words', '').split('-');
+  return parseInt(parts[1]) || 3;
 }
 
 function initDrill() {
@@ -74,7 +80,8 @@ async function buildDrillQueue() {
     }
   } else {
     const wordLen = getWordLenFromLevel();
-    const words = getWordList(wordLen);
+    const tier = getWordTierFromLevel();
+    const words = getWordList(wordLen, tier);
     for (const word of words) {
       const id = 'w' + wordLen + ':' + word;
       const p = progressMap[id];
@@ -101,7 +108,8 @@ async function buildDrillQueue() {
       drillQueue = ALL_CHARS.map(c => c.id);
     } else {
       const wordLen = getWordLenFromLevel();
-      drillQueue = getWordList(wordLen).map(w => 'w' + wordLen + ':' + w);
+      const tier = getWordTierFromLevel();
+      drillQueue = getWordList(wordLen, tier).map(w => 'w' + wordLen + ':' + w);
     }
     shuffleArray(drillQueue);
   }
@@ -221,7 +229,8 @@ async function drillPickChoice(isCorrect, correct, btn, container) {
 
 function showWordChoiceMode(correctWord) {
   const wordLen = getWordLenFromLevel();
-  const allWords = getWordList(wordLen);
+  const tier = getWordTierFromLevel();
+  const allWords = getWordList(wordLen, tier);
   const others = allWords.filter(w => w !== correctWord);
   const sameTwo = others.filter(w => w.length >= 2 && w[0] === correctWord[0] && w[1] === correctWord[1]);
   shuffleArray(sameTwo);

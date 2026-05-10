@@ -206,10 +206,78 @@ const WORD_LISTS = {
     'will', 'wind', 'wine', 'wire', 'wise', 'woke', 'wolf', 'word', 'wore',
     'work', 'worn', 'wrap', 'yard', 'year', 'zero', 'zone',
   ],
+  5: [
+    'about', 'above', 'admit', 'adult', 'agent', 'agree', 'alarm', 'album',
+    'alert', 'align', 'alive', 'allow', 'alone', 'alter', 'apple', 'apply',
+    'avoid', 'award', 'aware', 'badly', 'basic', 'begin', 'below', 'bible',
+    'blade', 'blame', 'blind', 'block', 'blood', 'board', 'bonus', 'brain',
+    'brand', 'brave', 'bread', 'break', 'brief', 'broad', 'broke', 'brown',
+    'build', 'built', 'buyer', 'cabin', 'cable', 'carry', 'claim', 'class',
+    'clean', 'clear', 'climb', 'clock', 'close', 'cloud', 'color', 'could',
+    'count', 'court', 'cover', 'crack', 'craft', 'crazy', 'cream', 'crime',
+    'cross', 'crowd', 'cruel', 'curve', 'cycle', 'daily', 'dance', 'delay',
+    'delta', 'dirty', 'doubt', 'draft', 'drain', 'drama', 'drawn', 'dream',
+    'dress', 'drink', 'drive', 'early', 'eight', 'elite', 'empty', 'enemy', 'enjoy',
+    'enter', 'equal', 'error', 'event', 'every', 'exact', 'exist', 'extra',
+    'false', 'fault', 'favor', 'fence', 'fever', 'field', 'fifty',
+    'fight', 'final', 'first', 'flame', 'fleet', 'float', 'flood', 'floor',
+    'fluid',
+    'focus', 'force', 'forge', 'forum', 'found', 'frame', 'fraud', 'front',
+    'fruit', 'fully', 'funny', 'given', 'glass', 'globe', 'grace', 'grade',
+    'grain', 'grand', 'grant', 'grass', 'grave', 'great', 'green', 'gross',
+    'group', 'grown', 'guard', 'guess', 'guest', 'guide', 'guilt', 'happy',
+    'heart', 'heavy', 'hello', 'horse', 'hotel', 'house', 'human', 'humor',
+    'ideal', 'image', 'imply', 'index', 'inner', 'input', 'issue', 'ivory',
+    'joint', 'judge', 'juice', 'known', 'label', 'large', 'later', 'layer',
+    'learn', 'least', 'leave', 'legal', 'level', 'light', 'limit', 'linen', 'liver',
+    'local', 'logic', 'loose', 'lover', 'lower', 'lucky', 'magic', 'major',
+    'maker', 'manor', 'marry', 'medal', 'media', 'mercy', 'merit', 'metal',
+    'midst', 'might', 'model', 'money', 'moral', 'motor', 'mount', 'movie', 'music',
+    'naive', 'nerve', 'never', 'night', 'noble', 'noise', 'novel', 'nurse', 'occur',
+    'ocean', 'offer', 'often', 'order', 'organ', 'outer', 'owner', 'paint',
+    'panel', 'paper', 'party', 'pasta', 'pause', 'peace', 'penny', 'pilot',
+    'pizza', 'place', 'plain', 'plane', 'plant', 'plate', 'plaza', 'plead',
+    'plumb', 'point', 'pound', 'power', 'press', 'price', 'pride', 'prime',
+    'print', 'prior', 'prize', 'proof', 'proud', 'prove', 'psalm', 'purse',
+    'queen', 'quest', 'quiet', 'quota', 'radar', 'radio', 'raise', 'rapid',
+    'ratio', 'ready', 'realm', 'rebel', 'reign', 'relax', 'reply', 'rider',
+    'right', 'rigid', 'risky', 'rival', 'river', 'robot', 'rocky', 'royal', 'rural',
+    'saint', 'salad', 'scale', 'score', 'sense', 'serve', 'setup', 'seven',
+    'sight', 'silly', 'since', 'sixty', 'skill', 'sleep', 'slide', 'slope',
+    'small', 'smart', 'smile', 'smoke', 'snake', 'solar', 'solid', 'solve',
+    'sorry', 'sound', 'space', 'spare', 'speak', 'speed', 'spend', 'spill',
+    'spite', 'split', 'sport', 'spray', 'squad', 'stack', 'staff', 'stage',
+    'stair', 'stake', 'stale', 'stand', 'stark', 'start', 'state', 'steal',
+    'steam', 'steel', 'steep', 'steer', 'stick', 'stiff', 'still', 'stock',
+    'stone', 'stood', 'store', 'storm', 'story', 'strip', 'stuck', 'study',
+    'stuff', 'style', 'sugar', 'super', 'surge', 'swamp', 'swear', 'sweep',
+    'sweet', 'sword', 'table', 'taste', 'tears', 'tempo', 'tense', 'terms',
+    'tight', 'timer', 'tired', 'title', 'today', 'token', 'total', 'tower', 'toxic',
+    'trace', 'track', 'trade', 'trail', 'train', 'trait', 'treat', 'trend',
+    'trial', 'tribe', 'trick', 'troop', 'truck', 'truly', 'trust', 'tumor',
+    'twice', 'twist', 'ultra', 'uncle', 'under', 'unity', 'until', 'upper',
+    'upset', 'urban', 'usage', 'usual', 'valid', 'value', 'verse', 'vigor',
+    'viral', 'visit', 'vital', 'vivid', 'vocal', 'voter', 'waste', 'water',
+    'weary', 'weave', 'weigh', 'weird', 'wheel', 'where', 'while', 'white',
+    'whole', 'whose', 'woman', 'world', 'worry', 'worst', 'would', 'wound',
+    'write', 'yield',
+  ],
 };
 
-function getWordList(length) {
-  return WORD_LISTS[length] || [];
+const WORD_TIERS = {
+  2: [7, 14, 20],
+  3: [30, 70, 139],
+  4: [50, 120, 340],
+  5: [80, 200, 424],
+};
+
+function getWordList(length, tier) {
+  const list = WORD_LISTS[length] || [];
+  if (!tier) return list;
+  const tiers = WORD_TIERS[length];
+  if (!tiers) return list;
+  const count = tiers[tier - 1] || list.length;
+  return list.slice(0, count);
 }
 
 const LEARN_GROUPS = [

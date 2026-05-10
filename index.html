@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Aurebesh Learner</title>
-  <link rel="stylesheet" href="css/fonts.css?v=21">
-  <link rel="stylesheet" href="css/style.css?v=21">
+  <link rel="stylesheet" href="css/fonts.css?v=22">
+  <link rel="stylesheet" href="css/style.css?v=22">
 </head>
 <body>
   <div class="app">
@@ -56,9 +56,38 @@
       <div id="drill-level-select" class="drill-level-select">
         <button class="btn-level" onclick="startDrillLevel('letters')">Letters</button>
         <button class="btn-level" onclick="startDrillLevel('similar')">Similar Letters</button>
-        <button class="btn-level" onclick="startDrillLevel('words2')">2-Letter Words</button>
-        <button class="btn-level" onclick="startDrillLevel('words3')">3-Letter Words</button>
-        <button class="btn-level" onclick="startDrillLevel('words4')">4-Letter Words</button>
+        <div class="word-level-group">
+          <div class="word-level-label">2-Letter Words</div>
+          <div class="word-level-tiers">
+            <button class="btn-tier" onclick="startDrillLevel('words2-1')">1</button>
+            <button class="btn-tier" onclick="startDrillLevel('words2-2')">2</button>
+            <button class="btn-tier" onclick="startDrillLevel('words2-3')">3</button>
+          </div>
+        </div>
+        <div class="word-level-group">
+          <div class="word-level-label">3-Letter Words</div>
+          <div class="word-level-tiers">
+            <button class="btn-tier" onclick="startDrillLevel('words3-1')">1</button>
+            <button class="btn-tier" onclick="startDrillLevel('words3-2')">2</button>
+            <button class="btn-tier" onclick="startDrillLevel('words3-3')">3</button>
+          </div>
+        </div>
+        <div class="word-level-group">
+          <div class="word-level-label">4-Letter Words</div>
+          <div class="word-level-tiers">
+            <button class="btn-tier" onclick="startDrillLevel('words4-1')">1</button>
+            <button class="btn-tier" onclick="startDrillLevel('words4-2')">2</button>
+            <button class="btn-tier" onclick="startDrillLevel('words4-3')">3</button>
+          </div>
+        </div>
+        <div class="word-level-group">
+          <div class="word-level-label">5-Letter Words</div>
+          <div class="word-level-tiers">
+            <button class="btn-tier" onclick="startDrillLevel('words5-1')">1</button>
+            <button class="btn-tier" onclick="startDrillLevel('words5-2')">2</button>
+            <button class="btn-tier" onclick="startDrillLevel('words5-3')">3</button>
+          </div>
+        </div>
       </div>
       <div id="drill-card" class="drill-card hidden">
         <div id="drill-glyph" class="drill-glyph aurebesh"></div>
@@ -105,11 +134,11 @@
     </nav>
   </div>
 
-  <script src="js/data.js?v=21"></script>
-  <script src="js/db.js?v=21"></script>
-  <script src="js/srs.js?v=21"></script>
-  <script src="js/learn.js?v=21"></script>
-  <script src="js/drill.js?v=21"></script>
-  <script src="js/app.js?v=21"></script>
+  <script src="js/data.js?v=22"></script>
+  <script src="js/db.js?v=22"></script>
+  <script src="js/srs.js?v=22"></script>
+  <script src="js/learn.js?v=22"></script>
+  <script src="js/drill.js?v=22"></script>
+  <script src="js/app.js?v=22"></script>
 </body>
 </html>

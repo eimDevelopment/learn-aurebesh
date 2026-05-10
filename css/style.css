@@ -443,6 +443,43 @@ html, body {
   color: var(--bg);
 }
 
+.word-level-group {
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.word-level-label {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.word-level-tiers {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-tier {
+  background: var(--surface-light);
+  border: none;
+  color: var(--text);
+  font-size: 16px;
+  font-weight: 700;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius);
+  cursor: pointer;
+}
+
+.btn-tier:active {
+  background: var(--accent);
+  color: var(--bg);
+}
+
 /* Drill screen */
 .drill-card {
   background: var(--surface);
