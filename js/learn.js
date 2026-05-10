@@ -126,16 +126,20 @@ const TYPE_LABELS = { shape: 'Shape', sound: 'Sound', story: 'Story', name: 'Nam
 function renderHint() {
   const hintEl = document.getElementById('learn-hint');
   const current = currentHints[currentHintIndex];
-  const transformArea = document.getElementById('learn-transform-inline');
+  const glyphEl = document.getElementById('learn-glyph');
+  const ch = learnChars[learnIndex];
 
-  if (current.type === 'transform') {
-    hintEl.textContent = current.text;
-    transformArea.classList.remove('hidden');
-    const ch = learnChars[learnIndex];
-    setupInlineTransform(ch);
+  hintEl.textContent = current.text;
+
+  if (current.type === 'transform' && GLYPH_TRANSFORMS[ch.id]) {
+    glyphEl.textContent = '';
+    glyphEl.classList.remove('aurebesh');
+    setupGlyphTransform(ch, glyphEl);
   } else {
-    hintEl.textContent = current.text;
-    transformArea.classList.add('hidden');
+    glyphEl.classList.add('aurebesh');
+    glyphEl.textContent = ch.render;
+    const oldSvg = glyphEl.querySelector('svg');
+    if (oldSvg) oldSvg.remove();
   }
 
   const tabsContainer = document.getElementById('learn-hint-tabs');
@@ -447,17 +451,18 @@ function runTransformAnimation(anim, lines) {
 
 let inlineTransformRunning = false;
 
-function setupInlineTransform(ch) {
-  const stage = document.getElementById('learn-transform-stage');
+function setupGlyphTransform(ch, glyphEl) {
   const anim = GLYPH_TRANSFORMS[ch.id];
-  if (!anim) return;
-
   inlineTransformRunning = false;
-  stage.innerHTML = '';
+
+  const oldSvg = glyphEl.querySelector('svg');
+  if (oldSvg) oldSvg.remove();
 
   const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
   svg.setAttribute('viewBox', '0 0 100 100');
-  stage.appendChild(svg);
+  svg.style.width = '100%';
+  svg.style.height = '100%';
+  glyphEl.appendChild(svg);
 
   for (const def of anim.lines) {
     const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
@@ -470,17 +475,17 @@ function setupInlineTransform(ch) {
     line.setAttribute('stroke-linecap', 'butt');
     svg.appendChild(line);
   }
+
+  setTimeout(() => {
+    playGlyphTransform(anim, svg);
+  }, 500);
 }
 
-function playInlineTransform() {
+function playGlyphTransform(anim, svg) {
   if (inlineTransformRunning) return;
   inlineTransformRunning = true;
 
-  const ch = learnChars[learnIndex];
-  const anim = GLYPH_TRANSFORMS[ch.id];
-  if (!anim) return;
-
-  const lines = document.querySelectorAll('#learn-transform-stage svg line');
+  const lines = svg.querySelectorAll('line');
 
   anim.lines.forEach((def, i) => {
     lines[i].setAttribute('x1', def.x1);
@@ -491,60 +496,6 @@ function playInlineTransform() {
   });
 
   setTimeout(() => {
-    runInlineAnimation(anim, lines);
+    runTransformAnimation(anim, lines);
   }, 400);
-}
-
-function runInlineAnimation(anim, lines) {
-  const timeline = [];
-  let time = 0;
-  const state = anim.lines.map(def => ({
-    x1: def.x1, y1: def.y1, x2: def.x2, y2: def.y2, opacity: 1,
-  }));
-
-  for (const phase of anim.phases) {
-    time += phase.delay || 0;
-    for (const [idx, target] of Object.entries(phase.changes)) {
-      for (const [prop, endVal] of Object.entries(target)) {
-        timeline.push({
-          startTime: time,
-          endTime: time + phase.duration,
-          lineIdx: parseInt(idx),
-          prop,
-          from: state[idx][prop],
-          to: endVal,
-        });
-        state[idx][prop] = endVal;
-      }
-    }
-    time += phase.duration;
-  }
-
-  const totalDuration = time;
-  const animStart = performance.now();
-
-  function tick() {
-    const elapsed = performance.now() - animStart;
-
-    for (const entry of timeline) {
-      if (elapsed < entry.startTime) continue;
-      const t = Math.min((elapsed - entry.startTime) / (entry.endTime - entry.startTime), 1);
-      const ease = t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
-      const val = entry.from + (entry.to - entry.from) * ease;
-
-      if (entry.prop === 'opacity') {
-        lines[entry.lineIdx].style.opacity = val;
-      } else {
-        lines[entry.lineIdx].setAttribute(entry.prop, val);
-      }
-    }
-
-    if (elapsed < totalDuration) {
-      requestAnimationFrame(tick);
-    } else {
-      inlineTransformRunning = false;
-    }
-  }
-
-  requestAnimationFrame(tick);
 }

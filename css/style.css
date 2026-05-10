@@ -247,45 +247,6 @@ html, body {
   flex-shrink: 0;
 }
 
-/* Learn inline transform (in hint area) */
-.learn-transform-inline {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  margin-top: 8px;
-}
-
-.learn-transform-inline.hidden {
-  display: none;
-}
-
-.learn-transform-stage {
-  width: 72px;
-  height: 72px;
-  flex-shrink: 0;
-}
-
-.learn-transform-stage svg {
-  width: 100%;
-  height: 100%;
-}
-
-.btn-play-transform {
-  background: var(--surface-light);
-  border: none;
-  color: var(--text);
-  font-size: 14px;
-  font-weight: 600;
-  padding: 8px 16px;
-  border-radius: var(--radius);
-  cursor: pointer;
-}
-
-.btn-play-transform:active {
-  background: var(--accent);
-  color: var(--bg);
-}
 
 /* Learn transforms section */
 .learn-transforms {
