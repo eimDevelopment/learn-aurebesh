@@ -94,6 +94,7 @@ const BASIC_CHARS = [
   { id: 'xesh',   letter: 'x', render: 'x', name: 'Xesh', hints: [
     { type: 'shape', text: 'A triangle -- two sides meeting at a pointed peak' },
     { type: 'story', text: 'A tent frame -- X marks the peak at the top' },
+    { type: 'transform', text: 'Remove the bottom line and cross the top two lines to form an X' },
   ]},
   { id: 'yirt',   letter: 'y', render: 'y', name: 'Yirt', hints: [
     { type: 'shape', text: 'A slingshot -- the Y-shaped fork' },

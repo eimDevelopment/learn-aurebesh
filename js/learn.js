@@ -119,13 +119,24 @@ async function updateLearnContent(ch) {
   renderHint();
   hideCustomInput();
   renderCompare(ch);
-  renderInlineTransform(ch);
 }
 
-const TYPE_LABELS = { shape: 'Shape', sound: 'Sound', story: 'Story', name: 'Name', custom: 'Yours' };
+const TYPE_LABELS = { shape: 'Shape', sound: 'Sound', story: 'Story', name: 'Name', transform: 'See it', custom: 'Yours' };
 
 function renderHint() {
-  document.getElementById('learn-hint').textContent = currentHints[currentHintIndex].text;
+  const hintEl = document.getElementById('learn-hint');
+  const current = currentHints[currentHintIndex];
+  const transformArea = document.getElementById('learn-inline-transform');
+
+  if (current.type === 'transform') {
+    hintEl.textContent = current.text;
+    transformArea.classList.remove('hidden');
+    const ch = learnChars[learnIndex];
+    setupInlineTransform(ch);
+  } else {
+    hintEl.textContent = current.text;
+    transformArea.classList.add('hidden');
+  }
 
   const tabsContainer = document.getElementById('learn-hint-tabs');
   tabsContainer.innerHTML = '';
@@ -436,22 +447,14 @@ function runTransformAnimation(anim, lines) {
 
 let inlineTransformRunning = false;
 
-function renderInlineTransform(ch) {
-  const container = document.getElementById('learn-inline-transform');
+function setupInlineTransform(ch) {
   const stage = document.getElementById('learn-inline-stage');
   const anim = GLYPH_TRANSFORMS[ch.id];
+  if (!anim) return;
 
-  if (!anim) {
-    container.classList.add('hidden');
-    return;
-  }
-
-  container.classList.remove('hidden');
-  document.getElementById('learn-inline-transform-desc').textContent = anim.desc;
-  document.getElementById('btn-see-it').textContent = 'See it';
   inlineTransformRunning = false;
-
   stage.innerHTML = '';
+
   const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
   svg.setAttribute('viewBox', '0 0 100 100');
   stage.appendChild(svg);
