@@ -377,11 +377,14 @@ function playTransform() {
   });
 
   fontGlyph.style.opacity = '0';
-  anim.lines.forEach((_, i) => { lines[i].style.opacity = 1; });
 
   setTimeout(() => {
-    runTransformAnimation(anim, lines);
-  }, 300);
+    anim.lines.forEach((_, i) => { lines[i].style.opacity = 1; });
+
+    setTimeout(() => {
+      runTransformAnimation(anim, lines);
+    }, 200);
+  }, 150);
 }
 
 function runTransformAnimation(anim, lines) {
