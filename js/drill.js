@@ -247,7 +247,7 @@ async function drillNextCard() {
   }
 
   document.getElementById('drill-card').classList.remove('hidden');
-  document.getElementById('drill-count').textContent = `${drillQueue.length} remaining`;
+  document.getElementById('drill-count').textContent = `${drillQueue.length + 1} remaining`;
 
   document.getElementById('drill-feedback').classList.add('hidden');
   document.getElementById('drill-choice-btns').classList.add('hidden');
