@@ -464,7 +464,7 @@ html, body {
 }
 
 .drill-picker-label:nth-of-type(2) {
-  margin-top: 16px;
+  margin-top: 24px;
 }
 
 .drill-picker-row {
@@ -564,6 +564,9 @@ html, body {
 .drill-glyph.word-glyph {
   font-size: 72px;
   letter-spacing: 4px;
+  max-width: 100%;
+  overflow-wrap: break-word;
+  word-break: break-all;
 }
 
 .btn {

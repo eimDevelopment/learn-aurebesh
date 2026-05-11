@@ -407,10 +407,8 @@ function toAurebeshText(str) {
 
 const CONFUSABLE_PAIRS = [
   { ids: ['dorn', 'resh'], tip: 'D has the dash on top. R is the right angle.' },
-  { ids: ['krill', 'cherek', 'qek'], tip: 'Q is the simplest -- just a C. K adds a tail at the bottom. CH has sharp right-angle corners.' },
+  { ids: ['krill', 'cherek', 'qek', 'mern'], tip: 'Q is the simplest -- just a C. K adds a tail at the bottom. CH has sharp right-angle corners. M is an open bracket.' },
   { ids: ['osk', 'xesh'], tip: 'O is a trapezoid (flat top). X is a triangle (pointed top).' },
-  { ids: ['nern', 'senth'], tip: 'N has rounded zigzags (needle stitches). S has sharp pointed zigzags (saw teeth).' },
-  { ids: ['mern', 'zerek'], tip: 'M is an open bracket (no middle bar). Z adds a shelf in the middle.' },
 ];
 
 function getCharById(id) {

@@ -8,10 +8,26 @@ let drillSessionStart = 0;
 let drillCurrentHintText = '';
 
 const CHOICE_THRESHOLD = 3;
+const WORD_BASE_FONT = 72;
+const WORD_MAX_CHARS = 4;
+
+function scaleWordFont(glyphEl) {
+  const len = glyphEl.textContent.length;
+  if (len <= WORD_MAX_CHARS) {
+    glyphEl.style.fontSize = WORD_BASE_FONT + 'px';
+    glyphEl.style.letterSpacing = '4px';
+    return;
+  }
+  const scale = WORD_MAX_CHARS / len;
+  const size = Math.max(Math.round(WORD_BASE_FONT * scale), 28);
+  const spacing = Math.max(Math.round(4 * scale), 1);
+  glyphEl.style.fontSize = size + 'px';
+  glyphEl.style.letterSpacing = spacing + 'px';
+}
 let selectedLevel = null;
 let selectedWordLen = null;
 let selectedWordTier = null;
-let selectedDrillMode = 'auto';
+let selectedDrillMode = 'choice';
 
 function isWordDrill() {
   return drillLevel !== 'letters' && drillLevel !== 'similar';
@@ -52,11 +68,11 @@ function clearDrillSelection() {
   selectedLevel = null;
   selectedWordLen = null;
   selectedWordTier = null;
-  selectedDrillMode = 'auto';
+  selectedDrillMode = 'choice';
   document.querySelectorAll('#drill-level-select .btn-level').forEach(el => el.classList.remove('selected'));
   document.querySelectorAll('#drill-word-options .btn-pick').forEach(el => el.classList.remove('selected'));
   document.querySelectorAll('#drill-mode-row .btn-pick').forEach((el, i) => {
-    el.classList.toggle('selected', i === 2);
+    el.classList.toggle('selected', i === 0);
   });
   document.getElementById('drill-word-options').classList.add('hidden');
   document.getElementById('drill-mode-picker').classList.add('hidden');
@@ -219,11 +235,14 @@ async function drillNextCard() {
     const word = getWordFromId(drillCurrent);
     glyphEl.textContent = toAurebeshText(word);
     glyphEl.classList.add('word-glyph');
+    scaleWordFont(glyphEl);
     drillCurrentHintText = '';
   } else {
     const ch = getCharById(drillCurrent);
     glyphEl.textContent = ch.render;
     glyphEl.classList.remove('word-glyph');
+    glyphEl.style.fontSize = '';
+    glyphEl.style.letterSpacing = '';
     drillCurrentHintText = getPinnedHintText(ch, record);
   }
 

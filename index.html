@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Aurebesh Learner</title>
   <link rel="stylesheet" href="css/fonts.css?v=41">
-  <link rel="stylesheet" href="css/style.css?v=41">
+  <link rel="stylesheet" href="css/style.css?v=42">
 </head>
 <body>
   <div class="app">
@@ -54,7 +54,7 @@
     <!-- Drill screen -->
     <div id="screen-drill" class="screen hidden">
       <div id="drill-level-select" class="drill-level-select">
-        <button class="btn-level" onclick="selectDrillLevel('letters')">Letters</button>
+        <button class="btn-level" onclick="selectDrillLevel('letters')">All Letters</button>
         <button class="btn-level" onclick="selectDrillLevel('similar')">Similar Letters</button>
         <button class="btn-level" onclick="selectDrillLevel('words')">Words</button>
         <div id="drill-word-options" class="drill-picker hidden">
@@ -67,19 +67,19 @@
             <button class="btn-pick" onclick="selectWordLen(6)">6</button>
             <button class="btn-pick" onclick="selectWordLen(7)">7</button>
           </div>
-          <div class="drill-picker-label">Difficulty</div>
+          <div class="drill-picker-label">Session Size</div>
           <div class="drill-picker-row" id="drill-tier-row">
-            <button class="btn-pick" onclick="selectWordTier(1)">Easy</button>
-            <button class="btn-pick" onclick="selectWordTier(2)">Med</button>
-            <button class="btn-pick" onclick="selectWordTier(3)">Hard</button>
+            <button class="btn-pick" onclick="selectWordTier(1)">10</button>
+            <button class="btn-pick" onclick="selectWordTier(2)">20</button>
+            <button class="btn-pick" onclick="selectWordTier(3)">30</button>
           </div>
         </div>
         <div id="drill-mode-picker" class="drill-picker hidden">
           <div class="drill-picker-label">Mode</div>
           <div class="drill-picker-row" id="drill-mode-row">
-            <button class="btn-pick" onclick="selectDrillMode('choice')">Multiple Choice</button>
+            <button class="btn-pick selected" onclick="selectDrillMode('choice')">Multiple Choice</button>
             <button class="btn-pick" onclick="selectDrillMode('type')">Type</button>
-            <button class="btn-pick selected" onclick="selectDrillMode('auto')">Mix</button>
+            <button class="btn-pick" onclick="selectDrillMode('auto')">Mix</button>
           </div>
         </div>
         <div id="drill-start-row" class="drill-start-row hidden">
@@ -136,7 +136,7 @@
   <script src="js/db.js?v=41"></script>
   <script src="js/srs.js?v=41"></script>
   <script src="js/learn.js?v=41"></script>
-  <script src="js/drill.js?v=41"></script>
+  <script src="js/drill.js?v=42"></script>
   <script src="js/app.js?v=41"></script>
 </body>
 </html>
