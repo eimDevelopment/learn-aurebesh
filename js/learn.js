@@ -121,7 +121,7 @@ async function updateLearnContent(ch) {
   renderCompare(ch);
 }
 
-const TYPE_LABELS = { shape: 'Shape', sound: 'Sound', story: 'Story', name: 'Name', transform: 'See it', custom: 'Yours' };
+const TYPE_LABELS = { shape: 'Hint', sound: 'Sound', story: 'Hint', name: 'Name', transform: 'See it', custom: 'Yours' };
 
 function renderHint() {
   const hintEl = document.getElementById('learn-hint');
@@ -149,7 +149,14 @@ function renderHint() {
     const tab = document.createElement('button');
     const type = currentHints[i].type;
     tab.className = 'learn-hint-tab' + (i === currentHintIndex ? ' active' : '') + (type === 'custom' ? ' custom' : '');
-    tab.textContent = TYPE_LABELS[type] || type;
+    const label = TYPE_LABELS[type] || type;
+    const hintCount = currentHints.filter(h => TYPE_LABELS[h.type] === 'Hint').length;
+    if (label === 'Hint' && hintCount > 1) {
+      const hintNum = currentHints.slice(0, i + 1).filter(h => TYPE_LABELS[h.type] === 'Hint').length;
+      tab.textContent = 'Hint ' + hintNum;
+    } else {
+      tab.textContent = label;
+    }
     tab.addEventListener('click', (e) => {
       e.stopPropagation();
       if (type === 'custom' && currentHintIndex === i) {
