@@ -1,6 +1,6 @@
 const BASIC_CHARS = [
   { id: 'aurek',  letter: 'a', render: 'a', name: 'Aurek', hints: [
-    { type: 'shape', text: 'Looks like a K -- Aurek starts with A' },
+    { type: 'shape', text: 'Looks like the bottom half of an A, mirrored' },
     { type: 'story', text: 'An Arrow notched on a bowstring, pointing right' },
   ]},
   { id: 'besh',   letter: 'b', render: 'b', name: 'Besh', hints: [
