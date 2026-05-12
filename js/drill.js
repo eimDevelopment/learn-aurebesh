@@ -172,7 +172,7 @@ async function buildDrillQueue() {
 
     const charIds = drillLevel === 'similar'
       ? [...new Set(CONFUSABLE_PAIRS.flatMap(p => p.ids))]
-      : LEARN_GROUPS.flat();
+      : ALL_CHARS.map(c => c.id);
     for (const id of charIds) {
       const p = progressMap[id];
       if (!p || p.status === 'new') {

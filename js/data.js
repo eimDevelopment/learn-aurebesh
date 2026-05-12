@@ -8,8 +8,9 @@ const BASIC_CHARS = [
     { type: 'story', text: 'A Belt Buckle -- oval with a bar through the middle' },
   ]},
   { id: 'cresh',  letter: 'c', render: 'c', name: 'Cresh', hints: [
-    { type: 'shape', text: 'Two Candles standing side by side' },
-    { type: 'story', text: 'Chopsticks -- C for Chopsticks' },
+    { type: 'shape', text: 'Chopsticks -- C for Chopsticks' },
+    { type: 'story', text: 'Two Columns standing side by side' },
+    { type: 'shape', text: 'Two bars on a Chart -- C for Chart' },
   ]},
   { id: 'dorn',   letter: 'd', render: 'd', name: 'Dorn', hints: [
     { type: 'shape', text: 'A 7 with a Dash on top -- D for Dash' },
@@ -20,11 +21,11 @@ const BASIC_CHARS = [
     { type: 'story', text: 'Two peaks like an EKG heartbeat' },
   ]},
   { id: 'forn',   letter: 'f', render: 'f', name: 'Forn', hints: [
-    { type: 'shape', text: 'A plus sign with Feet -- F for Feet' },
+    { type: 'shape', text: 'An F tipped on its side' },
     { type: 'story', text: 'Four points on a cross -- F for Four' },
   ]},
   { id: 'grek',   letter: 'g', render: 'g', name: 'Grek', hints: [
-    { type: 'shape', text: 'A Gate seen from the side -- G for Gate' },
+    { type: 'shape', text: 'A G rotated on its side' },
     { type: 'story', text: 'A Garage door with a handle on the right' },
   ]},
   { id: 'herf',   letter: 'h', render: 'h', name: 'Herf', hints: [
@@ -33,76 +34,60 @@ const BASIC_CHARS = [
   ]},
   { id: 'isk',    letter: 'i', render: 'i', name: 'Isk', hints: [
     { type: 'shape', text: 'A single vertical stroke -- just like the letter I' },
-    { type: 'story', text: 'The simplest glyph -- I is one line' },
   ]},
   { id: 'jenth',  letter: 'j', render: 'j', name: 'Jenth', hints: [
-    { type: 'shape', text: 'A fishhook -- J curves at the bottom like a hook' },
-    { type: 'story', text: 'A Javelin in flight, angled down' },
+    { type: 'shape', text: 'Curves down like a J hook' },
   ]},
   { id: 'krill',  letter: 'k', render: 'k', name: 'Krill', hints: [
-    { type: 'shape', text: 'A backwards C with a Kick at the bottom -- K for Kick' },
-    { type: 'story', text: 'A Kite with a tail hanging down' },
+    { type: 'shape', text: 'A backwards C -- K is C\'s cousin' },
   ]},
   { id: 'leth',   letter: 'l', render: 'l', name: 'Leth', hints: [
-    { type: 'shape', text: 'A single Leaning Line -- L for Lean' },
-    { type: 'story', text: 'A slide at a playground -- L for the sLope' },
+    { type: 'shape', text: 'A backwards L, tilted at an angle' },
   ]},
   { id: 'mern',   letter: 'm', render: 'm', name: 'Mern', hints: [
-    { type: 'shape', text: 'A squared bracket opening right -- like a Mouth' },
-    { type: 'story', text: 'A Mailbox slot -- M for Mail' },
+    { type: 'shape', text: 'A horseshoe Magnet -- M for Magnet' },
   ]},
   { id: 'nern',   letter: 'n', render: 'n', name: 'Nern', hints: [
-    { type: 'shape', text: 'Rounded zigzag like a Needle stitching -- N for Needle' },
-    { type: 'story', text: 'Soft wavy Notches -- N for Notch' },
+    { type: 'shape', text: 'Looks like a rounded N' },
   ]},
   { id: 'osk',    letter: 'o', render: 'o', name: 'Osk', hints: [
-    { type: 'shape', text: 'A trapezoid -- like a bucket with an Open top' },
-    { type: 'story', text: 'An Open box seen from the side -- O for Open' },
+    { type: 'shape', text: 'Looks like a squared-off O' },
   ]},
   { id: 'peth',   letter: 'p', render: 'p', name: 'Peth', hints: [
-    { type: 'shape', text: 'A Pot -- open at the top like a U shape' },
-    { type: 'story', text: 'A Pocket -- P for the open Pouch' },
+    { type: 'shape', text: 'A cup with rounded edges -- P for cuP' },
+    { type: 'story', text: 'P has soft curves and the lip on the left. U has sharp corners and the lip on the right.' },
   ]},
   { id: 'qek',    letter: 'q', render: 'q', name: 'Qek', hints: [
-    { type: 'shape', text: 'The simplest C-shape -- Q is the Quietest letter' },
-    { type: 'story', text: 'A Quarter moon -- just a curved sliver' },
+    { type: 'shape', text: 'A quarter of the letter Q' },
   ]},
   { id: 'resh',   letter: 'r', render: 'r', name: 'Resh', hints: [
-    { type: 'shape', text: 'A 7 shape -- the Right angle at the corner' },
-    { type: 'story', text: 'A Ramp going up then dropping straight down' },
+    { type: 'shape', text: 'A Right angle -- R for Right' },
   ]},
   { id: 'senth',  letter: 's', render: 's', name: 'Senth', hints: [
-    { type: 'shape', text: 'Sharp pointed zigzag -- like a Snake' },
-    { type: 'story', text: 'Saw teeth -- S for the sharp jagged edge' },
+    { type: 'shape', text: 'Sharp Saw teeth -- S for Saw' },
   ]},
   { id: 'trill',  letter: 't', render: 't', name: 'Trill', hints: [
-    { type: 'shape', text: 'A downward arrow -- T for the Top crossbar' },
-    { type: 'story', text: 'A sword pointing down -- the cross-guard makes the T' },
+    { type: 'shape', text: 'An upside-down T' },
   ]},
   { id: 'usk',    letter: 'u', render: 'u', name: 'Usk', hints: [
-    { type: 'shape', text: 'A squared U shape -- it looks like U' },
-    { type: 'story', text: 'The easiest one -- it IS the letter U' },
+    { type: 'shape', text: 'Looks like the letter U -- sharp corners and a lip on the right' },
+    { type: 'story', text: 'U has sharp corners and the lip on the right. P has soft curves and the lip on the left.' },
   ]},
   { id: 'vev',    letter: 'v', render: 'v', name: 'Vev', hints: [
-    { type: 'shape', text: 'A Y shape -- a trunk splitting into a V at the top' },
-    { type: 'story', text: 'A tree branching into a V fork' },
+    { type: 'shape', text: 'Looks like a Y -- V and Y are opposites' },
   ]},
   { id: 'wesk',   letter: 'w', render: 'w', name: 'Wesk', hints: [
     { type: 'shape', text: 'A square -- four Walls make a W' },
     { type: 'story', text: 'A Window frame -- W for Window' },
   ]},
   { id: 'xesh',   letter: 'x', render: 'x', name: 'Xesh', hints: [
-    { type: 'shape', text: 'The two sides are the strokes of an X, pushed together at the peak' },
     { type: 'transform', text: 'Remove the bottom line and cross the top two to form an X' },
-    { type: 'story', text: 'A tent made from two X sticks leaning together' },
   ]},
   { id: 'yirt',   letter: 'y', render: 'y', name: 'Yirt', hints: [
-    { type: 'shape', text: 'An upside-down Y -- the fork points up' },
-    { type: 'story', text: 'A slingshot -- Y for the Y-shaped fork' },
+    { type: 'shape', text: 'Looks like a V -- Y and V are opposites' },
   ]},
   { id: 'zerek',  letter: 'z', render: 'z', name: 'Zerek', hints: [
-    { type: 'shape', text: 'Like M but with a bar across the middle -- Z adds the Zigzag' },
-    { type: 'story', text: 'A staircase step -- Z for Zigzag' },
+    { type: 'shape', text: 'The weird one -- if you don\'t recognize it, it\'s Z' },
   ]},
 ];
 
