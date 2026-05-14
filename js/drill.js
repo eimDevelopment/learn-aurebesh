@@ -87,7 +87,7 @@ function clearDrillSelection() {
   document.getElementById('drill-timer-picker').classList.add('hidden');
   selectedDifficulty = 'all';
   document.querySelectorAll('#drill-diff-row .btn-pick').forEach((el, i) => {
-    el.classList.toggle('selected', i === 3);
+    el.classList.toggle('selected', i === 0);
   });
   document.getElementById('drill-difficulty-picker').classList.add('hidden');
   document.getElementById('drill-start-row').classList.add('hidden');
