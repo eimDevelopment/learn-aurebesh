@@ -6,6 +6,8 @@ let drillSessionCorrect = 0;
 let drillSessionTotal = 0;
 let drillSessionStart = 0;
 let drillCurrentHintText = '';
+let selectedFlashTimer = 0;
+let flashTimerId = null;
 
 const CHOICE_THRESHOLD = 3;
 const WORD_BASE_FONT = 72;
@@ -54,6 +56,7 @@ function initDrill() {
 }
 
 async function showDrill() {
+  if (flashTimerId) { clearTimeout(flashTimerId); flashTimerId = null; }
   document.getElementById('drill-level-select').classList.remove('hidden');
   document.getElementById('drill-card').classList.add('hidden');
   document.getElementById('drill-feedback').classList.add('hidden');
@@ -76,6 +79,11 @@ function clearDrillSelection() {
   });
   document.getElementById('drill-word-options').classList.add('hidden');
   document.getElementById('drill-mode-picker').classList.add('hidden');
+  selectedFlashTimer = 0;
+  document.querySelectorAll('#drill-timer-row .btn-pick').forEach((el, i) => {
+    el.classList.toggle('selected', i === 0);
+  });
+  document.getElementById('drill-timer-picker').classList.add('hidden');
   document.getElementById('drill-start-row').classList.add('hidden');
 }
 
@@ -96,6 +104,7 @@ function selectDrillLevel(level) {
     document.getElementById('drill-mode-picker').classList.remove('hidden');
     updateStartRow();
   }
+  document.getElementById('drill-timer-picker').classList.remove('hidden');
 }
 
 function selectWordLen(len) {
@@ -115,6 +124,12 @@ function selectWordTier(tier) {
 function selectDrillMode(mode) {
   selectedDrillMode = mode;
   document.querySelectorAll('#drill-mode-row .btn-pick').forEach(el => el.classList.remove('selected'));
+  event.target.classList.add('selected');
+}
+
+function selectFlashTimer(seconds) {
+  selectedFlashTimer = seconds;
+  document.querySelectorAll('#drill-timer-row .btn-pick').forEach(el => el.classList.remove('selected'));
   event.target.classList.add('selected');
 }
 
@@ -221,6 +236,7 @@ async function drillNextCard() {
   }
 
   drillCurrent = drillQueue.shift();
+  if (flashTimerId) { clearTimeout(flashTimerId); flashTimerId = null; }
 
   let record = await getProgress(drillCurrent);
   if (selectedDrillMode === 'auto') {
@@ -230,6 +246,8 @@ async function drillNextCard() {
   }
 
   const glyphEl = document.getElementById('drill-glyph');
+  glyphEl.classList.add('aurebesh');
+  glyphEl.classList.remove('flash-dashes');
 
   if (isWordDrill()) {
     const word = getWordFromId(drillCurrent);
@@ -262,6 +280,17 @@ async function drillNextCard() {
     }
   } else {
     showTypeMode();
+  }
+
+  if (selectedFlashTimer > 0) {
+    const textLen = glyphEl.textContent.length;
+    flashTimerId = setTimeout(() => {
+      glyphEl.classList.remove('aurebesh');
+      glyphEl.classList.add('flash-dashes');
+      glyphEl.style.fontSize = '';
+      glyphEl.style.letterSpacing = '';
+      glyphEl.textContent = Array(textLen).fill('-').join(' ');
+    }, selectedFlashTimer * 1000);
   }
 }
 
@@ -302,6 +331,7 @@ function showChoiceMode(correct) {
 }
 
 async function drillPickChoice(isCorrect, correct, btn, container) {
+  if (flashTimerId) { clearTimeout(flashTimerId); flashTimerId = null; }
   const buttons = container.querySelectorAll('.btn-choice');
   buttons.forEach(b => { b.disabled = true; });
 
@@ -349,6 +379,7 @@ function showWordChoiceMode(correctWord) {
 }
 
 async function drillPickWordChoice(isCorrect, correctWord, btn, container) {
+  if (flashTimerId) { clearTimeout(flashTimerId); flashTimerId = null; }
   const buttons = container.querySelectorAll('.btn-choice');
   buttons.forEach(b => { b.disabled = true; });
 
@@ -381,6 +412,7 @@ async function drillSubmitTyped() {
   const input = document.getElementById('drill-type-input');
   const answer = input.value.trim().toLowerCase();
   if (!answer) return;
+  if (flashTimerId) { clearTimeout(flashTimerId); flashTimerId = null; }
 
   input.disabled = true;
   let isCorrect;

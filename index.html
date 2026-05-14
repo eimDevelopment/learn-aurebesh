@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Aurebesh Learner</title>
   <link rel="stylesheet" href="css/fonts.css?v=41">
-  <link rel="stylesheet" href="css/style.css?v=42">
+  <link rel="stylesheet" href="css/style.css?v=43">
 </head>
 <body>
   <div class="app">
@@ -82,6 +82,15 @@
             <button class="btn-pick" onclick="selectDrillMode('auto')">Mix</button>
           </div>
         </div>
+        <div id="drill-timer-picker" class="drill-picker hidden">
+          <div class="drill-picker-label">Flash Timer</div>
+          <div class="drill-picker-row" id="drill-timer-row">
+            <button class="btn-pick selected" onclick="selectFlashTimer(0)">Off</button>
+            <button class="btn-pick" onclick="selectFlashTimer(1)">1s</button>
+            <button class="btn-pick" onclick="selectFlashTimer(2)">2s</button>
+            <button class="btn-pick" onclick="selectFlashTimer(3)">3s</button>
+          </div>
+        </div>
         <div id="drill-start-row" class="drill-start-row hidden">
           <div id="drill-start-info" class="drill-start-info"></div>
           <button class="btn btn-start-drill" onclick="startSelectedDrill()">Start</button>
@@ -136,7 +145,7 @@
   <script src="js/db.js?v=41"></script>
   <script src="js/srs.js?v=41"></script>
   <script src="js/learn.js?v=42"></script>
-  <script src="js/drill.js?v=42"></script>
+  <script src="js/drill.js?v=43"></script>
   <script src="js/app.js?v=41"></script>
 </body>
 </html>
