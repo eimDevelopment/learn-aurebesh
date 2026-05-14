@@ -30,6 +30,7 @@ let selectedLevel = null;
 let selectedWordLen = null;
 let selectedWordTier = null;
 let selectedDrillMode = 'choice';
+let selectedDifficulty = 'all';
 
 function isWordDrill() {
   return drillLevel !== 'letters' && drillLevel !== 'similar';
@@ -84,6 +85,11 @@ function clearDrillSelection() {
     el.classList.toggle('selected', i === 0);
   });
   document.getElementById('drill-timer-picker').classList.add('hidden');
+  selectedDifficulty = 'all';
+  document.querySelectorAll('#drill-diff-row .btn-pick').forEach((el, i) => {
+    el.classList.toggle('selected', i === 3);
+  });
+  document.getElementById('drill-difficulty-picker').classList.add('hidden');
   document.getElementById('drill-start-row').classList.add('hidden');
 }
 
@@ -97,10 +103,17 @@ function selectDrillLevel(level) {
 
   if (level === 'words') {
     document.getElementById('drill-word-options').classList.remove('hidden');
+    document.getElementById('drill-difficulty-picker').classList.remove('hidden');
     document.getElementById('drill-mode-picker').classList.remove('hidden');
     document.getElementById('drill-start-row').classList.add('hidden');
+  } else if (level === 'similar') {
+    document.getElementById('drill-word-options').classList.add('hidden');
+    document.getElementById('drill-difficulty-picker').classList.add('hidden');
+    document.getElementById('drill-mode-picker').classList.remove('hidden');
+    updateStartRow();
   } else {
     document.getElementById('drill-word-options').classList.add('hidden');
+    document.getElementById('drill-difficulty-picker').classList.remove('hidden');
     document.getElementById('drill-mode-picker').classList.remove('hidden');
     updateStartRow();
   }
@@ -133,18 +146,35 @@ function selectFlashTimer(seconds) {
   event.target.classList.add('selected');
 }
 
+function selectDifficulty(diff) {
+  selectedDifficulty = diff;
+  document.querySelectorAll('#drill-diff-row .btn-pick').forEach(el => el.classList.remove('selected'));
+  event.target.classList.add('selected');
+  updateStartRow();
+}
+
 function updateStartRow() {
   const startRow = document.getElementById('drill-start-row');
   const info = document.getElementById('drill-start-info');
 
   if (selectedLevel === 'letters') {
-    info.textContent = '26 letters';
+    let count;
+    if (selectedDifficulty === 'easy') count = EASY_CHAR_IDS.length;
+    else if (selectedDifficulty === 'medium') count = MEDIUM_CHAR_IDS.length;
+    else if (selectedDifficulty === 'hard') count = HARD_CHAR_IDS.length;
+    else count = ALL_CHARS.length;
+    info.textContent = count + ' letters';
     startRow.classList.remove('hidden');
   } else if (selectedLevel === 'similar') {
     info.textContent = 'Confused pairs';
     startRow.classList.remove('hidden');
   } else if (selectedLevel === 'words' && selectedWordLen && selectedWordTier) {
-    info.textContent = SESSION_SIZES[selectedWordTier] + ' cards';
+    let available = getWordList(selectedWordLen);
+    if (selectedDifficulty && selectedDifficulty !== 'all') {
+      available = available.filter(w => getWordDifficulty(w) === selectedDifficulty);
+    }
+    const cards = Math.min(SESSION_SIZES[selectedWordTier], available.length);
+    info.textContent = cards + ' cards';
     startRow.classList.remove('hidden');
   } else {
     startRow.classList.add('hidden');
@@ -172,7 +202,11 @@ async function startSelectedDrill() {
 async function buildDrillQueue() {
   if (isWordDrill()) {
     const wordLen = getWordLenFromLevel();
-    drillQueue = getWordList(wordLen).map(w => 'w' + wordLen + ':' + w);
+    let words = getWordList(wordLen);
+    if (selectedDifficulty && selectedDifficulty !== 'all') {
+      words = words.filter(w => getWordDifficulty(w) === selectedDifficulty);
+    }
+    drillQueue = words.map(w => 'w' + wordLen + ':' + w);
     shuffleArray(drillQueue);
   } else {
     const allProgress = await getAllProgress();
@@ -185,9 +219,18 @@ async function buildDrillQueue() {
     const learning = [];
     const fresh = [];
 
-    const charIds = drillLevel === 'similar'
-      ? [...new Set(CONFUSABLE_PAIRS.flatMap(p => p.ids))]
-      : ALL_CHARS.map(c => c.id);
+    let charIds;
+    if (drillLevel === 'similar') {
+      charIds = [...new Set(CONFUSABLE_PAIRS.flatMap(p => p.ids))];
+    } else if (selectedDifficulty === 'easy') {
+      charIds = [...EASY_CHAR_IDS];
+    } else if (selectedDifficulty === 'medium') {
+      charIds = [...MEDIUM_CHAR_IDS];
+    } else if (selectedDifficulty === 'hard') {
+      charIds = [...HARD_CHAR_IDS];
+    } else {
+      charIds = ALL_CHARS.map(c => c.id);
+    }
     for (const id of charIds) {
       const p = progressMap[id];
       if (!p || p.status === 'new') {
@@ -208,6 +251,12 @@ async function buildDrillQueue() {
     if (drillQueue.length === 0) {
       if (drillLevel === 'similar') {
         drillQueue = [...new Set(CONFUSABLE_PAIRS.flatMap(p => p.ids))];
+      } else if (selectedDifficulty === 'easy') {
+        drillQueue = [...EASY_CHAR_IDS];
+      } else if (selectedDifficulty === 'medium') {
+        drillQueue = [...MEDIUM_CHAR_IDS];
+      } else if (selectedDifficulty === 'hard') {
+        drillQueue = [...HARD_CHAR_IDS];
       } else {
         drillQueue = ALL_CHARS.map(c => c.id);
       }

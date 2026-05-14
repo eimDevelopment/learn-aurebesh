@@ -124,6 +124,15 @@ const DIGRAPH_CHARS = [
 
 const ALL_CHARS = [...BASIC_CHARS, ...DIGRAPH_CHARS];
 
+const EASY_CHAR_IDS = ['isk', 'osk', 'nern', 'usk', 'trill', 'jenth', 'herf', 'senth'];
+const MEDIUM_CHAR_IDS = ['aurek', 'besh', 'cresh', 'esk', 'forn', 'grek', 'qek', 'wesk', 'xesh', 'zerek'];
+const HARD_CHAR_IDS = ['dorn', 'resh', 'krill', 'mern', 'vev', 'yirt', 'leth', 'peth', 'cherek', 'krenth', 'enth', 'onith', 'thesh', 'shen', 'nen'];
+
+const CHAR_DIFFICULTY = {};
+EASY_CHAR_IDS.forEach(id => CHAR_DIFFICULTY[id] = 1);
+MEDIUM_CHAR_IDS.forEach(id => CHAR_DIFFICULTY[id] = 2);
+HARD_CHAR_IDS.forEach(id => CHAR_DIFFICULTY[id] = 3);
+
 const DIGRAPHS = ['ch', 'sh', 'th', 'ae', 'eo', 'kh', 'ng'];
 
 function containsDigraph(word) {
@@ -388,6 +397,46 @@ function toAurebeshText(str) {
     result = result.replaceAll(digraph, DIGRAPH_MAP[digraph]);
   }
   return result;
+}
+
+function parseWordToCharIds(word) {
+  const ids = [];
+  let i = 0;
+  const w = word.toLowerCase();
+  while (i < w.length) {
+    let matched = false;
+    for (const dg of SORTED_DIGRAPHS) {
+      if (w.substring(i, i + dg.length) === dg) {
+        const ch = DIGRAPH_CHARS.find(c => c.letter === dg);
+        if (ch) ids.push(ch.id);
+        i += dg.length;
+        matched = true;
+        break;
+      }
+    }
+    if (!matched) {
+      const ch = BASIC_CHARS.find(c => c.letter === w[i]);
+      if (ch) ids.push(ch.id);
+      i++;
+    }
+  }
+  return ids;
+}
+
+function getWordDifficulty(word) {
+  const charIds = parseWordToCharIds(word);
+  if (charIds.length === 0) return 'medium';
+  let totalScore = 0;
+  const counts = {};
+  for (const id of charIds) {
+    totalScore += CHAR_DIFFICULTY[id] || 2;
+    counts[id] = (counts[id] || 0) + 1;
+  }
+  let avg = totalScore / charIds.length;
+  if (Object.values(counts).some(c => c > 1)) avg -= 0.5;
+  if (avg <= 1.5) return 'easy';
+  if (avg <= 2.2) return 'medium';
+  return 'hard';
 }
 
 const CONFUSABLE_PAIRS = [

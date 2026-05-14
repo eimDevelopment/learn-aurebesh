@@ -57,6 +57,15 @@
         <button class="btn-level" onclick="selectDrillLevel('letters')">All Letters</button>
         <button class="btn-level" onclick="selectDrillLevel('similar')">Similar Letters</button>
         <button class="btn-level" onclick="selectDrillLevel('words')">Words</button>
+        <div id="drill-difficulty-picker" class="drill-picker hidden">
+          <div class="drill-picker-label">Difficulty</div>
+          <div class="drill-picker-row" id="drill-diff-row">
+            <button class="btn-pick" onclick="selectDifficulty('easy')">Easy</button>
+            <button class="btn-pick" onclick="selectDifficulty('medium')">Medium</button>
+            <button class="btn-pick" onclick="selectDifficulty('hard')">Hard</button>
+            <button class="btn-pick selected" onclick="selectDifficulty('all')">All</button>
+          </div>
+        </div>
         <div id="drill-word-options" class="drill-picker hidden">
           <div class="drill-picker-label">Word Length</div>
           <div class="drill-picker-row" id="drill-len-row">
@@ -141,11 +150,11 @@
     </nav>
   </div>
 
-  <script src="js/data.js?v=42"></script>
+  <script src="js/data.js?v=43"></script>
   <script src="js/db.js?v=41"></script>
   <script src="js/srs.js?v=41"></script>
   <script src="js/learn.js?v=42"></script>
-  <script src="js/drill.js?v=43"></script>
+  <script src="js/drill.js?v=44"></script>
   <script src="js/app.js?v=41"></script>
 </body>
 </html>
