@@ -464,7 +464,7 @@ html, body {
 }
 
 .drill-picker-label ~ .drill-picker-label {
-  margin-top: 32px;
+  margin-top: 14px;
 }
 
 .drill-picker-row {
