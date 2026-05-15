@@ -470,6 +470,7 @@ html, body {
 
 .drill-picker-row {
   display: flex;
+  flex: 1;
   gap: 8px;
 }
 
