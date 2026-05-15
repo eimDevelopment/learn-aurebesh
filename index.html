@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Aurebesh Learner</title>
   <link rel="stylesheet" href="css/fonts.css?v=41">
-  <link rel="stylesheet" href="css/style.css?v=50">
+  <link rel="stylesheet" href="css/style.css?v=51">
 </head>
 <body>
   <div class="app">
@@ -54,9 +54,11 @@
     <!-- Drill screen -->
     <div id="screen-drill" class="screen hidden">
       <div id="drill-level-select" class="drill-level-select">
-        <button class="btn-level" onclick="selectDrillLevel('letters')">All Letters</button>
-        <button class="btn-level" onclick="selectDrillLevel('similar')">Similar Letters</button>
-        <button class="btn-level" onclick="selectDrillLevel('words')">Words</button>
+        <div class="drill-picker-row drill-level-row">
+          <button class="btn-level" onclick="selectDrillLevel('letters')">Letters</button>
+          <button class="btn-level" onclick="selectDrillLevel('similar')">Similar</button>
+          <button class="btn-level" onclick="selectDrillLevel('words')">Words</button>
+        </div>
         <div id="drill-difficulty-picker" class="drill-picker hidden">
           <div class="drill-picker-label">Difficulty</div>
           <div class="drill-picker-row" id="drill-diff-row">
