@@ -54,79 +54,50 @@
     <!-- Drill screen -->
     <div id="screen-drill" class="screen hidden">
       <div id="drill-level-select" class="drill-level-select">
-        <div class="drill-step active" id="drill-step-level">
-          <div class="drill-step-header" onclick="reopenStep('level')">
-            <span class="drill-step-label">Type</span>
-            <span class="drill-step-value" id="step-level-val"></span>
-          </div>
-          <div class="drill-step-body drill-step-level-body">
-            <button class="btn-level" onclick="selectDrillLevel('letters')">All Letters</button>
-            <button class="btn-level" onclick="selectDrillLevel('similar')">Similar Letters</button>
-            <button class="btn-level" onclick="selectDrillLevel('words')">Words</button>
-          </div>
-        </div>
-        <div class="drill-step" id="drill-step-difficulty">
-          <div class="drill-step-header" onclick="reopenStep('difficulty')">
-            <span class="drill-step-label">Difficulty</span>
-            <span class="drill-step-value" id="step-diff-val"></span>
-          </div>
-          <div class="drill-step-body">
-            <div class="drill-picker-row" id="drill-diff-row">
-              <button class="btn-pick selected" onclick="selectDifficulty('all')">All</button>
-              <button class="btn-pick" onclick="selectDifficulty('easy')">Easy</button>
-              <button class="btn-pick" onclick="selectDifficulty('medium')">Medium</button>
-              <button class="btn-pick" onclick="selectDifficulty('hard')">Hard</button>
-            </div>
+        <button class="btn-level" onclick="selectDrillLevel('letters')">All Letters</button>
+        <button class="btn-level" onclick="selectDrillLevel('similar')">Similar Letters</button>
+        <button class="btn-level" onclick="selectDrillLevel('words')">Words</button>
+        <div id="drill-difficulty-picker" class="drill-picker hidden">
+          <div class="drill-picker-label">Difficulty</div>
+          <div class="drill-picker-row" id="drill-diff-row">
+            <button class="btn-pick selected" onclick="selectDifficulty('all')">All</button>
+            <button class="btn-pick" onclick="selectDifficulty('easy')">Easy</button>
+            <button class="btn-pick" onclick="selectDifficulty('medium')">Medium</button>
+            <button class="btn-pick" onclick="selectDifficulty('hard')">Hard</button>
           </div>
         </div>
-        <div class="drill-step" id="drill-step-words">
-          <div class="drill-step-header" onclick="reopenStep('words')">
-            <span class="drill-step-label">Words</span>
-            <span class="drill-step-value" id="step-words-val"></span>
+        <div id="drill-word-options" class="drill-picker hidden">
+          <div class="drill-picker-label">Word Length</div>
+          <div class="drill-picker-row" id="drill-len-row">
+            <button class="btn-pick" onclick="selectWordLen(2)">2</button>
+            <button class="btn-pick" onclick="selectWordLen(3)">3</button>
+            <button class="btn-pick" onclick="selectWordLen(4)">4</button>
+            <button class="btn-pick" onclick="selectWordLen(5)">5</button>
+            <button class="btn-pick" onclick="selectWordLen(6)">6</button>
+            <button class="btn-pick" onclick="selectWordLen(7)">7</button>
           </div>
-          <div class="drill-step-body">
-            <div class="drill-picker-label">Word Length</div>
-            <div class="drill-picker-row" id="drill-len-row">
-              <button class="btn-pick" onclick="selectWordLen(2)">2</button>
-              <button class="btn-pick" onclick="selectWordLen(3)">3</button>
-              <button class="btn-pick" onclick="selectWordLen(4)">4</button>
-              <button class="btn-pick" onclick="selectWordLen(5)">5</button>
-              <button class="btn-pick" onclick="selectWordLen(6)">6</button>
-              <button class="btn-pick" onclick="selectWordLen(7)">7</button>
-            </div>
-            <div class="drill-picker-label">Number of Words</div>
-            <div class="drill-picker-row" id="drill-tier-row">
-              <button class="btn-pick" onclick="selectWordTier(1)">10</button>
-              <button class="btn-pick" onclick="selectWordTier(2)">20</button>
-              <button class="btn-pick" onclick="selectWordTier(3)">30</button>
-            </div>
+          <div class="drill-picker-label">Number of Words</div>
+          <div class="drill-picker-row" id="drill-tier-row">
+            <button class="btn-pick" onclick="selectWordTier(1)">10</button>
+            <button class="btn-pick" onclick="selectWordTier(2)">20</button>
+            <button class="btn-pick" onclick="selectWordTier(3)">30</button>
           </div>
         </div>
-        <div class="drill-step" id="drill-step-mode">
-          <div class="drill-step-header" onclick="reopenStep('mode')">
-            <span class="drill-step-label">Mode</span>
-            <span class="drill-step-value" id="step-mode-val"></span>
-          </div>
-          <div class="drill-step-body">
-            <div class="drill-picker-row" id="drill-mode-row">
-              <button class="btn-pick selected" onclick="selectDrillMode('choice')">Multiple Choice</button>
-              <button class="btn-pick" onclick="selectDrillMode('type')">Type</button>
-              <button class="btn-pick" onclick="selectDrillMode('auto')">Mix</button>
-            </div>
+        <div id="drill-mode-picker" class="drill-picker hidden">
+          <div class="drill-picker-label">Mode</div>
+          <div class="drill-picker-row" id="drill-mode-row">
+            <button class="btn-pick selected" onclick="selectDrillMode('choice')">Multiple Choice</button>
+            <button class="btn-pick" onclick="selectDrillMode('type')">Type</button>
+            <button class="btn-pick" onclick="selectDrillMode('auto')">Mix</button>
           </div>
         </div>
-        <div class="drill-step" id="drill-step-timer">
-          <div class="drill-step-header" onclick="reopenStep('timer')">
-            <span class="drill-step-label">Flash Timer</span>
-            <span class="drill-step-value" id="step-timer-val"></span>
-          </div>
-          <div class="drill-step-body">
-            <div class="drill-picker-row" id="drill-timer-row">
-              <button class="btn-pick selected" onclick="selectFlashTimer(0)">Off</button>
-              <button class="btn-pick" onclick="selectFlashTimer(1)">1s</button>
-              <button class="btn-pick" onclick="selectFlashTimer(2)">2s</button>
-              <button class="btn-pick" onclick="selectFlashTimer(3)">3s</button>
-            </div>
+        <div id="drill-timer-picker" class="drill-picker hidden">
+          <div class="drill-picker-label">Flash Timer</div>
+          <div class="drill-picker-row" id="drill-timer-row">
+            <button class="btn-pick selected" onclick="selectFlashTimer(0)">Off</button>
+            <button class="btn-pick" onclick="selectFlashTimer(1)">1s</button>
+            <button class="btn-pick" onclick="selectFlashTimer(2)">2s</button>
+            <button class="btn-pick" onclick="selectFlashTimer(3)">3s</button>
           </div>
         </div>
         <div id="drill-start-row" class="drill-start-row hidden">
@@ -183,7 +154,7 @@
   <script src="js/db.js?v=41"></script>
   <script src="js/srs.js?v=41"></script>
   <script src="js/learn.js?v=42"></script>
-  <script src="js/drill.js?v=45"></script>
+  <script src="js/drill.js?v=44"></script>
   <script src="js/app.js?v=41"></script>
 </body>
 </html>

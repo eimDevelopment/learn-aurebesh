@@ -32,8 +32,6 @@ let selectedWordTier = null;
 let selectedDrillMode = 'choice';
 let selectedDifficulty = 'all';
 
-const DRILL_STEPS = ['level', 'difficulty', 'words', 'mode', 'timer'];
-
 function isWordDrill() {
   return drillLevel !== 'letters' && drillLevel !== 'similar';
 }
@@ -58,110 +56,6 @@ function initDrill() {
   });
 }
 
-function getApplicableSteps() {
-  const steps = ['level'];
-  if (selectedLevel !== 'similar') steps.push('difficulty');
-  if (selectedLevel === 'words') steps.push('words');
-  steps.push('mode', 'timer');
-  return steps;
-}
-
-function stepHasSelection(step) {
-  switch (step) {
-    case 'level': return selectedLevel != null;
-    case 'difficulty': return true;
-    case 'words': return selectedWordLen != null && selectedWordTier != null;
-    case 'mode': return true;
-    case 'timer': return true;
-    default: return false;
-  }
-}
-
-function advanceFromStep(step) {
-  collapseStep(step);
-  const applicable = getApplicableSteps();
-
-  DRILL_STEPS.forEach(s => {
-    if (!applicable.includes(s)) {
-      const el = document.getElementById('drill-step-' + s);
-      el.classList.remove('active', 'done');
-    }
-  });
-
-  const idx = applicable.indexOf(step);
-  let allDone = true;
-  for (let i = idx + 1; i < applicable.length; i++) {
-    const s = applicable[i];
-    if (!stepHasSelection(s)) {
-      expandStep(s);
-      allDone = false;
-      break;
-    }
-    collapseStep(s);
-  }
-
-  if (allDone) {
-    updateStartInfo();
-    document.getElementById('drill-start-row').classList.remove('hidden');
-  }
-}
-
-function collapseStep(step) {
-  const el = document.getElementById('drill-step-' + step);
-  el.classList.remove('active');
-  el.classList.add('done');
-  updateStepSummary(step);
-}
-
-function expandStep(step) {
-  const el = document.getElementById('drill-step-' + step);
-  el.classList.remove('done');
-  el.classList.add('active');
-}
-
-function reopenStep(step) {
-  document.getElementById('drill-start-row').classList.add('hidden');
-
-  if (step === 'level') {
-    clearDrillSelection();
-    return;
-  }
-
-  const applicable = getApplicableSteps();
-  const idx = applicable.indexOf(step);
-  for (let i = idx; i < applicable.length; i++) {
-    const el = document.getElementById('drill-step-' + applicable[i]);
-    el.classList.remove('active', 'done');
-  }
-  expandStep(step);
-}
-
-function updateStepSummary(step) {
-  const levelNames = { letters: 'All Letters', similar: 'Similar Letters', words: 'Words' };
-  const diffNames = { all: 'All', easy: 'Easy', medium: 'Medium', hard: 'Hard' };
-  const modeNames = { choice: 'Multiple Choice', type: 'Type', auto: 'Mix' };
-
-  switch (step) {
-    case 'level':
-      document.getElementById('step-level-val').textContent = levelNames[selectedLevel] || '';
-      break;
-    case 'difficulty':
-      document.getElementById('step-diff-val').textContent = diffNames[selectedDifficulty] || '';
-      break;
-    case 'words':
-      document.getElementById('step-words-val').textContent =
-        selectedWordLen + '-letter, ' + (SESSION_SIZES[selectedWordTier] || '') + ' words';
-      break;
-    case 'mode':
-      document.getElementById('step-mode-val').textContent = modeNames[selectedDrillMode] || '';
-      break;
-    case 'timer':
-      document.getElementById('step-timer-val').textContent =
-        selectedFlashTimer === 0 ? 'Off' : selectedFlashTimer + 's';
-      break;
-  }
-}
-
 async function showDrill() {
   if (flashTimerId) { clearTimeout(flashTimerId); flashTimerId = null; }
   document.getElementById('drill-level-select').classList.remove('hidden');
@@ -179,20 +73,23 @@ function clearDrillSelection() {
   selectedWordLen = null;
   selectedWordTier = null;
   selectedDrillMode = 'choice';
-  selectedFlashTimer = 0;
-  selectedDifficulty = 'all';
-
   document.querySelectorAll('#drill-level-select .btn-level').forEach(el => el.classList.remove('selected'));
-  document.querySelectorAll('#drill-len-row .btn-pick, #drill-tier-row .btn-pick').forEach(el => el.classList.remove('selected'));
-  document.querySelectorAll('#drill-diff-row .btn-pick').forEach((el, i) => el.classList.toggle('selected', i === 0));
-  document.querySelectorAll('#drill-mode-row .btn-pick').forEach((el, i) => el.classList.toggle('selected', i === 0));
-  document.querySelectorAll('#drill-timer-row .btn-pick').forEach((el, i) => el.classList.toggle('selected', i === 0));
-
-  DRILL_STEPS.forEach(step => {
-    const el = document.getElementById('drill-step-' + step);
-    el.classList.remove('active', 'done');
+  document.querySelectorAll('#drill-word-options .btn-pick').forEach(el => el.classList.remove('selected'));
+  document.querySelectorAll('#drill-mode-row .btn-pick').forEach((el, i) => {
+    el.classList.toggle('selected', i === 0);
   });
-  document.getElementById('drill-step-level').classList.add('active');
+  document.getElementById('drill-word-options').classList.add('hidden');
+  document.getElementById('drill-mode-picker').classList.add('hidden');
+  selectedFlashTimer = 0;
+  document.querySelectorAll('#drill-timer-row .btn-pick').forEach((el, i) => {
+    el.classList.toggle('selected', i === 0);
+  });
+  document.getElementById('drill-timer-picker').classList.add('hidden');
+  selectedDifficulty = 'all';
+  document.querySelectorAll('#drill-diff-row .btn-pick').forEach((el, i) => {
+    el.classList.toggle('selected', i === 0);
+  });
+  document.getElementById('drill-difficulty-picker').classList.add('hidden');
   document.getElementById('drill-start-row').classList.add('hidden');
 }
 
@@ -200,46 +97,64 @@ function selectDrillLevel(level) {
   selectedLevel = level;
   selectedWordLen = null;
   selectedWordTier = null;
-  document.querySelectorAll('#drill-len-row .btn-pick, #drill-tier-row .btn-pick').forEach(el => el.classList.remove('selected'));
-  advanceFromStep('level');
+  document.querySelectorAll('#drill-level-select .btn-level').forEach(el => el.classList.remove('selected'));
+  document.querySelectorAll('#drill-word-options .btn-pick').forEach(el => el.classList.remove('selected'));
+  event.target.classList.add('selected');
+
+  if (level === 'words') {
+    document.getElementById('drill-word-options').classList.remove('hidden');
+    document.getElementById('drill-difficulty-picker').classList.remove('hidden');
+    document.getElementById('drill-mode-picker').classList.remove('hidden');
+    document.getElementById('drill-start-row').classList.add('hidden');
+  } else if (level === 'similar') {
+    document.getElementById('drill-word-options').classList.add('hidden');
+    document.getElementById('drill-difficulty-picker').classList.add('hidden');
+    document.getElementById('drill-mode-picker').classList.remove('hidden');
+    updateStartRow();
+  } else {
+    document.getElementById('drill-word-options').classList.add('hidden');
+    document.getElementById('drill-difficulty-picker').classList.remove('hidden');
+    document.getElementById('drill-mode-picker').classList.remove('hidden');
+    updateStartRow();
+  }
+  document.getElementById('drill-timer-picker').classList.remove('hidden');
 }
 
 function selectWordLen(len) {
   selectedWordLen = len;
   document.querySelectorAll('#drill-len-row .btn-pick').forEach(el => el.classList.remove('selected'));
   event.target.classList.add('selected');
-  if (selectedWordLen && selectedWordTier) advanceFromStep('words');
+  updateStartRow();
 }
 
 function selectWordTier(tier) {
   selectedWordTier = tier;
   document.querySelectorAll('#drill-tier-row .btn-pick').forEach(el => el.classList.remove('selected'));
   event.target.classList.add('selected');
-  if (selectedWordLen && selectedWordTier) advanceFromStep('words');
+  updateStartRow();
 }
 
 function selectDrillMode(mode) {
   selectedDrillMode = mode;
   document.querySelectorAll('#drill-mode-row .btn-pick').forEach(el => el.classList.remove('selected'));
   event.target.classList.add('selected');
-  advanceFromStep('mode');
 }
 
 function selectFlashTimer(seconds) {
   selectedFlashTimer = seconds;
   document.querySelectorAll('#drill-timer-row .btn-pick').forEach(el => el.classList.remove('selected'));
   event.target.classList.add('selected');
-  advanceFromStep('timer');
 }
 
 function selectDifficulty(diff) {
   selectedDifficulty = diff;
   document.querySelectorAll('#drill-diff-row .btn-pick').forEach(el => el.classList.remove('selected'));
   event.target.classList.add('selected');
-  advanceFromStep('difficulty');
+  updateStartRow();
 }
 
-function updateStartInfo() {
+function updateStartRow() {
+  const startRow = document.getElementById('drill-start-row');
   const info = document.getElementById('drill-start-info');
 
   if (selectedLevel === 'letters') {
@@ -249,8 +164,10 @@ function updateStartInfo() {
     else if (selectedDifficulty === 'hard') count = HARD_CHAR_IDS.length;
     else count = ALL_CHARS.length;
     info.textContent = count + ' letters';
+    startRow.classList.remove('hidden');
   } else if (selectedLevel === 'similar') {
     info.textContent = 'Confused pairs';
+    startRow.classList.remove('hidden');
   } else if (selectedLevel === 'words' && selectedWordLen && selectedWordTier) {
     let available = getWordList(selectedWordLen);
     if (selectedDifficulty && selectedDifficulty !== 'all') {
@@ -258,6 +175,9 @@ function updateStartInfo() {
     }
     const cards = Math.min(SESSION_SIZES[selectedWordTier], available.length);
     info.textContent = cards + ' cards';
+    startRow.classList.remove('hidden');
+  } else {
+    startRow.classList.add('hidden');
   }
 }
 
