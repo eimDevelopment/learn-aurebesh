@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Aurebesh Learner</title>
   <link rel="stylesheet" href="css/fonts.css?v=41">
-  <link rel="stylesheet" href="css/style.css?v=44">
+  <link rel="stylesheet" href="css/style.css?v=45">
 </head>
 <body>
   <div class="app">
@@ -62,37 +62,41 @@
           <div class="drill-picker-row" id="drill-diff-row">
             <button class="btn-pick selected" onclick="selectDifficulty('all')">All</button>
             <button class="btn-pick" onclick="selectDifficulty('easy')">Easy</button>
-            <button class="btn-pick" onclick="selectDifficulty('medium')">Medium</button>
+            <button class="btn-pick" onclick="selectDifficulty('medium')">Med</button>
             <button class="btn-pick" onclick="selectDifficulty('hard')">Hard</button>
           </div>
         </div>
         <div id="drill-word-options" class="drill-picker hidden">
-          <div class="drill-picker-label">Word Length</div>
-          <div class="drill-picker-row" id="drill-len-row">
-            <button class="btn-pick" onclick="selectWordLen(2)">2</button>
-            <button class="btn-pick" onclick="selectWordLen(3)">3</button>
-            <button class="btn-pick" onclick="selectWordLen(4)">4</button>
-            <button class="btn-pick" onclick="selectWordLen(5)">5</button>
-            <button class="btn-pick" onclick="selectWordLen(6)">6</button>
-            <button class="btn-pick" onclick="selectWordLen(7)">7</button>
+          <div class="drill-picker-inline">
+            <div class="drill-picker-label">Length</div>
+            <div class="drill-picker-row" id="drill-len-row">
+              <button class="btn-pick" onclick="selectWordLen(2)">2</button>
+              <button class="btn-pick" onclick="selectWordLen(3)">3</button>
+              <button class="btn-pick" onclick="selectWordLen(4)">4</button>
+              <button class="btn-pick" onclick="selectWordLen(5)">5</button>
+              <button class="btn-pick" onclick="selectWordLen(6)">6</button>
+              <button class="btn-pick" onclick="selectWordLen(7)">7</button>
+            </div>
           </div>
-          <div class="drill-picker-label">Number of Words</div>
-          <div class="drill-picker-row" id="drill-tier-row">
-            <button class="btn-pick" onclick="selectWordTier(1)">10</button>
-            <button class="btn-pick" onclick="selectWordTier(2)">20</button>
-            <button class="btn-pick" onclick="selectWordTier(3)">30</button>
+          <div class="drill-picker-inline">
+            <div class="drill-picker-label">Words</div>
+            <div class="drill-picker-row" id="drill-tier-row">
+              <button class="btn-pick" onclick="selectWordTier(1)">10</button>
+              <button class="btn-pick" onclick="selectWordTier(2)">20</button>
+              <button class="btn-pick" onclick="selectWordTier(3)">30</button>
+            </div>
           </div>
         </div>
         <div id="drill-mode-picker" class="drill-picker hidden">
           <div class="drill-picker-label">Mode</div>
           <div class="drill-picker-row" id="drill-mode-row">
-            <button class="btn-pick selected" onclick="selectDrillMode('choice')">Multiple Choice</button>
+            <button class="btn-pick selected" onclick="selectDrillMode('choice')">Choice</button>
             <button class="btn-pick" onclick="selectDrillMode('type')">Type</button>
             <button class="btn-pick" onclick="selectDrillMode('auto')">Mix</button>
           </div>
         </div>
         <div id="drill-timer-picker" class="drill-picker hidden">
-          <div class="drill-picker-label">Flash Timer</div>
+          <div class="drill-picker-label">Timer</div>
           <div class="drill-picker-row" id="drill-timer-row">
             <button class="btn-pick selected" onclick="selectFlashTimer(0)">Off</button>
             <button class="btn-pick" onclick="selectFlashTimer(1)">1s</button>
