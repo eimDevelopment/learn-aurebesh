@@ -74,11 +74,11 @@ function clearDrillSelection() {
   selectedWordTier = null;
   selectedDrillMode = 'choice';
   document.querySelectorAll('#drill-level-select .btn-level').forEach(el => el.classList.remove('selected'));
-  document.querySelectorAll('#drill-word-options .btn-pick').forEach(el => el.classList.remove('selected'));
+  document.querySelectorAll('.drill-word-opt .btn-pick').forEach(el => el.classList.remove('selected'));
   document.querySelectorAll('#drill-mode-row .btn-pick').forEach((el, i) => {
     el.classList.toggle('selected', i === 0);
   });
-  document.getElementById('drill-word-options').classList.add('hidden');
+  document.querySelectorAll('.drill-word-opt').forEach(el => el.classList.add('hidden'));
   document.getElementById('drill-mode-picker').classList.add('hidden');
   selectedFlashTimer = 0;
   document.querySelectorAll('#drill-timer-row .btn-pick').forEach((el, i) => {
@@ -98,21 +98,21 @@ function selectDrillLevel(level) {
   selectedWordLen = null;
   selectedWordTier = null;
   document.querySelectorAll('#drill-level-select .btn-level').forEach(el => el.classList.remove('selected'));
-  document.querySelectorAll('#drill-word-options .btn-pick').forEach(el => el.classList.remove('selected'));
+  document.querySelectorAll('.drill-word-opt .btn-pick').forEach(el => el.classList.remove('selected'));
   event.target.classList.add('selected');
 
   if (level === 'words') {
-    document.getElementById('drill-word-options').classList.remove('hidden');
+    document.querySelectorAll('.drill-word-opt').forEach(el => el.classList.remove('hidden'));
     document.getElementById('drill-difficulty-picker').classList.remove('hidden');
     document.getElementById('drill-mode-picker').classList.remove('hidden');
     document.getElementById('drill-start-row').classList.add('hidden');
   } else if (level === 'similar') {
-    document.getElementById('drill-word-options').classList.add('hidden');
+    document.querySelectorAll('.drill-word-opt').forEach(el => el.classList.add('hidden'));
     document.getElementById('drill-difficulty-picker').classList.add('hidden');
     document.getElementById('drill-mode-picker').classList.remove('hidden');
     updateStartRow();
   } else {
-    document.getElementById('drill-word-options').classList.add('hidden');
+    document.querySelectorAll('.drill-word-opt').forEach(el => el.classList.add('hidden'));
     document.getElementById('drill-difficulty-picker').classList.remove('hidden');
     document.getElementById('drill-mode-picker').classList.remove('hidden');
     updateStartRow();
